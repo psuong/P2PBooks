@@ -1,5 +1,5 @@
 from PySide import QtGui
-from ui import Ui_UploadForm
+from ui import Ui_UploadForm, Ui_ReportDialog
 
 
 class UploadFormView(QtGui.QWidget):
@@ -20,3 +20,23 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         self.ui.preview_text_edit.setText('P SUONG')
+
+
+class ReportDialogView(QtGui.QDialog):
+    def __init(self, model):
+        self.model = model
+        super(ReportDialogView, self).__init__()
+        self.ui = Ui_ReportDialog.Ui_Dialog()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Give reason options to report_combo_box
+        self.ui.report_combo_box.addItem("HELLO")
+
+        # Connect button Ok button to function
+        self.ui.report_button_box.clicked().connect(self.submit)
+
+    def submit(self):
+        self.ui.report_text_edit.setText("IT WORKS")
