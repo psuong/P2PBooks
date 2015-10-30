@@ -94,6 +94,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>title_line_edit</tabstop>
+  <tabstop>author_line_edit</tabstop>
+  <tabstop>genres_line_edit</tabstop>
+  <tabstop>isbn_line_edit</tabstop>
+  <tabstop>price_spin_box</tabstop>
+  <tabstop>upload_push_button</tabstop>
+  <tabstop>preview_text_edit</tabstop>
+  <tabstop>submit_push_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

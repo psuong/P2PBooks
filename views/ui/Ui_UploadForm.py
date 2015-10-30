@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_UploadForm.ui'
 #
-# Created: Fri Oct 30 13:19:19 2015
+# Created: Fri Oct 30 13:41:12 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -61,6 +61,13 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.title_line_edit, self.author_line_edit)
+        Form.setTabOrder(self.author_line_edit, self.genres_line_edit)
+        Form.setTabOrder(self.genres_line_edit, self.isbn_line_edit)
+        Form.setTabOrder(self.isbn_line_edit, self.price_spin_box)
+        Form.setTabOrder(self.price_spin_box, self.upload_push_button)
+        Form.setTabOrder(self.upload_push_button, self.preview_text_edit)
+        Form.setTabOrder(self.preview_text_edit, self.submit_push_button)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
