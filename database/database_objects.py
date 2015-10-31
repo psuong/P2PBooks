@@ -40,7 +40,7 @@ class Users(object):
         return self.username
 
 
-class EBook(object):
+class EBooks(object):
     def __init__(self, title, author, genres, isbn, price, book_text):
         """
         Class definition for a EBook object
