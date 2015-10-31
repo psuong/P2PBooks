@@ -34,6 +34,7 @@ class Users(object):
         self.rented_books = []
         self.reported_books = []
         self.infractions = []
+        self.currently_reading = (None, 0)
 
     @property
     def __unicode__(self):
@@ -59,6 +60,10 @@ class EBooks(object):
         self.price = price
         self.book_text = book_text
         self.approved = False
+        self.current_page = 0
+        self.checked_out_time = None
+        self.return_time = None
+        self.paused_time = None
 
     @property
     def __unicode__(self):
