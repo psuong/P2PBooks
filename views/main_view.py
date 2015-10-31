@@ -49,10 +49,10 @@ class ReaderFormView(QtGui.QWidget):
     def read_pause(self):
         if self.read_pause():
             # Pause the book
-            pass
+            self.model.pause_book()
         else:
             # Check if book can be read
-            pass
+            self.model.read_book()
 
     def share(self):
         pass
