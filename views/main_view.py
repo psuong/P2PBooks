@@ -8,6 +8,7 @@ class UploadFormView(QtGui.QWidget):
         super(UploadFormView, self).__init__()
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
+        self.file_location = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -24,10 +25,17 @@ class UploadFormView(QtGui.QWidget):
         if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
                 and self.ui.isbn_line_edit.text():
             file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
-            self.model.upload_file(file_location[0])
+            self.file_location = file_location[0]
+            self.model.upload_file(self.file_location)
 
     def submit(self):
-        pass
+        submit_status = self.model.submit_file(self.file_location)
+        if submit_status[0]:
+            # File uploaded successfully
+            pass
+        else:
+            # Failure, return the error with second element in tuple of submit_status
+            pass
 
 
 class ReaderFormView(QtGui.QWidget):
@@ -40,6 +48,11 @@ class ReaderFormView(QtGui.QWidget):
 
     def build_ui(self):
         self.ui.setupUi(self)
+
+        # Disable line edits
+        self.ui.published_by_line_edit.setDisabled(True)
+        self.ui.ratings_line_edit.setDisabled(True)
+        self.ui.title_line_edit.setDisabled(True)
 
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
