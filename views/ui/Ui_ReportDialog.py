@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Ui_ReportDialog.ui'
 #
-# Created: Fri Oct 30 18:12:08 2015
+# Created: Fri Oct 30 19:17:56 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(525, 298)
         self.gridLayout = QtGui.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.report_label = QtGui.QLabel(Dialog)

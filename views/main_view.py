@@ -23,7 +23,7 @@ class UploadFormView(QtGui.QWidget):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init(self, model):
+    def __init__(self, model):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
@@ -33,10 +33,10 @@ class ReportDialogView(QtGui.QDialog):
         self.ui.setupUi(self)
 
         # Give reason options to report_combo_box
-        self.ui.report_combo_box.addItem("HELLO")
+        self.ui.report_combo_box.addItems(["Violent or repulsive content", "Spam or misleading", "Copyright infringement"])
 
         # Connect button Ok button to function
-        self.ui.report_button_box.clicked().connect(self.submit)
+        self.ui.report_button_box.clicked.connect(self.submit)
 
     def submit(self):
         self.ui.report_text_edit.setText("IT WORKS")
