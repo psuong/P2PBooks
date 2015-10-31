@@ -20,7 +20,11 @@ class UploadFormView(QtGui.QWidget):
         self.ui.submit_push_button.clicked.connect(self.submit)
 
     def upload(self):
-        pass
+        # Make sure all fields are entered
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
+                and self.ui.isbn_line_edit.text():
+            file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
+            self.model.upload_file(file_location[0])
 
     def submit(self):
         pass
