@@ -21,3 +21,9 @@ def submit_file(file_location):
         return False, str(e)
     pass
 
+
+def read_book():
+    return True
+
+def pause_book():
+    return True

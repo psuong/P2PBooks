@@ -1,4 +1,5 @@
 from PySide import QtGui, QtWebKit, QtCore
+from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm
 
 
@@ -54,6 +55,12 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.ratings_line_edit.setDisabled(True)
         self.ui.title_line_edit.setDisabled(True)
 
+        # Set book to paused state
+        self.ui.read_pause_push_button.setText('Read')
+
+        # TODO: Write function get the progression
+        self.ui.progress_bar.setValue(50)
+
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
         self.ui.share_push_button.clicked.connect(self.share)
@@ -61,18 +68,25 @@ class ReaderFormView(QtGui.QWidget):
 
         self.ui.web_view.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)
         self.ui.web_view.show()
-        self.ui.web_view.load(QtCore.QUrl('file:///C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf'))
 
     def read_pause(self):
-        if self.ui.read_pause_push_button.text():
+        if not self.paused:
             # Pause the book
-            self.model.pause_book()
+            if self.model.pause_book():
+                self.ui.read_pause_push_button.setText('Read')
+                self.ui.web_view.setHtml('<p>Paused at: ' + datetime.now().strftime('%H:%M:%S %m/%d/%y') + '</p>')
+                self.paused = True
         else:
             # Check if book can be read
-            self.model.read_book()
+            if self.model.read_book():
+                self.ui.read_pause_push_button.setText('Pause')
+                self.paused = False
+                self.ui.web_view.load(QtCore.QUrl('file:///C:/Users/unid/OneDrive/p2pbooks/views/pdf.html'))
 
     def share(self):
+        # Trigger the share widget
         pass
 
     def report(self):
+        # Trigger the report widget
         pass
