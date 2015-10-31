@@ -1,4 +1,4 @@
-from PySide import QtGui
+from PySide import QtGui, QtWebKit, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm
 
 
@@ -46,8 +46,12 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
 
+        self.ui.web_view.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)
+        self.ui.web_view.show()
+        self.ui.web_view.load(QtCore.QUrl('file:///C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf'))
+
     def read_pause(self):
-        if self.read_pause():
+        if self.ui.read_pause_push_button.text():
             # Pause the book
             self.model.pause_book()
         else:
