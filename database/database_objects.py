@@ -1,3 +1,16 @@
+import cPickle
+
+
+def save_object(db_object, save_file_name):
+    with open('blobs\\' + save_file_name + '.pickle', 'wb') as out:
+        cPickle.dump(db_object, out)
+
+
+def load_object(save_file_name):
+    with open('blobs\\' + save_file_name + '.pickle', 'rb') as input_file:
+        return cPickle.load(input_file)
+
+
 class Users(object):
     def __init__(self, username, password, email, age, dob, p2p_credits, group_policy='RU'):
         """
@@ -5,7 +18,7 @@ class Users(object):
         :param username: str
         :param password: str
         :param email: str
-        :param age: str
+        :param age: int
         :param dob: str
         :param p2p_credits: int
         :param group_policy: str
@@ -22,6 +35,7 @@ class Users(object):
         self.reported_books = []
         self.infractions = []
 
+    @property
     def __unicode__(self):
         return self.username
 
@@ -45,3 +59,7 @@ class EBook(object):
         self.price = price
         self.book_text = book_text
         self.approved = False
+
+    @property
+    def __unicode__(self):
+        return self.isbn
