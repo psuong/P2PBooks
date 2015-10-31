@@ -61,6 +61,7 @@ class EBooks(object):
         self.book_text = book_text
         self.approved = False
         self.current_page = 0
+        self.total_pages = 1.0
         self.checked_out_time = None
         self.return_time = None
         self.paused_time = None
@@ -68,3 +69,7 @@ class EBooks(object):
     @property
     def __unicode__(self):
         return self.isbn
+
+    @property
+    def progress(self):
+        return self.current_page / self.total_pages
