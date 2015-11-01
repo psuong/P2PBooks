@@ -42,9 +42,10 @@ class Users(object):
 
 
 class EBooks(object):
-    def __init__(self, title, author, genres, isbn, price, book_text):
+    def __init__(self, username, title, author, genres, isbn, price, book_text):
         """
         Class definition for a EBook object
+        :param username: str
         :param title: str
         :param author: str
         :param genres: list
@@ -53,6 +54,7 @@ class EBooks(object):
         :param book_text: str
         :return:
         """
+        self.user = load_object(username)
         self.title = title
         self.author = author
         self.genres = genres
@@ -75,18 +77,19 @@ class EBooks(object):
         return self.current_page / self.total_pages
 
 class Reports(object):
-    def __init__(self, username, reason, comment):
+    def __init__(self, username, reason, comment, title):
         """
         Class definition for a Report object
         :param username: str
         :param reason: str
         :param comment: str
+        :param title: str
         """
 
         self.user = load_object(username)
         self.reason = reason
         self.comment = comment
-
+        self.eBook = title
     @property
     def __unicode__(self):
         return self.reason + " report sent by: " + self.user
