@@ -89,7 +89,9 @@ class Reports(object):
         self.user = load_object(username)
         self.reason = reason
         self.comment = comment
+        
+        # TODO: Should I use load_object instead?
         self.eBook = title
     @property
     def __unicode__(self):
-        return self.reason + " report sent by: " + self.user
+        return self.reason + " report sent by: " + self.user + " for " + self.eBook
