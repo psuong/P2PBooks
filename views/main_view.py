@@ -45,9 +45,10 @@ class ReaderFormView(QtGui.QWidget):
         self.model = model
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.build_ui()
+        self.timer = QtCore.QTimer(self)
         self.paused = True
         self.reader_process = None
+        self.build_ui()
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -68,9 +69,7 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
 
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.show_time)
-        timer.start(1000)
+        self.timer.timeout.connect(self.show_time)
 
     def show_time(self):
         self.ui.time_remaining_label.setText(datetime.now().strftime('%H:%M:%S %m/%d/%y'))
@@ -80,15 +79,19 @@ class ReaderFormView(QtGui.QWidget):
             # Pause the book
             if self.model.pause_book():
                 self.paused = True
+                self.reader_process.kill()
+                self.timer.stop()
         else:
             # Check if book can be read
             if self.model.read_book():
                 pdf_viewer = "C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe"
                 arguments = ['C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf']
-                reader_process = QtCore.QProcess(self)
-                reader_process.started.connect(self.started)
-                reader_process.finished.connect(self.finished)
-                reader_process.start(pdf_viewer, arguments)
+                self.reader_process = QtCore.QProcess(self)
+                self.reader_process.started.connect(self.started)
+                self.reader_process.finished.connect(self.finished)
+                self.reader_process.start(pdf_viewer, arguments)
+                self.paused = False
+                self.timer.start(1000)
 
     def started(self):
         print datetime.now()
