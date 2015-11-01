@@ -31,10 +31,11 @@ class Users(object):
         self.dob = dob
         self.credits = p2p_credits
         self.group_policy = group_policy
-        self.rented_books = []
-        self.reported_books = []
+        self.rented_books = []  # Make sure to store EBooks objects
+        self.reported_books = []  # Make sure to store EBooks objects
         self.infractions = []
         self.currently_reading = (None, 0)
+        self.default_pdf_reader = None
 
     @property
     def __unicode__(self):
@@ -76,6 +77,7 @@ class EBooks(object):
     def progress(self):
         return self.current_page / self.total_pages
 
+
 class Reports(object):
     def __init__(self, username, reason, comment, title):
         """
@@ -89,9 +91,8 @@ class Reports(object):
         self.user = load_object(username)
         self.reason = reason
         self.comment = comment
-        
-        # TODO: Should I use load_object instead?
         self.eBook = title
+
     @property
     def __unicode__(self):
         return self.reason + " report sent by: " + self.user + " for " + self.eBook
