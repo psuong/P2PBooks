@@ -1,5 +1,6 @@
 from PySide import QtGui, QtWebKit, QtCore
 from datetime import datetime
+import subprocess
 from ui import Ui_UploadForm, Ui_ReaderForm
 
 
@@ -46,6 +47,7 @@ class ReaderFormView(QtGui.QWidget):
         self.ui = Ui_ReaderForm.Ui_Form()
         self.build_ui()
         self.paused = True
+        self.reader_process = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -66,22 +68,35 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
 
-        self.ui.web_view.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)
-        self.ui.web_view.show()
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.show_time)
+        timer.start(1000)
+
+    def show_time(self):
+        self.ui.time_remaining_label.setText(datetime.now().strftime('%H:%M:%S %m/%d/%y'))
 
     def read_pause(self):
         if not self.paused:
             # Pause the book
             if self.model.pause_book():
-                self.ui.read_pause_push_button.setText('Read')
-                self.ui.web_view.setHtml('<p>Paused at: ' + datetime.now().strftime('%H:%M:%S %m/%d/%y') + '</p>')
                 self.paused = True
         else:
             # Check if book can be read
             if self.model.read_book():
-                self.ui.read_pause_push_button.setText('Pause')
-                self.paused = False
-                self.ui.web_view.load(QtCore.QUrl('file:///C:/Users/unid/OneDrive/p2pbooks/views/pdf.html'))
+                pdf_viewer = "C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe"
+                arguments = ['C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf']
+                reader_process = QtCore.QProcess(self)
+                reader_process.started.connect(self.started)
+                reader_process.finished.connect(self.finished)
+                reader_process.start(pdf_viewer, arguments)
+
+    def started(self):
+        print datetime.now()
+        self.ui.read_pause_push_button.setText('Pause')
+
+    def finished(self):
+        print datetime.now()
+        self.ui.read_pause_push_button.setText('Read')
 
     def share(self):
         # Trigger the share widget
