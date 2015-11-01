@@ -73,3 +73,20 @@ class EBooks(object):
     @property
     def progress(self):
         return self.current_page / self.total_pages
+
+class Reports(object):
+    def __init__(self, username, reason, comment):
+        """
+        Class definition for a Report object
+        :param username: str
+        :param reason: str
+        :param comment: str
+        """
+
+        self.user = load_object(username)
+        self.reason = reason
+        self.comment = comment
+
+    @property
+    def __unicode__(self):
+        return self.reason + " report sent by: " + self.user

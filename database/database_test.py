@@ -8,5 +8,6 @@ database_objects.save_object(md, md.__unicode__)
 
 # Let's retrieve it
 is_this_md = database_objects.load_object('md')
-print is_this_md.username
+print is_this_md.password
+
 
