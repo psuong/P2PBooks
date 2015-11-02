@@ -1,13 +1,13 @@
 import cPickle
 
 
-def save_object(db_object, save_file_name):
-    with open('blobs\\' + save_file_name + '.pickle', 'wb') as out:
+def save_user(db_object, save_file_name):
+    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'wb') as out:
         cPickle.dump(db_object, out)
 
 
-def load_object(save_file_name):
-    with open('blobs\\' + save_file_name + '.pickle', 'rb') as input_file:
+def load_user(save_file_name):
+    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'rb') as input_file:
         return cPickle.load(input_file)
 
 
@@ -55,7 +55,7 @@ class EBooks(object):
         :param book_text: str
         :return:
         """
-        self.user = load_object(username)
+        self.user = load_user(username)
         self.title = title
         self.author = author
         self.genres = genres
@@ -88,7 +88,7 @@ class Reports(object):
         :param title: str
         """
 
-        self.user = load_object(username)
+        self.user = load_user(username)
         self.reason = reason
         self.comment = comment
         self.eBook = title
