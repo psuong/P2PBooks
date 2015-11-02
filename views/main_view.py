@@ -71,9 +71,11 @@ class ReaderFormView(QtGui.QWidget):
 
         self.timer.timeout.connect(self.show_time)
 
+    @QtCore.Slot()
     def show_time(self):
         self.ui.time_remaining_label.setText(datetime.now().strftime('%H:%M:%S %m/%d/%y'))
 
+    @QtCore.Slot()
     def read_pause(self):
         if not self.paused:
             # Pause the book
@@ -91,20 +93,25 @@ class ReaderFormView(QtGui.QWidget):
                 self.reader_process.finished.connect(self.finished)
                 self.reader_process.start(pdf_viewer, arguments)
                 self.paused = False
-                self.timer.start(1000)
 
+    @QtCore.Slot()
     def started(self):
         print datetime.now()
         self.ui.read_pause_push_button.setText('Pause')
+        self.timer.start(1000)
 
+    @QtCore.Slot()
     def finished(self):
         print datetime.now()
         self.ui.read_pause_push_button.setText('Read')
+        self.timer.stop()
 
+    @QtCore.Slot()
     def share(self):
         # Trigger the share widget
         pass
 
+    @QtCore.Slot()
     def report(self):
         # Trigger the report widget
         pass
