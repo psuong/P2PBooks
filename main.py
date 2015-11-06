@@ -1,12 +1,12 @@
 import sys
 from PySide import QtGui
-from views.main_view import UploadFormView
+from views.main_view import UploadFormView, MainWindowVisitorView
 
 
 class App(QtGui.QApplication):
     def __init__(self, sys_argv):
         super(App, self).__init__(sys_argv)
-        self.main_view = UploadFormView(None)
+        self.main_view = MainWindowVisitorView(None)
         self.main_view.show()
 
 if __name__ == '__main__':

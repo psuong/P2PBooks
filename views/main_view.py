@@ -1,5 +1,5 @@
 from PySide import QtGui
-from ui import Ui_UploadForm
+from ui import Ui_UploadForm, Ui_MainWindowVisitor
 
 
 class UploadFormView(QtGui.QWidget):
@@ -20,3 +20,14 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         self.ui.preview_text_edit.setText('P SUONG')
+
+
+class MainWindowVisitorView(QtGui.QMainWindow):
+    def __init__(self, model):
+        self.model = model
+        super(MainWindowVisitorView, self).__init__()
+        self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
