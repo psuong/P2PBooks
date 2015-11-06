@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_ReportDialog.ui'
+# Form implementation generated from reading ui file 'designer/Ui_ReportDialog.ui'
 #
-# Created: Fri Oct 30 19:17:56 2015
+# Created: Fri Nov 06 15:30:36 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -36,6 +36,6 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Report Dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.report_label.setText(QtGui.QApplication.translate("Dialog", "Report user for reason:", None, QtGui.QApplication.UnicodeUTF8))
 
