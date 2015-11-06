@@ -32,9 +32,25 @@ class LoginFormView(QtGui.QWidget):
         self.ui.setupUi(self)
         # Connect buttons to login
         self.ui.login_push_button.clicked.connect(self.login)
+        self.ui.guest_session_push_button.connect(self.guest_session)
+        self.ui.sign_up_push_button.connect(self.register)
 
     def login(self):
         # Grab component in object
+        #self.ui.username_line_edit.setText("We good." + username)
         username = self.ui.username_line_edit.text()
-        if username:
-            self.ui.username_line_edit.setText("We good." + username)
+        password = self.ui.password_line_edit.text()
+        if username == '' and password == '':
+            # Must return a warning
+            print "Empty Fields"
+        else:
+            # Check if the fields match a username and password is in the database
+            print "Non-Empty Fields"
+
+    def guest_session(self):
+        # Function must open up the home window
+        pass
+
+    def register(self):
+        # Function must open up the Register window
+        pass
