@@ -50,7 +50,9 @@ class ReportDialogView(QtGui.QDialog):
         self.ui.setupUi(self)
 
         # Give reason options to report_combo_box
-        self.ui.report_combo_box.addItems(["Violent or repulsive content", "Spam or misleading", "Copyright infringement"])
+        self.ui.report_combo_box.addItems(["Violent or repulsive content",
+                                           "Spam or misleading",
+                                           "Copyright infringement"])
 
         # Connect button Ok button to function
         self.ui.report_button_box.clicked.connect(self.accept)
