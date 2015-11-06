@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>741</width>
+    <width>879</width>
     <height>576</height>
    </rect>
   </property>
@@ -15,6 +15,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="2">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>Register</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="0" colspan="3">
      <widget class="QLabel" name="label">
       <property name="lineWidth">
@@ -31,13 +38,6 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="text">
-       <string>Register</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
@@ -48,13 +48,6 @@
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEdit"/>
     </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="text">
-       <string>Go</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="3">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
@@ -62,12 +55,19 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0" colspan="4">
+    <item row="3" column="2">
+     <widget class="QPushButton" name="go_push_button">
+      <property name="text">
+       <string>Go</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="top_tab">
        <attribute name="title">
         <string>TOP</string>
        </attribute>
@@ -108,7 +108,48 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="kids_tab">
+       <attribute name="title">
+        <string>Kids</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_4">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="adventure_tab">
        <attribute name="title">
         <string>Adventure</string>
        </attribute>
@@ -149,21 +190,457 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="education_tab">
+       <attribute name="title">
+        <string>Education</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_3">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="diy_tab">
        <attribute name="title">
         <string>DIY</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_5">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="romance_tab">
        <attribute name="title">
-        <string>Page</string>
+        <string>Romance</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_6">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
-      <widget class="QWidget" name="tab_5">
+      <widget class="QWidget" name="comedy_tab">
        <attribute name="title">
-        <string>Page</string>
+        <string>Comedy</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_7">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
+      <widget class="QWidget" name="fantasy_tab">
+       <attribute name="title">
+        <string>Fantasy</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_9">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_8">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="biography_tab">
+       <attribute name="title">
+        <string>Biography</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_10">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_9">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="history_tab">
+       <attribute name="title">
+        <string>History</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_11">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_10">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="magazine_tabs">
+       <attribute name="title">
+        <string>Magazine</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_12">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_11">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="religion_tabs">
+       <attribute name="title">
+        <string>Religion</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_13">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_12">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="sports_tab">
+       <attribute name="title">
+        <string>Sports</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_14">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_13">
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Author</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ISBN</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Uploader</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Rating</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="4" column="1" colspan="2">
+     <widget class="QTableWidget" name="search_table_widget">
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Uploader</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QPushButton" name="close_push_button">
+      <property name="text">
+       <string>Close</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -173,7 +650,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>741</width>
+     <width>879</width>
      <height>21</height>
     </rect>
    </property>

@@ -31,3 +31,18 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
     def build_ui(self):
         self.ui.setupUi(self)
+
+        # Hide results table widget for later
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+        self.ui.go_push_button.clicked.connect(self.search)
+        self.ui.close_push_button.clicked.connect(self.close_search)
+
+    def search(self):
+        self.ui.search_table_widget.show()
+        self.ui.close_push_button.show()
+
+    def close_search(self):
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
