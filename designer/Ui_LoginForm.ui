@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>377</width>
-    <height>205</height>
+    <height>168</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,13 +37,6 @@
    <item row="2" column="1">
     <widget class="QLineEdit" name="password_line_edit"/>
    </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QPushButton" name="sign_up_push_button">
-     <property name="text">
-      <string>Sign Up</string>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="0" colspan="2">
     <widget class="QPushButton" name="login_push_button">
      <property name="text">
@@ -52,9 +45,9 @@
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QPushButton" name="guest_session_push_button">
+    <widget class="QPushButton" name="sign_up_push_button">
      <property name="text">
-      <string>Guest Session</string>
+      <string>Sign Up</string>
      </property>
     </widget>
    </item>
