@@ -42,8 +42,9 @@ class Users(object):
     def __unicode__(self):
         return self.username
 
-    def upload(self, Ebook):
-        self.uploaded_books.append(Ebook)
+    def upload(self, ebook):
+        self.uploaded_books.append(ebook)
+
 
 class EBooks(object):
     def __init__(self, username, title, author, genres, isbn, price, book_text):
@@ -81,6 +82,14 @@ class EBooks(object):
     def progress(self):
         return self.current_page / self.total_pages
 
+    def report(self, report):
+        """
+
+        :param report: Report object
+        :return:
+        """
+        self.reports.append(report)
+
 
 class Reports(object):
     def __init__(self, username, reason, comment, title):
@@ -100,6 +109,3 @@ class Reports(object):
     @property
     def __unicode__(self):
         return self.reason + " report sent by: " + self.user + " for " + self.eBook
-
-    def add_report(self, username, reason, comment):
-        self.reports[username] = reason + ": " + comment

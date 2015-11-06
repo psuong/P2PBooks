@@ -1,6 +1,5 @@
-from PySide import QtGui, QtWebKit, QtCore
+from PySide import QtGui, QtCore
 from datetime import datetime
-import subprocess
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_MainWindowVisitor
 
 
