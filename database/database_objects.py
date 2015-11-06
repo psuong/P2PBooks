@@ -31,6 +31,7 @@ class Users(object):
         self.dob = dob
         self.credits = p2p_credits
         self.group_policy = group_policy
+        self.uploaded_books = [] # Make sure to store EBooks objects
         self.rented_books = []  # Make sure to store EBooks objects
         self.reported_books = []  # Make sure to store EBooks objects
         self.infractions = []
@@ -41,6 +42,8 @@ class Users(object):
     def __unicode__(self):
         return self.username
 
+    def upload(self, Ebook):
+        self.uploaded_books.append(Ebook)
 
 class EBooks(object):
     def __init__(self, username, title, author, genres, isbn, price, book_text):
@@ -68,6 +71,7 @@ class EBooks(object):
         self.checked_out_time = None
         self.return_time = None
         self.paused_time = None
+        self.reports = []
 
     @property
     def __unicode__(self):
@@ -87,7 +91,7 @@ class Reports(object):
         :param comment: str
         :param title: str
         """
-
+        self.time_stamp = None
         self.user = load_user(username)
         self.reason = reason
         self.comment = comment
@@ -96,3 +100,6 @@ class Reports(object):
     @property
     def __unicode__(self):
         return self.reason + " report sent by: " + self.user + " for " + self.eBook
+
+    def add_report(self, username, reason, comment):
+        self.reports[username] = reason + ": " + comment
