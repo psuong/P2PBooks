@@ -37,7 +37,6 @@ class LoginFormView(QtGui.QWidget):
 
     def login(self):
         # Grab component in object
-        #self.ui.username_line_edit.setText("We good." + username)
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
         if username == '' and password == '':
