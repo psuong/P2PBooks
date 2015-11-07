@@ -34,6 +34,8 @@ class TestDatabaseObjects(unittest.TestCase):
         is_this_chris = database_objects.load_user('Chris')
         is_this_one_punch_man = database_objects.load_ebook("1421585642")
 
+        # Wrapper Object Tests
+
         # Log the information
         log.info(is_this_md.__unicode__ + ": %r", vars(is_this_md))
         self.assertEquals(is_this_md.uploaded_books[0].title, "One-Punch Man, Vol. 1")

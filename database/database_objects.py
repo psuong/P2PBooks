@@ -20,7 +20,10 @@ def load_ebook(save_file_name):
     with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'rb') as input_file:
         return cPickle.load(input_file)
 
-
+# Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
+# Might have to move into a different file
+def populate_dict(user)
+    pass
 
 class Users(object):
     def __init__(self, username, password, email, age, dob, p2p_credits, group_policy='RU'):
@@ -115,3 +118,18 @@ class Reports(object):
     @property
     def __unicode__(self):
         return self.reason + " report sent by " + self.reporter.__unicode__ + " was created at " + str(self.time_stamp)
+
+"""
+    BookWrapper is a wrapper object that has a reference to the user's
+    username and book fields (Title, Author, ISBN, etc.)
+    Takes in a Users object and an element from Users.uploaded_books
+"""
+class BookWrapper(object):
+    def __init__(self, user, ebook):
+        self.uploader = user;
+        self.title = ebook.title
+        self.author = ebook.author
+        self.isbn = ebook.isbn
+        self.cost = ebook.price
+        # Will add rating fields later
+        #self.rating
