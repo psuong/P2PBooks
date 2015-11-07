@@ -1,14 +1,25 @@
 import cPickle
+from datetime import datetime
 
-
+# Save and load users
 def save_user(db_object, save_file_name):
     with open('blobs\\accounts\\' + save_file_name + '.pickle', 'wb') as out:
         cPickle.dump(db_object, out)
 
-
 def load_user(save_file_name):
     with open('blobs\\accounts\\' + save_file_name + '.pickle', 'rb') as input_file:
         return cPickle.load(input_file)
+
+
+# Save and load ebooks
+def save_ebook(db_object, save_file_name):
+    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'wb') as out:
+        cPickle.dump(db_object, out)
+
+def load_ebook(save_file_name):
+    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'rb') as input_file:
+        return cPickle.load(input_file)
+
 
 
 class Users(object):
@@ -47,10 +58,9 @@ class Users(object):
 
 
 class EBooks(object):
-    def __init__(self, username, title, author, genres, isbn, price, book_text):
+    def __init__(self, title, author, genres, isbn, price, book_text):
         """
         Class definition for a EBook object
-        :param username: str
         :param title: str
         :param author: str
         :param genres: list
@@ -59,7 +69,6 @@ class EBooks(object):
         :param book_text: str
         :return:
         """
-        self.user = load_user(username)
         self.title = title
         self.author = author
         self.genres = genres
@@ -84,7 +93,6 @@ class EBooks(object):
 
     def report(self, report):
         """
-
         :param report: Report object
         :return:
         """
@@ -92,20 +100,18 @@ class EBooks(object):
 
 
 class Reports(object):
-    def __init__(self, username, reason, comment, title):
+    def __init__(self, reporter, reason, comment):
         """
         Class definition for a Report object
-        :param username: str
+        :param reporter: str
         :param reason: str
         :param comment: str
-        :param title: str
         """
-        self.time_stamp = None
-        self.user = load_user(username)
+        self.time_stamp = datetime.now()
+        self.reporter = load_user(reporter)
         self.reason = reason
         self.comment = comment
-        self.eBook = title
 
     @property
     def __unicode__(self):
-        return self.reason + " report sent by: " + self.user + " for " + self.eBook
+        return self.reason + " report sent by " + self.reporter.__unicode__ + " was created at " + str(self.time_stamp)
