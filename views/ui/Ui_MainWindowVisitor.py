@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Fri Nov 06 15:25:19 2015
+# Created: Fri Nov 06 21:59:37 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,9 +17,9 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtGui.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout.addWidget(self.pushButton_2, 0, 2, 1, 1)
+        self.register_push_button = QtGui.QPushButton(self.centralwidget)
+        self.register_push_button.setObjectName("register_push_button")
+        self.gridLayout.addWidget(self.register_push_button, 0, 2, 1, 1)
         self.label = QtGui.QLabel(self.centralwidget)
         self.label.setLineWidth(1)
         self.label.setTextFormat(QtCore.Qt.RichText)
@@ -29,12 +29,12 @@ class Ui_MainWindow(object):
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 3, 0, 1, 1)
-        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout.addWidget(self.lineEdit, 3, 1, 1, 1)
-        self.pushButton = QtGui.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 0, 3, 1, 1)
+        self.search_line_edit = QtGui.QLineEdit(self.centralwidget)
+        self.search_line_edit.setObjectName("search_line_edit")
+        self.gridLayout.addWidget(self.search_line_edit, 3, 1, 1, 1)
+        self.login_push_button = QtGui.QPushButton(self.centralwidget)
+        self.login_push_button.setObjectName("login_push_button")
+        self.gridLayout.addWidget(self.login_push_button, 0, 3, 1, 1)
         self.go_push_button = QtGui.QPushButton(self.centralwidget)
         self.go_push_button.setObjectName("go_push_button")
         self.gridLayout.addWidget(self.go_push_button, 3, 2, 1, 1)
@@ -365,10 +365,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "P2PBooks", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "Register", None, QtGui.QApplication.UnicodeUTF8))
+        self.register_push_button.setText(QtGui.QApplication.translate("MainWindow", "Register", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("MainWindow", "Catalog", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("MainWindow", "Search", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "Login", None, QtGui.QApplication.UnicodeUTF8))
+        self.login_push_button.setText(QtGui.QApplication.translate("MainWindow", "Login", None, QtGui.QApplication.UnicodeUTF8))
         self.go_push_button.setText(QtGui.QApplication.translate("MainWindow", "Go", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Author", None, QtGui.QApplication.UnicodeUTF8))

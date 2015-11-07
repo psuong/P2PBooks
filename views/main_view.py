@@ -144,32 +144,6 @@ class ReaderFormView(QtGui.QWidget):
         self.report_dialog.show()
 
 
-class MainWindowVisitorView(QtGui.QMainWindow):
-    def __init__(self, model):
-        self.model = model
-        super(MainWindowVisitorView, self).__init__()
-        self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
-        self.build_ui()
-
-    def build_ui(self):
-        self.ui.setupUi(self)
-
-        # Hide results table widget for later
-        self.ui.search_table_widget.hide()
-        self.ui.close_push_button.hide()
-
-        self.ui.go_push_button.clicked.connect(self.search)
-        self.ui.close_push_button.clicked.connect(self.close_search)
-
-    def search(self):
-        self.ui.search_table_widget.show()
-        self.ui.close_push_button.show()
-
-    def close_search(self):
-        self.ui.search_table_widget.hide()
-        self.ui.close_push_button.hide()
-
-
 class LoginFormView(QtGui.QWidget):
     def __init__(self, model):
         self.model = model
@@ -214,3 +188,43 @@ class RegisterFormView(QtGui.QWidget):
 
     def submit(self):
         pass
+
+
+class MainWindowVisitorView(QtGui.QMainWindow):
+    def __init__(self, model):
+        self.model = model
+        super(MainWindowVisitorView, self).__init__()
+        self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
+        self.login_view = LoginFormView(self.model)
+        self.register_view = RegisterFormView(self.model)
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Hide results table widget for later
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+        self.ui.go_push_button.clicked.connect(self.search)
+        self.ui.close_push_button.clicked.connect(self.close_search)
+        self.ui.search_line_edit.returnPressed.connect(self.search)
+        self.ui.register_push_button.clicked.connect(self.register)
+        self.ui.login_push_button.clicked.connect(self.login)
+
+    def search(self):
+        if self.ui.search_line_edit.text():
+            self.ui.search_table_widget.show()
+            self.ui.close_push_button.show()
+
+    def close_search(self):
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+    def register(self):
+        self.hide()
+        self.register_view.show()
+
+    def login(self):
+        self.hide()
+        self.login_view.show()
