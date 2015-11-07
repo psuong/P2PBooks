@@ -1,6 +1,6 @@
 import sys
 from PySide import QtGui
-from views.main_view import UploadFormView, MainWindowVisitorView
+from views.main_view import UploadFormView, MainWindowVisitorView, ReaderFormView
 
 
 class App(QtGui.QApplication):

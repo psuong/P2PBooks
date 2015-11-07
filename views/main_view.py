@@ -67,13 +67,14 @@ class ReportDialogView(QtGui.QDialog):
 
 
 class ReaderFormView(QtGui.QWidget):
-    def __init__(self, model):
+    def __init__(self, model, current_book):
         self.model = model
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
         self.report_dialog = ReportDialogView(self.model)
         self.timer = QtCore.QTimer(self)
         self.paused = True
+        self.location = None
         self.reader_process = None
         self.build_ui()
 
@@ -95,6 +96,7 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
+        self.ui.browse_pdf_reader_push_button.clicked.connect(self.browse_reader_location)
 
         self.timer.timeout.connect(self.show_time)
 
@@ -113,12 +115,11 @@ class ReaderFormView(QtGui.QWidget):
         else:
             # Check if book can be read
             if self.model.read_book():
-                pdf_viewer = "C:\Program Files (x86)\SumatraPDF\SumatraPDF.exe"
                 arguments = ['C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf']
                 self.reader_process = QtCore.QProcess(self)
                 self.reader_process.started.connect(self.started)
                 self.reader_process.finished.connect(self.finished)
-                self.reader_process.start(pdf_viewer, arguments)
+                self.reader_process.start(self.location, arguments)
                 self.paused = False
 
     @QtCore.Slot()
@@ -143,31 +144,11 @@ class ReaderFormView(QtGui.QWidget):
         # Trigger the report widget
         self.report_dialog.show()
 
-
-class MainWindowVisitorView(QtGui.QMainWindow):
-    def __init__(self, model):
-        self.model = model
-        super(MainWindowVisitorView, self).__init__()
-        self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
-        self.build_ui()
-
-    def build_ui(self):
-        self.ui.setupUi(self)
-
-        # Hide results table widget for later
-        self.ui.search_table_widget.hide()
-        self.ui.close_push_button.hide()
-
-        self.ui.go_push_button.clicked.connect(self.search)
-        self.ui.close_push_button.clicked.connect(self.close_search)
-
-    def search(self):
-        self.ui.search_table_widget.show()
-        self.ui.close_push_button.show()
-
-    def close_search(self):
-        self.ui.search_table_widget.hide()
-        self.ui.close_push_button.hide()
+    @QtCore.Slot()
+    def browse_reader_location(self):
+        self.location = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '', 'PDF Reader Formats (*.exe)')
+        if self.location[1]:
+            self.ui.pdf_reader_path_label.setText(self.location[1])
 
 
 class LoginFormView(QtGui.QWidget):
@@ -214,3 +195,43 @@ class RegisterFormView(QtGui.QWidget):
 
     def submit(self):
         pass
+
+
+class MainWindowVisitorView(QtGui.QMainWindow):
+    def __init__(self, model):
+        self.model = model
+        super(MainWindowVisitorView, self).__init__()
+        self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
+        self.login_view = LoginFormView(self.model)
+        self.register_view = RegisterFormView(self.model)
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Hide results table widget for later
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+        self.ui.go_push_button.clicked.connect(self.search)
+        self.ui.close_push_button.clicked.connect(self.close_search)
+        self.ui.search_line_edit.returnPressed.connect(self.search)
+        self.ui.register_push_button.clicked.connect(self.register)
+        self.ui.login_push_button.clicked.connect(self.login)
+
+    def search(self):
+        if self.ui.search_line_edit.text():
+            self.ui.search_table_widget.show()
+            self.ui.close_push_button.show()
+
+    def close_search(self):
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+    def register(self):
+        self.hide()
+        self.register_view.show()
+
+    def login(self):
+        self.hide()
+        self.login_view.show()

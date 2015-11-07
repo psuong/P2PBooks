@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="2">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="register_push_button">
       <property name="text">
        <string>Register</string>
       </property>
@@ -46,10 +46,10 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="search_line_edit"/>
     </item>
     <item row="0" column="3">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="login_push_button">
       <property name="text">
        <string>Login</string>
       </property>
@@ -65,7 +65,7 @@
     <item row="5" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -73,7 +73,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="top_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -114,7 +114,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_4">
+         <widget class="QTableWidget" name="kids_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -155,7 +155,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_2">
+         <widget class="QTableWidget" name="adventure_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -196,7 +196,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_3">
+         <widget class="QTableWidget" name="edu_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -237,7 +237,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_5">
+         <widget class="QTableWidget" name="diy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -278,7 +278,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_6">
+         <widget class="QTableWidget" name="romance_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -319,7 +319,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_7">
+         <widget class="QTableWidget" name="comedy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -360,7 +360,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_8">
+         <widget class="QTableWidget" name="fantasy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -401,7 +401,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_10">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_9">
+         <widget class="QTableWidget" name="biography_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -442,7 +442,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_10">
+         <widget class="QTableWidget" name="history_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -483,7 +483,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_12">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_11">
+         <widget class="QTableWidget" name="magazine_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -524,7 +524,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_13">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_12">
+         <widget class="QTableWidget" name="religion_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -565,7 +565,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_14">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_13">
+         <widget class="QTableWidget" name="sports_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
