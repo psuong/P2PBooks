@@ -11,7 +11,6 @@ def load_user(save_file_name):
     with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
 
-
 # Save and load ebooks
 def save_ebook(db_object, save_file_name):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
@@ -23,8 +22,6 @@ def load_ebook(save_file_name):
 
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
-def populate_dict(user):
-    pass
 
 class Users(object):
     def __init__(self, username, password, email, age, dob, p2p_credits, group_policy='RU'):
@@ -57,12 +54,13 @@ class Users(object):
     def __unicode__(self):
         return self.username
 
-    def upload(self, ebook):
+    def upload(self, ebook, username):
         self.uploaded_books.append(ebook)
+        ebook.uploader = username
 
 
 class EBooks(object):
-    def __init__(self, title, author, genres, isbn, price, book_text):
+    def __init__(self, title, author, genres, isbn, price, book_text, uploader="uploader"):
         """
         Class definition for a EBook object
         :param title: str
@@ -73,6 +71,7 @@ class EBooks(object):
         :param book_text: str
         :return:
         """
+        self.uploader = uploader
         self.title = title
         self.author = author
         self.genres = genres
@@ -119,18 +118,3 @@ class Reports(object):
     @property
     def __unicode__(self):
         return self.reason + " report sent by " + self.reporter.__unicode__ + " was created at " + str(self.time_stamp)
-
-"""
-    BookWrapper is a wrapper object that has a reference to the user's
-    username and book fields (Title, Author, ISBN, etc.)
-    Takes in a Users object and an element from Users.uploaded_books
-"""
-class BookWrapper(object):
-    def __init__(self, user, ebook):
-        self.uploader = user;
-        self.title = ebook.title
-        self.author = ebook.author
-        self.isbn = ebook.isbn
-        self.cost = ebook.price
-        # Will add rating fields later
-        #self.rating
