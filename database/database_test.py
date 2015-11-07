@@ -1,5 +1,6 @@
 import sys
-from database import database_objects
+import database_objects
+#from database import database_objects
 import unittest, logging
 
 class TestDatabaseObjects(unittest.TestCase):

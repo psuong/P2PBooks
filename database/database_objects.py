@@ -1,28 +1,29 @@
 import cPickle
+import os
 from datetime import datetime
 
 # Save and load users
 def save_user(db_object, save_file_name):
-    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'wb') as out:
+    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
 def load_user(save_file_name):
-    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'rb') as input_file:
+    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
 
 
 # Save and load ebooks
 def save_ebook(db_object, save_file_name):
-    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'wb') as out:
+    with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
 def load_ebook(save_file_name):
-    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'rb') as input_file:
+    with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
 
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
-def populate_dict(user)
+def populate_dict(user):
     pass
 
 class Users(object):
