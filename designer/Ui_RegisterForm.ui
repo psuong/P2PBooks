@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>444</width>
+    <height>364</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Register</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Username</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Confirm Password</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Email</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Password</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>DOB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="3">
+    <widget class="QPushButton" name="submit_push_button">
+     <property name="text">
+      <string>Submit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" colspan="2">
+    <widget class="QLineEdit" name="username_line_edit"/>
+   </item>
+   <item row="4" column="2" colspan="2">
+    <widget class="QLineEdit" name="password_line_edit"/>
+   </item>
+   <item row="6" column="2" colspan="2">
+    <widget class="QLineEdit" name="confirm_password_line_edit"/>
+   </item>
+   <item row="7" column="2" colspan="2">
+    <widget class="QLineEdit" name="email_line_edit"/>
+   </item>
+   <item row="9" column="2" colspan="2">
+    <widget class="QDateEdit" name="dob_date_edit"/>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>username_line_edit</tabstop>
+  <tabstop>password_line_edit</tabstop>
+  <tabstop>confirm_password_line_edit</tabstop>
+  <tabstop>email_line_edit</tabstop>
+  <tabstop>dob_date_edit</tabstop>
+  <tabstop>submit_push_button</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

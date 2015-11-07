@@ -1,6 +1,6 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
-from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_MainWindowVisitor
+from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor
 
 
 class UploadFormView(QtGui.QWidget):
@@ -196,4 +196,21 @@ class LoginFormView(QtGui.QWidget):
 
     # sign_up(self) must open up the Register window
     def sign_up(self):
+        pass
+
+
+class RegisterFormView(QtGui.QWidget):
+    def __init__(self, model):
+        self.model = model
+        super(RegisterFormView, self).__init__()
+        self.ui = Ui_RegisterForm.Ui_Form()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Connect buttons to functions
+        self.ui.submit_push_button.clicked.connect(self.submit)
+
+    def submit(self):
         pass
