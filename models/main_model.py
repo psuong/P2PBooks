@@ -1,4 +1,4 @@
-from database.database_objects import serialize_user, User
+from database.database_objects import serialize_user, User, load_serialized_user
 
 
 def upload_file(file_location):
@@ -40,3 +40,14 @@ def register_user(username, password, email, dob):
                         email=email,
                         dob=dob),
                    username)
+
+
+def login_user(username, password):
+    user = load_serialized_user(username)
+    if user is not None:
+        if user.password == password:
+            return user
+        else:
+            return None
+    else:
+        return None

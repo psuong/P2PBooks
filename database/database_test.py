@@ -31,8 +31,8 @@ class TestDatabaseObjects(unittest.TestCase):
         database_objects.save_ebook(one_punch_man, one_punch_man.__unicode__)
 
         # Let's retrieve it
-        is_this_md = database_objects.load_user('md')
-        is_this_chris = database_objects.load_user('Chris')
+        is_this_md = database_objects.load_serialized_user('md')
+        is_this_chris = database_objects.load_serialized_user('Chris')
         is_this_one_punch_man = database_objects.load_ebook("1421585642")
 
         #check if upload function assigned the uploader

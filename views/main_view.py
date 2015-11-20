@@ -4,12 +4,14 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 
 
 class UploadFormView(QtGui.QWidget):
-    def __init__(self, model):
+    def __init__(self, model, password, main_window_inst):
         self.model = model
         super(UploadFormView, self).__init__()
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
+        self.main_window = main_window_inst
+        self.password = password
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -37,6 +39,10 @@ class UploadFormView(QtGui.QWidget):
         else:
             # Failure, return the error with second element in tuple of submit_status
             pass
+    
+    def closeEvent(self, *args, **kwargs):
+        self.main_window.show()
+        super(UploadFormView, self).closeEvent()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -159,12 +165,15 @@ class LoginFormView(QtGui.QWidget):
         super(LoginFormView, self).__init__()
         self.ui = Ui_LoginForm.Ui_Form()
         self.build_ui()
+        self.main_window = None
+        self.register_window = None
 
     def build_ui(self):
         self.ui.setupUi(self)
         # Connect buttons to their respective functions
         self.ui.login_push_button.clicked.connect(self.login)
         self.ui.sign_up_push_button.clicked.connect(self.sign_up)
+        self.ui.password_line_edit.setEchoMode(QtGui.QLineEdit.EchoMode.Password)
 
     def login(self):
         # Grab component in object
@@ -175,11 +184,19 @@ class LoginFormView(QtGui.QWidget):
             print "Empty Fields"
         else:
             # Check if the fields match a username and password is in the database
-            print "Non-Empty Fields"
+            if self.model.login_user(username, password) is not None:
+                self.main_window = MainWindowRegisteredView(self.model, username)
+                self.main_window.show()
+                self.hide()
+            else:
+                # Nothing was return; error
+                pass
 
     # sign_up(self) must open up the Register window
     def sign_up(self):
-        pass
+        self.register_window = RegisterFormView(self.model)
+        self.register_window.show()
+        self.hide()
 
 
 class RegisterFormView(QtGui.QWidget):
@@ -264,7 +281,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.username = username
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
-        self.upload_view = UploadFormView(self.model)
+        self.upload_view = UploadFormView(self.model, username, self)
         self.build_ui()
 
     def build_ui(self):
