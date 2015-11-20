@@ -1,3 +1,6 @@
+from database.database_objects import serialize_user, User
+
+
 def upload_file(file_location):
     """
     Converts/read PDF into a format we can handle and display it in the GUI for preview purposes.
@@ -25,5 +28,15 @@ def submit_file(file_location):
 def read_book():
     return True
 
+
 def pause_book():
     return True
+
+
+def register_user(username, password, email, dob):
+    # Check if username or email already exists
+    serialize_user(User(username=username,
+                        password=password,
+                        email=email,
+                        dob=dob),
+                   username)

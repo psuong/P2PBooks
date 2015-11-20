@@ -2,29 +2,35 @@ import cPickle
 import os
 from datetime import datetime
 
+
 # Save and load users
-def save_user(db_object, save_file_name):
+def serialize_user(db_object, save_file_name):
     with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
+
 
 def load_user(save_file_name):
     with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
+
 
 # Save and load ebooks
 def save_ebook(db_object, save_file_name):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
+
 def load_ebook(save_file_name):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
 
+
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
 
-class Users(object):
-    def __init__(self, username, password, email, age, dob, p2p_credits, group_policy='RU'):
+
+class User(object):
+    def __init__(self, username, password, email, dob, p2p_credits=300, group_policy='RU'):
         """
         Class definition for user objects
         :param username: str
@@ -39,11 +45,10 @@ class Users(object):
         self.username = username
         self.password = password
         self.email = email
-        self.age = age
         self.dob = dob
         self.credits = p2p_credits
         self.group_policy = group_policy
-        self.uploaded_books = [] # Make sure to store EBooks objects
+        self.uploaded_books = []  # Make sure to store EBooks objects
         self.rented_books = []  # Make sure to store EBooks objects
         self.reported_books = []  # Make sure to store EBooks objects
         self.infractions = []
@@ -60,7 +65,7 @@ class Users(object):
 
 
 class EBooks(object):
-    def __init__(self, title, author, genres, isbn, price, book_text, uploader="uploader"):
+    def __init__(self, title, author, genres, isbn, price, book_text, uploader, rating):
         """
         Class definition for a EBook object
         :param title: str
@@ -85,6 +90,7 @@ class EBooks(object):
         self.return_time = None
         self.paused_time = None
         self.reports = []
+        self.rating = rating
 
     @property
     def __unicode__(self):

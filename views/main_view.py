@@ -183,6 +183,7 @@ class LoginFormView(QtGui.QWidget):
 class RegisterFormView(QtGui.QWidget):
     def __init__(self, model):
         self.model = model
+        self.registered_main_window = None
         super(RegisterFormView, self).__init__()
         self.ui = Ui_RegisterForm.Ui_Form()
         self.build_ui()
@@ -199,13 +200,17 @@ class RegisterFormView(QtGui.QWidget):
         password = self.ui.password_line_edit.text()
         confirm_password = self.ui.confirm_password_line_edit.text()
         if password == confirm_password:
-            pass
+            self.model.register_user(username,
+                                     password,
+                                     self.ui.email_line_edit.text(),
+                                     self.ui.dob_date_edit.date())
+            self.registered_main_window = MainWindowRegisteredView(self.model,
+                                                              self.ui.username_line_edit.text())
+            self.registered_main_window.show()
+            self.hide()
         else:
             # Throw a Warning
             pass
-
-
-
 
 
 class MainWindowVisitorView(QtGui.QMainWindow):
@@ -252,8 +257,9 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
 
 class MainWindowRegisteredView(QtGui.QMainWindow):
-    def __init__(self, model):
+    def __init__(self, model, username):
         self.model = model
+        self.username = username
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.upload_view = UploadFormView(self.model)
@@ -275,6 +281,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.search_line_edit.returnPressed.connect(self.search)
         self.ui.upload_push_button.clicked.connect(self.upload)
         self.ui.library_push_button.clicked.connect(self.library)
+
+        self.ui.username_label.setText(self.username)
 
     def search(self):
         if self.ui.search_line_edit.text():
