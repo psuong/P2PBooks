@@ -56,7 +56,8 @@ class ReportDialogView(QtGui.QDialog):
         self.ui.setupUi(self)
 
         # Give reason options to report_combo_box
-        self.ui.report_combo_box.addItems(["Violent/repulsive content",
+        self.ui.report_combo_box.addItems(["",
+                                           "Violent/repulsive content",
                                            "Spam/misleading",
                                            "Copyright violation infringement",
                                            "None of the above (Specify below)",
@@ -67,11 +68,22 @@ class ReportDialogView(QtGui.QDialog):
 
     def accept(self, *args, **kwargs):
         # Press OK
-        pass
+        report_selection = str(self.ui.report_combo_box.currentText())
+        report_description = str(self.ui.report_text_edit.toPlainText())
+        if report_selection != "":
+            if report_selection == "None of the above (Specify below)" and report_description == "":
+                #TODO: When selection is 'none of the above', then description is mandatory
+                # Display an error message to tell the user to write a description
+                pass
+            else:
+                # Send the selection and description
+                self.close()
+        else:
+            # Display an error message to tell the user to select a selection from the combo box
+            pass
 
-    def reject(self, *args, **kwargs):
-        # Press Cancel
-        pass
+
+
 
 
 class ReaderFormView(QtGui.QWidget):
