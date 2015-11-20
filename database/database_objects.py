@@ -2,16 +2,21 @@ import cPickle
 import os
 from datetime import datetime
 
+ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
+
 
 # Save and load users
 def serialize_user(db_object, save_file_name):
-    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'wb') as out:
+    with open(os.path.join(ACCOUNT_DIR_PATH, save_file_name, '.pickle', 'wb')) as out:
         cPickle.dump(db_object, out)
 
 
-def load_user(save_file_name):
-    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
-        return cPickle.load(input_file)
+def load_serialized_user(save_file_name):
+    try:
+        with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
+            return cPickle.load(input_file)
+    except IOError:
+        return None
 
 
 # Save and load ebooks
@@ -36,7 +41,6 @@ class User(object):
         :param username: str
         :param password: str
         :param email: str
-        :param age: int
         :param dob: str
         :param p2p_credits: int
         :param group_policy: str
@@ -117,7 +121,7 @@ class Reports(object):
         :param comment: str
         """
         self.time_stamp = datetime.now()
-        self.reporter = load_user(reporter)
+        self.reporter = load_serialized_user(reporter)
         self.reason = reason
         self.comment = comment
 

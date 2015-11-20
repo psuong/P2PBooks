@@ -157,6 +157,8 @@ class LoginFormView(QtGui.QWidget):
         super(LoginFormView, self).__init__()
         self.ui = Ui_LoginForm.Ui_Form()
         self.build_ui()
+        self.main_window = None
+        self.register_window = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -173,11 +175,19 @@ class LoginFormView(QtGui.QWidget):
             print "Empty Fields"
         else:
             # Check if the fields match a username and password is in the database
-            print "Non-Empty Fields"
+            if self.model.login_user(username, password) is not None:
+                self.main_window = MainWindowRegisteredView(self.model, username)
+                self.main_window.show()
+                self.hide()
+            else:
+                # Nothing was return; error
+                pass
 
     # sign_up(self) must open up the Register window
     def sign_up(self):
-        pass
+        self.register_window = RegisterFormView(self.model)
+        self.register_window.show()
+        self.hide()
 
 
 class RegisterFormView(QtGui.QWidget):
