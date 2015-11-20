@@ -63,8 +63,6 @@ class ReportDialogView(QtGui.QDialog):
                                            "None of the above (Specify below)",
                                            ])
 
-        # Connect button Ok button to function
-        self.ui.report_button_box.clicked.connect(self.accept)
 
     def accept(self, *args, **kwargs):
         # Press OK
@@ -72,18 +70,14 @@ class ReportDialogView(QtGui.QDialog):
         report_description = str(self.ui.report_text_edit.toPlainText())
         if report_selection != "":
             if report_selection == "None of the above (Specify below)" and report_description == "":
-                #TODO: When selection is 'none of the above', then description is mandatory
                 # Display an error message to tell the user to write a description
-                pass
+                QtGui.QMessageBox.about(self,"Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
-            pass
-
-
-
+            QtGui.QMessageBox.about(self, "Error", "Please select a reason from the dropdown")
 
 
 class ReaderFormView(QtGui.QWidget):
