@@ -189,12 +189,23 @@ class RegisterFormView(QtGui.QWidget):
 
     def build_ui(self):
         self.ui.setupUi(self)
-
+        self.ui.password_line_edit.setEchoMode(QtGui.QLineEdit.EchoMode.Password)
+        self.ui.confirm_password_line_edit.setEchoMode(QtGui.QLineEdit.EchoMode.Password)
         # Connect buttons to functions
         self.ui.submit_push_button.clicked.connect(self.submit)
 
     def submit(self):
-        pass
+        username = self.ui.username_line_edit.text()
+        password = self.ui.password_line_edit.text()
+        confirm_password = self.ui.confirm_password_line_edit.text()
+        if password == confirm_password:
+            pass
+        else:
+            # Throw a Warning
+            pass
+
+
+
 
 
 class MainWindowVisitorView(QtGui.QMainWindow):
