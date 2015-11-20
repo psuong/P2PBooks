@@ -1,6 +1,6 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
-from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor
+from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
 
 
 class UploadFormView(QtGui.QWidget):
@@ -209,6 +209,9 @@ class MainWindowVisitorView(QtGui.QMainWindow):
     def build_ui(self):
         self.ui.setupUi(self)
 
+        # Default text in Search Line Edit
+        self.ui.search_line_edit.setPlaceholderText("Search...")
+
         # Hide results table widget for later
         self.ui.search_table_widget.hide()
         self.ui.close_push_button.hide()
@@ -235,3 +238,48 @@ class MainWindowVisitorView(QtGui.QMainWindow):
     def login(self):
         self.hide()
         self.login_view.show()
+
+
+class MainWindowRegisteredView(QtGui.QMainWindow):
+    def __init__(self, model):
+        self.model = model
+        super(MainWindowRegisteredView, self).__init__()
+        self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
+        self.upload_view = UploadFormView(self.model)
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Default text in Search Line Edit
+        self.ui.search_line_edit.setPlaceholderText('Search...')
+
+        # Hide results table widget for later
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+        self.ui.library_table_widget.hide()
+
+        self.ui.go_push_button.clicked.connect(self.search)
+        self.ui.close_push_button.clicked.connect(self.close_search)
+        self.ui.search_line_edit.returnPressed.connect(self.search)
+        self.ui.upload_push_button.clicked.connect(self.upload)
+        self.ui.library_push_button.clicked.connect(self.library)
+
+    def search(self):
+        if self.ui.search_line_edit.text():
+            self.ui.search_table_widget.show()
+            self.ui.close_push_button.show()
+
+    def close_search(self):
+        self.ui.search_table_widget.hide()
+        self.ui.close_push_button.hide()
+
+    def upload(self):
+        self.hide()
+        self.upload_view.show()
+
+    def library(self):
+        if self.ui.library_table_widget.isHidden():
+            self.ui.library_table_widget.show()
+        else:
+            self.ui.library_table_widget.hide()
