@@ -1,26 +1,27 @@
 import cPickle
+import os
 from datetime import datetime
 
 # Save and load users
 def save_user(db_object, save_file_name):
-    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'wb') as out:
+    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
 def load_user(save_file_name):
-    with open('blobs\\accounts\\' + save_file_name + '.pickle', 'rb') as input_file:
+    with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
-
 
 # Save and load ebooks
 def save_ebook(db_object, save_file_name):
-    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'wb') as out:
+    with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
 def load_ebook(save_file_name):
-    with open('blobs\\ebooks\\' + save_file_name + '.pickle', 'rb') as input_file:
+    with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
         return cPickle.load(input_file)
 
-
+# Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
+# Might have to move into a different file
 
 class Users(object):
     def __init__(self, username, password, email, age, dob, p2p_credits, group_policy='RU'):
@@ -53,12 +54,13 @@ class Users(object):
     def __unicode__(self):
         return self.username
 
-    def upload(self, ebook):
+    def upload(self, ebook, username):
         self.uploaded_books.append(ebook)
+        ebook.uploader = username
 
 
 class EBooks(object):
-    def __init__(self, title, author, genres, isbn, price, book_text):
+    def __init__(self, title, author, genres, isbn, price, book_text, uploader="uploader"):
         """
         Class definition for a EBook object
         :param title: str
@@ -69,6 +71,7 @@ class EBooks(object):
         :param book_text: str
         :return:
         """
+        self.uploader = uploader
         self.title = title
         self.author = author
         self.genres = genres

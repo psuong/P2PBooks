@@ -106,3 +106,5 @@ docs/_build/
 # PyBuilder
 target/
 
+# PDFS
+/database/blobs/booksection/*.pdf
