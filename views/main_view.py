@@ -4,12 +4,14 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 
 
 class UploadFormView(QtGui.QWidget):
-    def __init__(self, model):
+    def __init__(self, model, password, main_window_inst):
         self.model = model
         super(UploadFormView, self).__init__()
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
+        self.main_window = main_window_inst
+        self.password = password
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -37,6 +39,10 @@ class UploadFormView(QtGui.QWidget):
         else:
             # Failure, return the error with second element in tuple of submit_status
             pass
+    
+    def closeEvent(self, *args, **kwargs):
+        self.main_window.show()
+        super(UploadFormView, self).closeEvent()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -165,6 +171,7 @@ class LoginFormView(QtGui.QWidget):
         # Connect buttons to their respective functions
         self.ui.login_push_button.clicked.connect(self.login)
         self.ui.sign_up_push_button.clicked.connect(self.sign_up)
+        self.ui.password_line_edit.setEchoMode(QtGui.QLineEdit.EchoMode.Password)
 
     def login(self):
         # Grab component in object
@@ -272,7 +279,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.username = username
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
-        self.upload_view = UploadFormView(self.model)
+        self.upload_view = UploadFormView(self.model, username, self)
         self.build_ui()
 
     def build_ui(self):
