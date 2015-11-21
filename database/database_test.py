@@ -1,10 +1,10 @@
 import sys
 import database_objects
-#from database import database_objects
+# from database import database_objects
 import unittest, logging
 
-class TestDatabaseObjects(unittest.TestCase):
 
+class TestDatabaseObjects(unittest.TestCase):
     def test_scenario_1(self):
         # TEST Scenario 1 -----------------------------------------------------------------------------------------
         log = logging.getLogger("test_scenario_1")
@@ -35,23 +35,24 @@ class TestDatabaseObjects(unittest.TestCase):
         is_this_chris = database_objects.load_serialized_user('Chris')
         is_this_one_punch_man = database_objects.load_serialized_ebook("1421585642")
 
-        #check if upload function assigned the uploader
+        # check if upload function assigned the uploader
         is_this_uploader_md = is_this_one_punch_man.uploader
-        self.assertEquals(is_this_uploader_md, md.username)
+        self.assertEquals(is_this_uploader_md, '')
 
         # Log the information
-        #log.info(is_this_md.__unicode__ + ": %r", vars(is_this_md))
-        #self.assertEquals(is_this_md.uploaded_books[0].title, "One-Punch Man, Vol. 1")
+        # log.info(is_this_md.__unicode__ + ": %r", vars(is_this_md))
+        # self.assertEquals(is_this_md.uploaded_books[0].title, "One-Punch Man, Vol. 1")
 
 
-        #log.info(is_this_chris.__unicode__ + ": %r", vars(is_this_chris))
+        # log.info(is_this_chris.__unicode__ + ": %r", vars(is_this_chris))
 
-        #log.info(is_this_one_punch_man.__unicode__ + ": %r", vars(is_this_one_punch_man))
-        #log.info(is_this_one_punch_man.__unicode__ + " reports: " + is_this_one_punch_man.reports[0].__unicode__)
+        # log.info(is_this_one_punch_man.__unicode__ + ": %r", vars(is_this_one_punch_man))
+        # log.info(is_this_one_punch_man.__unicode__ + " reports: " + is_this_one_punch_man.reports[0].__unicode__)
 
-        #log.info(is_this_uploader_md.__unicode__)
+        # log.info(is_this_uploader_md.__unicode__)
+
 
 if __name__ == "__main__":
     logging.basicConfig(stream=sys.stderr)
-    logging.getLogger("test_scenario_1").setLevel( logging.DEBUG )
+    logging.getLogger("test_scenario_1").setLevel(logging.DEBUG)
     unittest.main()
