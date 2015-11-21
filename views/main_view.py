@@ -273,6 +273,18 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.ui.register_push_button.clicked.connect(self.register)
         self.ui.login_push_button.clicked.connect(self.login)
 
+        # Load ebooks
+        self.load_ebooks()
+
+    def load_ebooks(self):
+        row = 0
+        print self.model.catalogue_loader()
+        for book in self.model.catalogue_loader():
+            self.ui.adventure_table_widget.insertRow(row)
+            item = QtGui.QTableWidgetItem.text(book)
+            self.ui.adventure_table_widget.setItem(0, 0, item)
+            row += 1
+
     def search(self):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()

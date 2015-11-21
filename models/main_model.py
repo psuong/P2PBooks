@@ -1,4 +1,5 @@
-from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, load_serialized_ebook
+from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
+    load_serialized_ebook, get_ebook_pickles
 
 
 def upload_file(file_location):
@@ -7,6 +8,7 @@ def upload_file(file_location):
     :param file_location: str
     :return: tuple
     """
+    pass
 
 
 def upload_status(file_location):
@@ -41,8 +43,6 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, file_locatio
                           ), isbn, file_location)
 
 
-
-
 def read_book():
     return True
 
@@ -69,3 +69,7 @@ def login_user(username, password):
             return None
     else:
         return None
+
+
+def catalogue_loader():
+    return get_ebook_pickles()

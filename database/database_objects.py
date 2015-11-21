@@ -4,6 +4,7 @@ from datetime import datetime
 import shutil
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
+EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
 
 
 # Save and load users
@@ -14,7 +15,7 @@ def serialize_user(db_object, save_file_name):
 
 def load_serialized_user(save_file_name):
     try:
-        with open(os.path.join('database', 'blobs', 'accounts', save_file_name + '.pickle'), 'rb') as input_file:
+        with open(os.path.join(ACCOUNT_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
             return cPickle.load(input_file)
     except IOError:
         return None
@@ -33,6 +34,14 @@ def load_serialized_ebook(save_file_name):
             return cPickle.load(input_file)
     except IOError:
         return None
+
+
+def get_ebook_pickles():
+    ebooks_list = []
+    for pickle in os.listdir(EBOOKS_DIR_PATH):
+        if pickle.endswith('.pickle'):
+            ebooks_list.append(load_serialized_ebook(pickle[:-7]))  # -7 to truncate file ending
+    return ebooks_list
 
 
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
