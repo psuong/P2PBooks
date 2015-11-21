@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered
+    Ui_MainWindowRegistered, Ui_ApprovalReportedList
 from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user
 import os
@@ -861,3 +861,5 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.library_table_widget.show()
         else:
             self.ui.library_table_widget.hide()
+
+

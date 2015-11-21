@@ -15,17 +15,17 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="3">
-     <widget class="QPushButton" name="login_push_button">
-      <property name="text">
-       <string>Login</string>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="3">
      <widget class="QPushButton" name="go_push_button">
       <property name="text">
        <string>Go</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="login_push_button">
+      <property name="text">
+       <string>Login</string>
       </property>
      </widget>
     </item>
@@ -35,6 +35,19 @@
        <string>Register</string>
       </property>
      </widget>
+    </item>
+    <item row="2" column="0" colspan="4">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item row="4" column="1" colspan="2">
      <widget class="QLineEdit" name="search_line_edit"/>
@@ -52,21 +65,11 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="0" colspan="4">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="5" column="1" colspan="2">
      <widget class="QTableWidget" name="search_table_widget">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
       <column>
        <property name="text">
         <string>Title</string>
@@ -106,23 +109,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QLabel" name="label">
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="text">
-       <string>Catalog</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0" colspan="4">
+    <item row="11" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>12</number>
@@ -794,6 +781,9 @@
        <layout class="QGridLayout" name="gridLayout_14">
         <item row="0" column="0">
          <widget class="QTableWidget" name="sports_table_widget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
@@ -843,6 +833,35 @@
       </widget>
      </widget>
     </item>
+    <item row="6" column="1" colspan="3">
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="7" column="1" colspan="3">
+     <widget class="QLabel" name="label">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="text">
+       <string>Catalog</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -851,7 +870,7 @@
      <x>0</x>
      <y>0</y>
      <width>822</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
