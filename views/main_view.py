@@ -327,11 +327,11 @@ class MainWindowVisitorView(QtGui.QMainWindow):
             self.ui.adventure_table_widget.setItem(row, 2,
                                                    QtGui.QTableWidgetItem(book.isbn))
             self.ui.adventure_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(book.price))
+                                                   QtGui.QTableWidgetItem(str(book.price)))
             self.ui.adventure_table_widget.setItem(row, 4,
                                                    QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.adventure_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(book.rating))
+                                                   QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
     def search(self):

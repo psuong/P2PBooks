@@ -92,7 +92,7 @@ class EBook(object):
         :param isbn: str
         :param price: int
         :param book_text: str
-        :param uploader: str
+        :param uploader: User
         :param rating: int
         :param file_location: str
         :return:
