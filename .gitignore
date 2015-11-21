@@ -107,7 +107,7 @@ docs/_build/
 target/
 
 # PDFS
-/database/blobs/booksection/*.pdf
+/database/blobs/ebooks/*.pdf
 
 # Pickle Files
 *.pickle

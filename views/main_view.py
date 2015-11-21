@@ -2,6 +2,7 @@ from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
 from models.main_model import submit_upload_form
+import os
 
 
 class UploadFormView(QtGui.QWidget):
@@ -34,8 +35,8 @@ class UploadFormView(QtGui.QWidget):
         # Make sure all fields are entered before submitting
         if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
                 and self.ui.isbn_line_edit.text():
-            upload_status = self.model.upload_status(self.file_location)
-            if upload_status:
+            does_file_exist = os.path.isfile(self.file_location)
+            if does_file_exist:
                 # File uploaded successfully
                 submit_upload_form(self.ui.title_line_edit.text(),
                                    self.ui.author_line_edit.text(),
@@ -49,8 +50,10 @@ class UploadFormView(QtGui.QWidget):
                 self.main_window.show()
                 self.close()
             else:
-                # Failure, return the error with second element in tuple of submit_status
-                pass
+                # Returns an Error message if file DNE
+                QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
+        else:
+            QtGui.QMessageBox.about(self, "Error", "Invalid Fields.")
     
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
