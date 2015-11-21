@@ -273,8 +273,15 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.ui.register_push_button.clicked.connect(self.register)
         self.ui.login_push_button.clicked.connect(self.login)
 
+        # Connect checkout buttons
+        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.adventure_table_widget.selectedItems()[2].text()))
+
         # Load ebooks
         self.load_ebooks()
+
+    def open_reader(self, isbn):
+        print isbn
 
     def load_ebooks(self):
         row = 0
