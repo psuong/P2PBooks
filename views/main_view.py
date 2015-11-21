@@ -1,6 +1,7 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
-from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
+from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
+    Ui_MainWindowRegistered
 from models.main_model import submit_upload_form
 
 
@@ -50,7 +51,7 @@ class UploadFormView(QtGui.QWidget):
             else:
                 # Failure, return the error with second element in tuple of submit_status
                 pass
-    
+
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
         super(UploadFormView, self).closeEvent()
@@ -81,7 +82,7 @@ class ReportDialogView(QtGui.QDialog):
         if report_selection != "":
             if report_selection == "None of the above (Specify below)" and report_description == "":
                 # Display an error message to tell the user to write a description
-                QtGui.QMessageBox.about(self,"Error", "Please specify the reason in the description")
+                QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
                 self.close()
@@ -240,7 +241,7 @@ class RegisterFormView(QtGui.QWidget):
                                      self.ui.email_line_edit.text(),
                                      self.ui.dob_date_edit.date())
             self.registered_main_window = MainWindowRegisteredView(self.model,
-                                                              self.ui.username_line_edit.text())
+                                                                   self.ui.username_line_edit.text())
             self.registered_main_window.show()
             self.hide()
         else:
@@ -339,102 +340,102 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         for book in book_dict['Kids']:
             self.ui.kids_table_widget.insertRow(row)
             self.ui.kids_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                              QtGui.QTableWidgetItem(book.title))
             self.ui.kids_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                              QtGui.QTableWidgetItem(book.author))
             self.ui.kids_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                              QtGui.QTableWidgetItem(book.isbn))
             self.ui.kids_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                              QtGui.QTableWidgetItem(str(book.price)))
             self.ui.kids_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                              QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.kids_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                              QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Education']:
             self.ui.edu_table_widget.insertRow(row)
             self.ui.edu_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                             QtGui.QTableWidgetItem(book.title))
             self.ui.edu_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                             QtGui.QTableWidgetItem(book.author))
             self.ui.edu_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                             QtGui.QTableWidgetItem(book.isbn))
             self.ui.edu_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                             QtGui.QTableWidgetItem(str(book.price)))
             self.ui.edu_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                             QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.edu_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                             QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['DIY']:
             self.ui.diy_table_widget.insertRow(row)
             self.ui.diy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                             QtGui.QTableWidgetItem(book.title))
             self.ui.diy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                             QtGui.QTableWidgetItem(book.author))
             self.ui.diy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                             QtGui.QTableWidgetItem(book.isbn))
             self.ui.diy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                             QtGui.QTableWidgetItem(str(book.price)))
             self.ui.diy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                             QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.diy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                             QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Romance']:
             self.ui.romance_table_widget.insertRow(row)
             self.ui.romance_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.romance_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.romance_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.romance_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.romance_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.romance_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Comedy']:
             self.ui.comedy_table_widget.insertRow(row)
             self.ui.comedy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                QtGui.QTableWidgetItem(book.title))
             self.ui.comedy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                QtGui.QTableWidgetItem(book.author))
             self.ui.comedy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                QtGui.QTableWidgetItem(book.isbn))
             self.ui.comedy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                QtGui.QTableWidgetItem(str(book.price)))
             self.ui.comedy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.comedy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Fantasy']:
             self.ui.fantasy_table_widget.insertRow(row)
             self.ui.fantasy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.fantasy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.fantasy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.fantasy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.fantasy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.fantasy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
@@ -458,68 +459,68 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         for book in book_dict['History']:
             self.ui.history_table_widget.insertRow(row)
             self.ui.history_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.history_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.history_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.history_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.history_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.history_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Magazine']:
             self.ui.magazine_table_widget.insertRow(row)
             self.ui.magazine_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                  QtGui.QTableWidgetItem(book.title))
             self.ui.magazine_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                  QtGui.QTableWidgetItem(book.author))
             self.ui.magazine_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                  QtGui.QTableWidgetItem(book.isbn))
             self.ui.magazine_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                  QtGui.QTableWidgetItem(str(book.price)))
             self.ui.magazine_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                  QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.magazine_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                  QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Religion']:
             self.ui.religion_table_widget.insertRow(row)
             self.ui.religion_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                  QtGui.QTableWidgetItem(book.title))
             self.ui.religion_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                  QtGui.QTableWidgetItem(book.author))
             self.ui.religion_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                  QtGui.QTableWidgetItem(book.isbn))
             self.ui.religion_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                  QtGui.QTableWidgetItem(str(book.price)))
             self.ui.religion_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                  QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.religion_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                  QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Sports']:
             self.ui.sports_table_widget.insertRow(row)
             self.ui.sports_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                QtGui.QTableWidgetItem(book.title))
             self.ui.sports_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                QtGui.QTableWidgetItem(book.author))
             self.ui.sports_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                QtGui.QTableWidgetItem(book.isbn))
             self.ui.sports_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                QtGui.QTableWidgetItem(str(book.price)))
             self.ui.sports_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.sports_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
     def search(self):
@@ -633,102 +634,102 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         for book in book_dict['Kids']:
             self.ui.kids_table_widget.insertRow(row)
             self.ui.kids_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                              QtGui.QTableWidgetItem(book.title))
             self.ui.kids_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                              QtGui.QTableWidgetItem(book.author))
             self.ui.kids_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                              QtGui.QTableWidgetItem(book.isbn))
             self.ui.kids_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                              QtGui.QTableWidgetItem(str(book.price)))
             self.ui.kids_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                              QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.kids_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                              QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Education']:
             self.ui.edu_table_widget.insertRow(row)
             self.ui.edu_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                             QtGui.QTableWidgetItem(book.title))
             self.ui.edu_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                             QtGui.QTableWidgetItem(book.author))
             self.ui.edu_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                             QtGui.QTableWidgetItem(book.isbn))
             self.ui.edu_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                             QtGui.QTableWidgetItem(str(book.price)))
             self.ui.edu_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                             QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.edu_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                             QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['DIY']:
             self.ui.diy_table_widget.insertRow(row)
             self.ui.diy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                             QtGui.QTableWidgetItem(book.title))
             self.ui.diy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                             QtGui.QTableWidgetItem(book.author))
             self.ui.diy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                             QtGui.QTableWidgetItem(book.isbn))
             self.ui.diy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                             QtGui.QTableWidgetItem(str(book.price)))
             self.ui.diy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                             QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.diy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                             QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Romance']:
             self.ui.romance_table_widget.insertRow(row)
             self.ui.romance_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.romance_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.romance_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.romance_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.romance_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.romance_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Comedy']:
             self.ui.comedy_table_widget.insertRow(row)
             self.ui.comedy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                QtGui.QTableWidgetItem(book.title))
             self.ui.comedy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                QtGui.QTableWidgetItem(book.author))
             self.ui.comedy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                QtGui.QTableWidgetItem(book.isbn))
             self.ui.comedy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                QtGui.QTableWidgetItem(str(book.price)))
             self.ui.comedy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.comedy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Fantasy']:
             self.ui.fantasy_table_widget.insertRow(row)
             self.ui.fantasy_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.fantasy_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.fantasy_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.fantasy_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.fantasy_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.fantasy_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
@@ -752,68 +753,68 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         for book in book_dict['History']:
             self.ui.history_table_widget.insertRow(row)
             self.ui.history_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                 QtGui.QTableWidgetItem(book.title))
             self.ui.history_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                 QtGui.QTableWidgetItem(book.author))
             self.ui.history_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                 QtGui.QTableWidgetItem(book.isbn))
             self.ui.history_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                 QtGui.QTableWidgetItem(str(book.price)))
             self.ui.history_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.history_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Magazine']:
             self.ui.magazine_table_widget.insertRow(row)
             self.ui.magazine_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                  QtGui.QTableWidgetItem(book.title))
             self.ui.magazine_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                  QtGui.QTableWidgetItem(book.author))
             self.ui.magazine_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                  QtGui.QTableWidgetItem(book.isbn))
             self.ui.magazine_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                  QtGui.QTableWidgetItem(str(book.price)))
             self.ui.magazine_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                  QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.magazine_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                  QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Religion']:
             self.ui.religion_table_widget.insertRow(row)
             self.ui.religion_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                  QtGui.QTableWidgetItem(book.title))
             self.ui.religion_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                  QtGui.QTableWidgetItem(book.author))
             self.ui.religion_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                  QtGui.QTableWidgetItem(book.isbn))
             self.ui.religion_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                  QtGui.QTableWidgetItem(str(book.price)))
             self.ui.religion_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                  QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.religion_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                  QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
         row = 0
         for book in book_dict['Sports']:
             self.ui.sports_table_widget.insertRow(row)
             self.ui.sports_table_widget.setItem(row, 0,
-                                                   QtGui.QTableWidgetItem(book.title))
+                                                QtGui.QTableWidgetItem(book.title))
             self.ui.sports_table_widget.setItem(row, 1,
-                                                   QtGui.QTableWidgetItem(book.author))
+                                                QtGui.QTableWidgetItem(book.author))
             self.ui.sports_table_widget.setItem(row, 2,
-                                                   QtGui.QTableWidgetItem(book.isbn))
+                                                QtGui.QTableWidgetItem(book.isbn))
             self.ui.sports_table_widget.setItem(row, 3,
-                                                   QtGui.QTableWidgetItem(str(book.price)))
+                                                QtGui.QTableWidgetItem(str(book.price)))
             self.ui.sports_table_widget.setItem(row, 4,
-                                                   QtGui.QTableWidgetItem(book.uploader.username))
+                                                QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.sports_table_widget.setItem(row, 5,
-                                                   QtGui.QTableWidgetItem(str(book.rating)))
+                                                QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
     def search(self):
