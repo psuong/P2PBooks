@@ -108,3 +108,6 @@ target/
 
 # PDFS
 /database/blobs/booksection/*.pdf
+
+# Pickle Files
+*.pickle

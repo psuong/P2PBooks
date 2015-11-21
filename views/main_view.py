@@ -196,9 +196,16 @@ class LoginFormView(QtGui.QWidget):
         # Grab component in object
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
+
+        # Checks if the username and passwords are empty string
         if username == '' and password == '':
-            # Must return a warning
-            print "Empty Fields"
+            QtGui.QMessageBox.about(self, "Error", "Invalid password and username.")
+        # Checks if username is an empty string
+        elif username == '' and password != '':
+            QtGui.QMessageBox.about(self, "Error", "Invalid Username.")
+        # Checks if password is an empty string
+        elif password == '' and username != '':
+            QtGui.QMessageBox.about(self, "Error", "Invalid Password.")
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
@@ -207,7 +214,7 @@ class LoginFormView(QtGui.QWidget):
                 self.hide()
             else:
                 # Nothing was return; error
-                pass
+                QtGui.QMessageBox.about(self, "Error", "No username/password found.")
 
     # sign_up(self) must open up the Register window
     def sign_up(self):
