@@ -2,6 +2,7 @@ from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
 from models.main_model import submit_upload_form
+from database.database_objects import load_serialized_user
 import os
 
 
@@ -245,7 +246,9 @@ class RegisterFormView(QtGui.QWidget):
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
         confirm_password = self.ui.confirm_password_line_edit.text()
-        if password == confirm_password:
+
+        # Checks username and passwords
+        if password == confirm_password and load_serialized_user(username) is None and username:
             self.model.register_user(username,
                                      password,
                                      self.ui.email_line_edit.text(),
@@ -254,9 +257,18 @@ class RegisterFormView(QtGui.QWidget):
                                                               self.ui.username_line_edit.text())
             self.registered_main_window.show()
             self.hide()
+
         else:
-            # Throw a Warning
-            pass
+            if load_serialized_user(username) is not None and password == confirm_password:
+                QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
+            elif load_serialized_user(username) is None and password != confirm_password:
+                QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
+                                                                           "are not the same!")
+            elif load_serialized_user(username) is None and password != confirm_password:
+                QtGui.QMessageBox.about(self, "Invalid Username & Password", "Username exists already and passwords"
+                                                                             "do not match!")
+            else:
+                QtGui.QMessageBox.about(self, "Error", "Invalid Credentials")
 
 
 class MainWindowVisitorView(QtGui.QMainWindow):
@@ -288,6 +300,9 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()
             self.ui.close_push_button.show()
+            # TODO: Add search functionality when populate script is finished.
+        else:
+            QtGui.QMessageBox.about(self, "Error", "Empty search fields, please enter a genre, title, etc.")
 
     def close_search(self):
         self.ui.search_table_widget.hide()
