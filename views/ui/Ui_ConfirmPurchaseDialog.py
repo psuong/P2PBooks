@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ConfirmPurchaseDialog.ui'
 #
-# Created: Sat Nov 21 17:25:01 2015
+# Created: Sat Nov 21 18:10:00 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(356, 448)
+        Dialog.resize(304, 448)
         self.gridLayout = QtGui.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.cover_img_web_view = QtWebKit.QWebView(Dialog)
@@ -32,11 +32,11 @@ class Ui_Dialog(object):
         self.label_2 = QtGui.QLabel(Dialog)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 3, 0, 1, 1)
-        self.spinBox = QtGui.QSpinBox(Dialog)
-        self.spinBox.setMinimum(1)
-        self.spinBox.setMaximum(200)
-        self.spinBox.setObjectName("spinBox")
-        self.gridLayout.addWidget(self.spinBox, 3, 1, 1, 1)
+        self.length_spin_box = QtGui.QSpinBox(Dialog)
+        self.length_spin_box.setMinimum(1)
+        self.length_spin_box.setMaximum(200)
+        self.length_spin_box.setObjectName("length_spin_box")
+        self.gridLayout.addWidget(self.length_spin_box, 3, 1, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)

@@ -81,7 +81,8 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.setupUi(self)
 
         self.ui.summary_text_browser.setText(self.summary)
-        self.ui.cover_img_web_view.setHtml('<img src="' + self.cover_img + '">')
+        self.ui.cover_img_web_view.setHtml('<img alt="Cover img" '
+                                           'src="' + self.cover_img + '" style="width: 300px; height: 300px">')
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
@@ -305,6 +306,7 @@ class RegisterFormView(QtGui.QWidget):
 class MainWindowVisitorView(QtGui.QMainWindow):
     def __init__(self, model):
         self.model = model
+        self.purchase_dialog = None
         super(MainWindowVisitorView, self).__init__()
         self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
         self.login_view = LoginFormView(self.model)
@@ -371,7 +373,19 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.load_ebooks()
 
     def checkout_ebook(self, row_items):
-        print row_items[2].text()
+        book = self.model.get_book_instance(row_items[2].text())
+        self.purchase_dialog = ConfirmedPurchaseDialogView(self.model,
+                                                           username='visitor',
+                                                           rate=book.price,
+                                                           cover_img=book.cover_img,
+                                                           summary=book.summary,
+                                                           isbn=book.isbn,
+                                                           main_window_inst=self,
+                                                           )
+        self.purchase_dialog.setWindowTitle('Confirm Purchase [RU Only]')
+        self.purchase_dialog.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setDisabled(True)
+        self.purchase_dialog.ui.length_spin_box.setDisabled(True)
+        self.purchase_dialog.exec_()
 
     def load_ebooks(self):
         book_dict = self.model.catalogue_loader()

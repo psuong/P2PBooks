@@ -42,7 +42,7 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               price=count,
                               uploader=user_list[user_count],
                               summary=lorem,
-                              cover_img='',
+                              cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
                               isbn=str(init_ISBN)),
                         str(init_ISBN),
                         os.path.join(PDF_DIR_PATH, pdf))
