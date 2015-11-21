@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>576</height>
+    <width>822</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,6 +15,90 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="3">
+     <widget class="QPushButton" name="login_push_button">
+      <property name="text">
+       <string>Login</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QPushButton" name="go_push_button">
+      <property name="text">
+       <string>Go</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="register_push_button">
+      <property name="text">
+       <string>Register</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1" colspan="2">
+     <widget class="QLineEdit" name="search_line_edit"/>
+    </item>
+    <item row="0" column="1">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="0" colspan="4">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QTableWidget" name="search_table_widget">
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Uploader</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
+     </widget>
+    </item>
     <item row="5" column="3">
      <widget class="QPushButton" name="close_push_button">
       <property name="text">
@@ -41,7 +125,7 @@
     <item row="7" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -50,6 +134,12 @@
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QTableWidget" name="top_table_widget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -80,6 +170,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="top_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -123,6 +220,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="kids_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="adventure_tab">
@@ -132,6 +236,15 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QTableWidget" name="adventure_table_widget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -162,6 +275,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="adventure_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -205,6 +325,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="edu_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="diy_tab">
@@ -244,6 +371,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="diy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -287,6 +421,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="romance_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="comedy_tab">
@@ -326,6 +467,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="comedy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -369,6 +517,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="fantasy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="biography_tab">
@@ -408,6 +563,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="biography_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -451,6 +613,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="history_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="magazine_tabs">
@@ -490,6 +659,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="magazine_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -533,6 +709,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="religion_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="sports_tab">
@@ -574,93 +757,16 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="sports_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="login_push_button">
-      <property name="text">
-       <string>Login</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1" colspan="2">
-     <widget class="QTableWidget" name="search_table_widget">
-      <column>
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>ISBN</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Cost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Uploader</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Rating</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="register_push_button">
-      <property name="text">
-       <string>Register</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="QPushButton" name="go_push_button">
-      <property name="text">
-       <string>Go</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1" colspan="2">
-     <widget class="QLineEdit" name="search_line_edit"/>
-    </item>
-    <item row="0" column="1">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="0" colspan="4">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
@@ -669,8 +775,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
-     <height>26</height>
+     <width>822</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
