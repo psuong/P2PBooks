@@ -107,21 +107,13 @@ class EBook(object):
         self.summary = summary
         self.cover_img = cover_img
         self.approved = False
-        self.current_page = 0
-        self.total_pages = 1.0
-        self.checked_out_time = None
-        self.return_time = None
-        self.paused_time = None
         self.reports = []
         self.rating = rating
+        self.history = []
 
     @property
     def __unicode__(self):
         return self.isbn
-
-    @property
-    def progress(self):
-        return self.current_page / self.total_pages
 
     def report(self, report):
         """
@@ -129,6 +121,23 @@ class EBook(object):
         :return:
         """
         self.reports.append(report)
+
+
+class PurchasedEBook(object):
+    def __init__(self, username, ebook, checked_out_time, return_time, paused_time):
+        """
+
+        :param username: str
+        :param ebook: EBook
+        :param checked_out_time: str
+        :param return_time: str
+        :param paused_time: str
+        :return:
+        """
+        self.ebook = ebook
+        self.checked_out_time = checked_out_time
+        self.return_time = return_time
+        self.paused_time = paused_time
 
 
 class Report(object):

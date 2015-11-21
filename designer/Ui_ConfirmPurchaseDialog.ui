@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>448</height>
+    <width>318</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,31 +23,24 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="1" column="0" colspan="2">
+    <widget class="QTextBrowser" name="summary_text_browser"/>
+   </item>
+   <item row="3" column="1">
     <widget class="QLabel" name="cost_label">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QTextBrowser" name="summary_text_browser"/>
-   </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Cost (per min):</string>
+      <string>Cost (per min)</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Length (in minutes)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <widget class="QSpinBox" name="length_spin_box">
      <property name="minimum">
       <number>1</number>
@@ -57,13 +50,34 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Length (in minutes)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string># of Purchases</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="num_of_purchases_label">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
