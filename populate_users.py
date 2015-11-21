@@ -1,5 +1,5 @@
 import os
-from database_objects import serialize_user, User
+from database.database_objects import serialize_user, User
 
 USER_LIST = ["Chris",
              "MD",
@@ -11,9 +11,9 @@ EMAIL_LIST = ["chris@gmail.com",
               "porrith@gmail.com",
               "fioger@gmail.com"]
 
-DOB_LIST = ["01/26/1995"
-            "01/01/1993"
-            "07/17/1995"
+DOB_LIST = ["1/26/1995",
+            "1/1/1993",
+            "7/17/1995",
             "12/26/1995"]
 
 for i in range(4):
