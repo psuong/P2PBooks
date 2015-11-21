@@ -15,8 +15,8 @@ class TestDatabaseObjects(unittest.TestCase):
         database_objects.serialize_user(md, md.__unicode__)
 
         # Create ebook
-        one_punch_man = database_objects.EBooks("One-Punch Man, Vol. 1", "One", "Manga", "1421585642", "5", "Some text")
-        database_objects.save_ebook(one_punch_man, one_punch_man.__unicode__)
+        one_punch_man = database_objects.EBook("One-Punch Man, Vol. 1", "One", "Manga", "1421585642", "5", "Some text")
+        database_objects.serialize_ebook(one_punch_man, one_punch_man.__unicode__)
 
         # md uploads ebook
         md.upload(one_punch_man, md.username)
@@ -27,13 +27,13 @@ class TestDatabaseObjects(unittest.TestCase):
         database_objects.serialize_user(chris, chris.__unicode__)
 
         # chris reports md's ebook
-        one_punch_man.report(database_objects.Reports('Chris', 'Copyright Violation', 'DID YOU TORRENT THIS???'))
-        database_objects.save_ebook(one_punch_man, one_punch_man.__unicode__)
+        one_punch_man.report(database_objects.Report('Chris', 'Copyright Violation', 'DID YOU TORRENT THIS???'))
+        database_objects.serialize_ebook(one_punch_man, one_punch_man.__unicode__)
 
         # Let's retrieve it
         is_this_md = database_objects.load_serialized_user('md')
         is_this_chris = database_objects.load_serialized_user('Chris')
-        is_this_one_punch_man = database_objects.load_ebook("1421585642")
+        is_this_one_punch_man = database_objects.load_serialized_ebook("1421585642")
 
         #check if upload function assigned the uploader
         is_this_uploader_md = is_this_one_punch_man.uploader

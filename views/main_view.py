@@ -1,17 +1,18 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
+from models.main_model import submit_upload_form
 
 
 class UploadFormView(QtGui.QWidget):
-    def __init__(self, model, password, main_window_inst):
+    def __init__(self, model, username, main_window_inst):
         self.model = model
         super(UploadFormView, self).__init__()
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
         self.main_window = main_window_inst
-        self.password = password
+        self.username = username
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -24,21 +25,31 @@ class UploadFormView(QtGui.QWidget):
         self.ui.submit_push_button.clicked.connect(self.submit)
 
     def upload(self):
-        # Make sure all fields are entered
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
-                and self.ui.isbn_line_edit.text():
-            file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
-            self.file_location = file_location[0]
-            self.model.upload_file(self.file_location)
+        file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
+        self.file_location = file_location[0]
+        self.model.upload_file(self.file_location)
 
     def submit(self):
-        submit_status = self.model.submit_file(self.file_location)
-        if submit_status[0]:
-            # File uploaded successfully
-            pass
-        else:
-            # Failure, return the error with second element in tuple of submit_status
-            pass
+        # Make sure all fields are entered before submitting
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
+                and self.ui.isbn_line_edit.text():
+            upload_status = self.model.upload_status(self.file_location)
+            if upload_status:
+                # File uploaded successfully
+                submit_upload_form(self.ui.title_line_edit.text(),
+                                   self.ui.author_line_edit.text(),
+                                   self.ui.genres_line_edit.text(),
+                                   self.ui.isbn_line_edit.text(),
+                                   self.ui.price_spin_box.text(),
+                                   self.file_location,
+                                   self.username
+                                   )
+                self.main_window = MainWindowRegisteredView(self.model, self.username)
+                self.main_window.show()
+                self.close()
+            else:
+                # Failure, return the error with second element in tuple of submit_status
+                pass
     
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
@@ -62,7 +73,6 @@ class ReportDialogView(QtGui.QDialog):
                                            "Copyright violation infringement",
                                            "None of the above (Specify below)",
                                            ])
-
 
     def accept(self, *args, **kwargs):
         # Press OK

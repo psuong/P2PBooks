@@ -20,14 +20,17 @@ def load_serialized_user(save_file_name):
 
 
 # Save and load ebooks
-def save_ebook(db_object, save_file_name):
+def serialize_ebook(db_object, save_file_name):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
 
 
-def load_ebook(save_file_name):
-    with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
-        return cPickle.load(input_file)
+def load_serialized_ebook(save_file_name):
+    try:
+        with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
+            return cPickle.load(input_file)
+    except IOError:
+        return None
 
 
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
@@ -68,22 +71,25 @@ class User(object):
         ebook.uploader = username
 
 
-class EBooks(object):
-    def __init__(self, title, author, genres, isbn, price, book_text, uploader, rating):
+class EBook(object):
+    def __init__(self, title, author, genre, isbn, price, book_text, uploader, file_location, rating=0):
         """
         Class definition for a EBook object
         :param title: str
         :param author: str
-        :param genres: list
+        :param genre: list
         :param isbn: str
         :param price: int
         :param book_text: str
+        :param uploader: str
+        :param rating: int
+        :param file_location: str
         :return:
         """
         self.uploader = uploader
         self.title = title
         self.author = author
-        self.genres = genres
+        self.genres = genre
         self.isbn = isbn
         self.price = price
         self.book_text = book_text
@@ -95,6 +101,7 @@ class EBooks(object):
         self.paused_time = None
         self.reports = []
         self.rating = rating
+        self.file_location = file_location
 
     @property
     def __unicode__(self):
@@ -112,7 +119,7 @@ class EBooks(object):
         self.reports.append(report)
 
 
-class Reports(object):
+class Report(object):
     def __init__(self, reporter, reason, comment):
         """
         Class definition for a Report object
