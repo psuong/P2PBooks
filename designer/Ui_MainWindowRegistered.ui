@@ -301,17 +301,17 @@
      </widget>
     </item>
     <item row="9" column="0" colspan="5">
-     <widget class="QTabWidget" name="tabWidget_2">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>12</number>
       </property>
-      <widget class="QWidget" name="top_tab_3">
+      <widget class="QWidget" name="top_tab">
        <attribute name="title">
         <string>TOP</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_28">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="top_table_widget_3">
+         <widget class="QTableWidget" name="top_table_widget">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -351,7 +351,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="top_checkout_push_button_3">
+         <widget class="QPushButton" name="top_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -359,13 +359,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="kids_tab_3">
+      <widget class="QWidget" name="kids_tab">
        <attribute name="title">
         <string>Kids</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_29">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="kids_table_widget_3">
+         <widget class="QTableWidget" name="kids_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -399,7 +399,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="top_checkout_push_button_4">
+         <widget class="QPushButton" name="kids_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -407,13 +407,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="adventure_tab_3">
+      <widget class="QWidget" name="adventure_tab">
        <attribute name="title">
         <string>Adventure</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_30">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="adventure_table_widget_3">
+         <widget class="QTableWidget" name="adventure_table_widget">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -456,7 +456,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="adventure_checkout_push_button_2">
+         <widget class="QPushButton" name="adventure_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -464,13 +464,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="education_tab_3">
+      <widget class="QWidget" name="education_tab">
        <attribute name="title">
         <string>Education</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_31">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="edu_table_widget_3">
+         <widget class="QTableWidget" name="edu_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -504,7 +504,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="edu_checkout_push_button_2">
+         <widget class="QPushButton" name="edu_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -512,13 +512,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="diy_tab_3">
+      <widget class="QWidget" name="diy_tab">
        <attribute name="title">
         <string>DIY</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_32">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="diy_table_widget_3">
+         <widget class="QTableWidget" name="diy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -552,7 +552,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="diy_checkout_push_button_2">
+         <widget class="QPushButton" name="diy_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -560,13 +560,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="romance_tab_3">
+      <widget class="QWidget" name="romance_tab">
        <attribute name="title">
         <string>Romance</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_33">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="romance_table_widget_3">
+         <widget class="QTableWidget" name="romance_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -600,7 +600,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="romance_checkout_push_button_2">
+         <widget class="QPushButton" name="romance_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -608,13 +608,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="comedy_tab_3">
+      <widget class="QWidget" name="comedy_tab">
        <attribute name="title">
         <string>Comedy</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_34">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="comedy_table_widget_3">
+         <widget class="QTableWidget" name="comedy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -648,7 +648,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="comedy_checkout_push_button_2">
+         <widget class="QPushButton" name="comedy_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -656,13 +656,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="fantasy_tab_3">
+      <widget class="QWidget" name="fantasy_tab">
        <attribute name="title">
         <string>Fantasy</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_35">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="fantasy_table_widget_3">
+         <widget class="QTableWidget" name="fantasy_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -696,7 +696,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="fantasy_checkout_push_button_2">
+         <widget class="QPushButton" name="fantasy_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -704,13 +704,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="biography_tab_3">
+      <widget class="QWidget" name="biography_tab">
        <attribute name="title">
         <string>Biography</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_36">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="biography_table_widget_3">
+         <widget class="QTableWidget" name="biography_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -744,7 +744,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="biography_checkout_push_button_2">
+         <widget class="QPushButton" name="biography_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -752,13 +752,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="history_tab_3">
+      <widget class="QWidget" name="history_tab">
        <attribute name="title">
         <string>History</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_37">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="history_table_widget_3">
+         <widget class="QTableWidget" name="history_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -792,7 +792,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="history_checkout_push_button_2">
+         <widget class="QPushButton" name="history_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -800,13 +800,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="magazine_tabs_3">
+      <widget class="QWidget" name="magazine_tabs">
        <attribute name="title">
         <string>Magazine</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_38">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="magazine_table_widget_3">
+         <widget class="QTableWidget" name="magazine_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -840,7 +840,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="magazine_checkout_push_button_2">
+         <widget class="QPushButton" name="magazine_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -848,13 +848,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="religion_tabs_3">
+      <widget class="QWidget" name="religion_tabs">
        <attribute name="title">
         <string>Religion</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_39">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="religion_table_widget_3">
+         <widget class="QTableWidget" name="religion_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -888,7 +888,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="religion_checkout_push_button_2">
+         <widget class="QPushButton" name="religion_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -896,13 +896,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="sports_tab_3">
+      <widget class="QWidget" name="sports_tab">
        <attribute name="title">
         <string>Sports</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_40">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="sports_table_widget_3">
+         <widget class="QTableWidget" name="sports_table_widget">
           <column>
            <property name="text">
             <string>Title</string>
@@ -936,7 +936,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="sports_checkout_push_button_2">
+         <widget class="QPushButton" name="sports_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
@@ -962,7 +962,7 @@
    <zorder>close_push_button</zorder>
    <zorder>horizontalSpacer_4</zorder>
    <zorder>library_table_widget</zorder>
-   <zorder>tabWidget_2</zorder>
+   <zorder>tabWidget</zorder>
    <zorder>label</zorder>
    <zorder>horizontalSpacer_3</zorder>
   </widget>

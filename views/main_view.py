@@ -274,8 +274,41 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.ui.login_push_button.clicked.connect(self.login)
 
         # Connect checkout buttons
+        self.ui.top_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.top_table_widget.selectedItems()[2].text()))
+
         self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.open_reader(
             self.ui.adventure_table_widget.selectedItems()[2].text()))
+
+        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.edu_table_widget.selectedItems()[2].text()))
+
+        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.diy_table_widget.selectedItems()[2].text()))
+
+        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.romance_table_widget.selectedItems()[2].text()))
+
+        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.comedy_table_widget.selectedItems()[2].text()))
+
+        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.fantasy_table_widget.selectedItems()[2].text()))
+
+        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.biography_table_widget.selectedItems()[2].text()))
+
+        self.ui.history_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.history_table_widget.selectedItems()[2].text()))
+
+        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.magazine_table_widget.selectedItems()[2].text()))
+
+        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.religion_table_widget.selectedItems()[2].text()))
+
+        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.sports_table_widget.selectedItems()[2].text()))
 
         # Load ebooks
         self.load_ebooks()
@@ -346,6 +379,46 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.library_push_button.clicked.connect(self.library)
 
         self.ui.username_label.setText(self.username)
+
+        # Connect checkout buttons
+        self.ui.top_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.top_table_widget.selectedItems()[2].text()))
+
+        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.adventure_table_widget.selectedItems()[2].text()))
+
+        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.edu_table_widget.selectedItems()[2].text()))
+
+        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.diy_table_widget.selectedItems()[2].text()))
+
+        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.romance_table_widget.selectedItems()[2].text()))
+
+        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.comedy_table_widget.selectedItems()[2].text()))
+
+        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.fantasy_table_widget.selectedItems()[2].text()))
+
+        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.biography_table_widget.selectedItems()[2].text()))
+
+        self.ui.history_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.history_table_widget.selectedItems()[2].text()))
+
+        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.magazine_table_widget.selectedItems()[2].text()))
+
+        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.religion_table_widget.selectedItems()[2].text()))
+
+        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.open_reader(
+            self.ui.sports_table_widget.selectedItems()[2].text()))
+
+    def open_reader(self, isbn):
+        print isbn
 
     def search(self):
         if self.ui.search_line_edit.text():
