@@ -1,6 +1,7 @@
 import cPickle
 import os
 from datetime import datetime
+import shutil
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 
@@ -20,9 +21,10 @@ def load_serialized_user(save_file_name):
 
 
 # Save and load ebooks
-def serialize_ebook(db_object, save_file_name):
+def serialize_ebook(db_object, save_file_name, file_location):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
+    shutil.copy(file_location, os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pdf'))
 
 
 def load_serialized_ebook(save_file_name):

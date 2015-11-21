@@ -41,7 +41,8 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.genres_line_edit.text(),
                                    self.ui.isbn_line_edit.text(),
                                    self.ui.price_spin_box.text(),
-                                   self.username
+                                   self.username,
+                                   self.file_location
                                    )
                 self.main_window = MainWindowRegisteredView(self.model, self.username)
                 self.main_window.show()

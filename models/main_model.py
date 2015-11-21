@@ -19,7 +19,7 @@ def upload_status(file_location):
     pass
 
 
-def submit_upload_form(title, author, genre, isbn, price, uploader):
+def submit_upload_form(title, author, genre, isbn, price, uploader, file_location):
     """
     Saves file to the database folder, preferably under the blobs subdirectory.
     :param title: str
@@ -38,7 +38,7 @@ def submit_upload_form(title, author, genre, isbn, price, uploader):
                           price=price,
                           uploader=load_serialized_user(uploader),
                           book_text=""
-                          ), isbn)
+                          ), isbn, file_location)
 
 
 
