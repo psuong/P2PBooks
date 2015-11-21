@@ -72,4 +72,21 @@ def login_user(username, password):
 
 
 def catalogue_loader():
-    return get_ebook_pickles()
+    book_dict = {
+        "Kids": [],
+        "Adventure": [],
+        "Education": [],
+        "DIY": [],
+        "Romance": [],
+        "Comedy": [],
+        "Fantasy": [],
+        "Biography": [],
+        "History": [],
+        "Magazine": [],
+        "Religion": [],
+        "Sports": []
+    }
+    for book in get_ebook_pickles():
+        book_dict[book.genre].append(book)
+
+    return book_dict

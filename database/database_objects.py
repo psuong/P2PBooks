@@ -100,7 +100,7 @@ class EBook(object):
         self.uploader = uploader
         self.title = title
         self.author = author
-        self.genres = genre
+        self.genre = genre
         self.isbn = isbn
         self.price = price
         self.book_text = book_text
