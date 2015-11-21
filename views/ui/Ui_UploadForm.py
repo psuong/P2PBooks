@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer/Ui_UploadForm.ui'
+# Form implementation generated from reading ui file 'designer\Ui_UploadForm.ui'
 #
-# Created: Sat Nov 21 11:52:23 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
+# Created: Sat Nov 21 12:03:42 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -36,9 +36,6 @@ class Ui_Form(object):
         self.label_3 = QtGui.QLabel(Form)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
-        self.upload_push_button = QtGui.QPushButton(Form)
-        self.upload_push_button.setObjectName("upload_push_button")
-        self.gridLayout.addWidget(self.upload_push_button, 3, 4, 1, 1)
         self.genres_line_edit = QtGui.QLineEdit(Form)
         self.genres_line_edit.setObjectName("genres_line_edit")
         self.gridLayout.addWidget(self.genres_line_edit, 1, 2, 1, 1)
@@ -54,7 +51,10 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.isbn_line_edit, 1, 4, 1, 1)
         self.file_location_label = QtGui.QLabel(Form)
         self.file_location_label.setObjectName("file_location_label")
-        self.gridLayout.addWidget(self.file_location_label, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.file_location_label, 3, 0, 1, 1)
+        self.upload_push_button = QtGui.QPushButton(Form)
+        self.upload_push_button.setObjectName("upload_push_button")
+        self.gridLayout.addWidget(self.upload_push_button, 3, 4, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -62,8 +62,7 @@ class Ui_Form(object):
         Form.setTabOrder(self.author_line_edit, self.genres_line_edit)
         Form.setTabOrder(self.genres_line_edit, self.isbn_line_edit)
         Form.setTabOrder(self.isbn_line_edit, self.price_spin_box)
-        Form.setTabOrder(self.price_spin_box, self.upload_push_button)
-        Form.setTabOrder(self.upload_push_button, self.submit_push_button)
+        Form.setTabOrder(self.price_spin_box, self.submit_push_button)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
@@ -73,6 +72,6 @@ class Ui_Form(object):
         self.label_2.setText(QtGui.QApplication.translate("Form", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("Form", "Price", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("Form", "Genres", None, QtGui.QApplication.UnicodeUTF8))
-        self.upload_push_button.setText(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
         self.file_location_label.setText(QtGui.QApplication.translate("Form", "File:", None, QtGui.QApplication.UnicodeUTF8))
+        self.upload_push_button.setText(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
 

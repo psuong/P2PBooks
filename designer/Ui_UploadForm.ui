@@ -59,13 +59,6 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="4">
-    <widget class="QPushButton" name="upload_push_button">
-     <property name="text">
-      <string>Upload</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="2">
     <widget class="QLineEdit" name="genres_line_edit"/>
    </item>
@@ -82,10 +75,17 @@
    <item row="1" column="4">
     <widget class="QLineEdit" name="isbn_line_edit"/>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="file_location_label">
      <property name="text">
       <string>File:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QPushButton" name="upload_push_button">
+     <property name="text">
+      <string>Upload</string>
      </property>
     </widget>
    </item>
@@ -97,7 +97,6 @@
   <tabstop>genres_line_edit</tabstop>
   <tabstop>isbn_line_edit</tabstop>
   <tabstop>price_spin_box</tabstop>
-  <tabstop>upload_push_button</tabstop>
   <tabstop>submit_push_button</tabstop>
  </tabstops>
  <resources/>
