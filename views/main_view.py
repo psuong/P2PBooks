@@ -18,8 +18,8 @@ class UploadFormView(QtGui.QWidget):
     def build_ui(self):
         self.ui.setupUi(self)
         # Disable text edit and also put a temporary message
-        self.ui.preview_text_edit.setText('Please click upload to show preview.')
-        self.ui.preview_text_edit.setDisabled(True)
+        # self.ui.preview_text_edit.setText('Please click upload to show preview.')
+        # self.ui.preview_text_edit.setDisabled(True)
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
@@ -29,17 +29,17 @@ class UploadFormView(QtGui.QWidget):
         file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
         self.file_location = file_location[0]
         self.model.upload_file(self.file_location)
+        self.ui.file_location_label.setText("File: " + self.file_location)
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
-                and self.ui.isbn_line_edit.text():
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
             upload_status = self.model.upload_status(self.file_location)
             if upload_status:
                 # File uploaded successfully
                 submit_upload_form(self.ui.title_line_edit.text(),
                                    self.ui.author_line_edit.text(),
-                                   self.ui.genres_line_edit.text(),
+                                   self.ui.genres_combo_box.currentText(),
                                    self.ui.isbn_line_edit.text(),
                                    self.ui.price_spin_box.text(),
                                    self.username,
@@ -275,46 +275,46 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.ui.login_push_button.clicked.connect(self.login)
 
         # Connect checkout buttons
-        self.ui.top_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.top_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.top_table_widget.selectedItems()))
 
-        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.adventure_table_widget.selectedItems()))
 
-        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.edu_table_widget.selectedItems()))
 
-        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.diy_table_widget.selectedItems()))
 
-        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.romance_table_widget.selectedItems()))
 
-        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.comedy_table_widget.selectedItems()))
 
-        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.fantasy_table_widget.selectedItems()))
 
-        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.biography_table_widget.selectedItems()))
 
-        self.ui.history_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.history_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.history_table_widget.selectedItems()))
 
-        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.magazine_table_widget.selectedItems()))
 
-        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.religion_table_widget.selectedItems()))
 
-        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.sports_table_widget.selectedItems()))
 
         # Load ebooks
         self.load_ebooks()
 
-    def open_reader(self, row_items):
+    def checkout_ebook(self, row_items):
         print row_items[2].text()
 
     def load_ebooks(self):
@@ -572,43 +572,43 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.load_ebooks()
 
         # Connect checkout buttons
-        self.ui.top_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.top_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.top_table_widget.selectedItems()))
 
-        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.adventure_table_widget.selectedItems()))
 
-        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.edu_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.edu_table_widget.selectedItems()))
 
-        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.diy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.diy_table_widget.selectedItems()))
 
-        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.romance_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.romance_table_widget.selectedItems()))
 
-        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.comedy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.comedy_table_widget.selectedItems()))
 
-        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.fantasy_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.fantasy_table_widget.selectedItems()))
 
-        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.biography_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.biography_table_widget.selectedItems()))
 
-        self.ui.history_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.history_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.history_table_widget.selectedItems()))
 
-        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.magazine_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.magazine_table_widget.selectedItems()))
 
-        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.religion_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.religion_table_widget.selectedItems()))
 
-        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.open_reader(
+        self.ui.sports_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.sports_table_widget.selectedItems()))
 
-    def open_reader(self, row_items):
+    def checkout_ebook(self, row_items):
         print row_items[2].text()
 
     def load_ebooks(self):

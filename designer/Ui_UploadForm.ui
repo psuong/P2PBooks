@@ -7,25 +7,39 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>581</height>
+    <height>186</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Upload</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="genres_line_edit"/>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSpinBox" name="price_spin_box">
-     <property name="maximum">
-      <number>9999</number>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Title</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="title_line_edit"/>
+   <item row="0" column="3">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Author</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Price</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLineEdit" name="isbn_line_edit"/>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLineEdit" name="author_line_edit"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_3">
@@ -34,61 +48,108 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Title</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Price</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QPushButton" name="upload_push_button">
-     <property name="text">
-      <string>Upload</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QTextEdit" name="preview_text_edit"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Preview</string>
+   <item row="3" column="2">
+    <widget class="QSpinBox" name="price_spin_box">
+     <property name="maximum">
+      <number>9999</number>
      </property>
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Author</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QLineEdit" name="author_line_edit"/>
+    <widget class="QLineEdit" name="title_line_edit"/>
    </item>
    <item row="1" column="3">
-    <widget class="QLineEdit" name="isbn_line_edit"/>
-   </item>
-   <item row="1" column="2">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>ISBN #</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="3">
+   <item row="1" column="2">
+    <widget class="QComboBox" name="genres_combo_box">
+     <item>
+      <property name="text">
+       <string>Kids</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Adventure</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Education</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>DIY</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Romance</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Comedy</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Fantasy</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Biography</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>History</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Magazine</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Religion</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sports</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QPushButton" name="upload_push_button">
+     <property name="text">
+      <string>Upload</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
     <widget class="QPushButton" name="submit_push_button">
      <property name="text">
       <string>Submit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" rowspan="2" colspan="4">
+    <widget class="QLabel" name="file_location_label">
+     <property name="text">
+      <string>File:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -97,12 +158,8 @@
  <tabstops>
   <tabstop>title_line_edit</tabstop>
   <tabstop>author_line_edit</tabstop>
-  <tabstop>genres_line_edit</tabstop>
   <tabstop>isbn_line_edit</tabstop>
   <tabstop>price_spin_box</tabstop>
-  <tabstop>upload_push_button</tabstop>
-  <tabstop>preview_text_edit</tabstop>
-  <tabstop>submit_push_button</tabstop>
  </tabstops>
  <resources/>
  <connections/>

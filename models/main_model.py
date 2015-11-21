@@ -2,25 +2,6 @@ from database.database_objects import serialize_user, User, load_serialized_user
     load_serialized_ebook, get_ebook_pickles
 
 
-def upload_file(file_location):
-    """
-    Converts/read PDF into a format we can handle and display it in the GUI for preview purposes.
-    :param file_location: str
-    :return: tuple
-    """
-    pass
-
-
-def upload_status(file_location):
-    try:
-        # TODO: need to validate location
-        return True, file_location
-    except IOError as e:
-        # Failure, return tuple with False and the error
-        return False, str(e)
-    pass
-
-
 def submit_upload_form(title, author, genre, isbn, price, uploader, file_location):
     """
     Saves file to the database folder, preferably under the blobs subdirectory.
@@ -30,6 +11,7 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, file_locatio
     :param isbn: str
     :param price: int
     :param uploader: str
+    :param file_location: str
     :return:
     """
     # Upload file to subdirectory

@@ -125,7 +125,7 @@
     <item row="7" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -139,6 +139,9 @@
           </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <column>
            <property name="text">
@@ -190,6 +193,12 @@
          <widget class="QTableWidget" name="kids_table_widget">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <column>
            <property name="text">
@@ -296,6 +305,12 @@
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <widget class="QTableWidget" name="edu_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -344,6 +359,15 @@
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
          <widget class="QTableWidget" name="diy_table_widget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -392,6 +416,12 @@
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
          <widget class="QTableWidget" name="romance_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -440,6 +470,12 @@
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="0" column="0">
          <widget class="QTableWidget" name="comedy_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -488,6 +524,12 @@
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0">
          <widget class="QTableWidget" name="fantasy_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -536,6 +578,12 @@
        <layout class="QGridLayout" name="gridLayout_10">
         <item row="0" column="0">
          <widget class="QTableWidget" name="biography_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -584,6 +632,12 @@
        <layout class="QGridLayout" name="gridLayout_11">
         <item row="0" column="0">
          <widget class="QTableWidget" name="history_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -632,6 +686,12 @@
        <layout class="QGridLayout" name="gridLayout_12">
         <item row="0" column="0">
          <widget class="QTableWidget" name="magazine_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -680,6 +740,12 @@
        <layout class="QGridLayout" name="gridLayout_13">
         <item row="0" column="0">
          <widget class="QTableWidget" name="religion_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -728,6 +794,12 @@
        <layout class="QGridLayout" name="gridLayout_14">
         <item row="0" column="0">
          <widget class="QTableWidget" name="sports_table_widget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Title</string>
