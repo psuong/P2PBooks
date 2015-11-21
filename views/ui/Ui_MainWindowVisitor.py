@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Sat Nov 21 13:59:46 2015
+# Created: Sat Nov 21 16:26:11 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,6 +68,7 @@ class Ui_MainWindow(object):
         self.top_table_widget = QtGui.QTableWidget(self.top_tab)
         self.top_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.top_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.top_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.top_table_widget.setObjectName("top_table_widget")
         self.top_table_widget.setColumnCount(6)
         self.top_table_widget.setRowCount(0)
@@ -93,6 +94,9 @@ class Ui_MainWindow(object):
         self.gridLayout_5 = QtGui.QGridLayout(self.kids_tab)
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.kids_table_widget = QtGui.QTableWidget(self.kids_tab)
+        self.kids_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.kids_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.kids_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.kids_table_widget.setObjectName("kids_table_widget")
         self.kids_table_widget.setColumnCount(6)
         self.kids_table_widget.setRowCount(0)
@@ -146,6 +150,8 @@ class Ui_MainWindow(object):
         self.gridLayout_4 = QtGui.QGridLayout(self.education_tab)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.edu_table_widget = QtGui.QTableWidget(self.education_tab)
+        self.edu_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.edu_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.edu_table_widget.setObjectName("edu_table_widget")
         self.edu_table_widget.setColumnCount(6)
         self.edu_table_widget.setRowCount(0)
@@ -171,6 +177,9 @@ class Ui_MainWindow(object):
         self.gridLayout_6 = QtGui.QGridLayout(self.diy_tab)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.diy_table_widget = QtGui.QTableWidget(self.diy_tab)
+        self.diy_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.diy_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.diy_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.diy_table_widget.setObjectName("diy_table_widget")
         self.diy_table_widget.setColumnCount(6)
         self.diy_table_widget.setRowCount(0)
@@ -196,6 +205,8 @@ class Ui_MainWindow(object):
         self.gridLayout_7 = QtGui.QGridLayout(self.romance_tab)
         self.gridLayout_7.setObjectName("gridLayout_7")
         self.romance_table_widget = QtGui.QTableWidget(self.romance_tab)
+        self.romance_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.romance_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.romance_table_widget.setObjectName("romance_table_widget")
         self.romance_table_widget.setColumnCount(6)
         self.romance_table_widget.setRowCount(0)
@@ -221,6 +232,8 @@ class Ui_MainWindow(object):
         self.gridLayout_8 = QtGui.QGridLayout(self.comedy_tab)
         self.gridLayout_8.setObjectName("gridLayout_8")
         self.comedy_table_widget = QtGui.QTableWidget(self.comedy_tab)
+        self.comedy_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.comedy_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.comedy_table_widget.setObjectName("comedy_table_widget")
         self.comedy_table_widget.setColumnCount(6)
         self.comedy_table_widget.setRowCount(0)
@@ -246,6 +259,8 @@ class Ui_MainWindow(object):
         self.gridLayout_9 = QtGui.QGridLayout(self.fantasy_tab)
         self.gridLayout_9.setObjectName("gridLayout_9")
         self.fantasy_table_widget = QtGui.QTableWidget(self.fantasy_tab)
+        self.fantasy_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.fantasy_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.fantasy_table_widget.setObjectName("fantasy_table_widget")
         self.fantasy_table_widget.setColumnCount(6)
         self.fantasy_table_widget.setRowCount(0)
@@ -271,6 +286,8 @@ class Ui_MainWindow(object):
         self.gridLayout_10 = QtGui.QGridLayout(self.biography_tab)
         self.gridLayout_10.setObjectName("gridLayout_10")
         self.biography_table_widget = QtGui.QTableWidget(self.biography_tab)
+        self.biography_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.biography_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.biography_table_widget.setObjectName("biography_table_widget")
         self.biography_table_widget.setColumnCount(6)
         self.biography_table_widget.setRowCount(0)
@@ -296,6 +313,8 @@ class Ui_MainWindow(object):
         self.gridLayout_11 = QtGui.QGridLayout(self.history_tab)
         self.gridLayout_11.setObjectName("gridLayout_11")
         self.history_table_widget = QtGui.QTableWidget(self.history_tab)
+        self.history_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.history_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.history_table_widget.setObjectName("history_table_widget")
         self.history_table_widget.setColumnCount(6)
         self.history_table_widget.setRowCount(0)
@@ -321,6 +340,8 @@ class Ui_MainWindow(object):
         self.gridLayout_12 = QtGui.QGridLayout(self.magazine_tabs)
         self.gridLayout_12.setObjectName("gridLayout_12")
         self.magazine_table_widget = QtGui.QTableWidget(self.magazine_tabs)
+        self.magazine_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.magazine_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.magazine_table_widget.setObjectName("magazine_table_widget")
         self.magazine_table_widget.setColumnCount(6)
         self.magazine_table_widget.setRowCount(0)
@@ -346,6 +367,8 @@ class Ui_MainWindow(object):
         self.gridLayout_13 = QtGui.QGridLayout(self.religion_tabs)
         self.gridLayout_13.setObjectName("gridLayout_13")
         self.religion_table_widget = QtGui.QTableWidget(self.religion_tabs)
+        self.religion_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.religion_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.religion_table_widget.setObjectName("religion_table_widget")
         self.religion_table_widget.setColumnCount(6)
         self.religion_table_widget.setRowCount(0)
@@ -371,6 +394,8 @@ class Ui_MainWindow(object):
         self.gridLayout_14 = QtGui.QGridLayout(self.sports_tab)
         self.gridLayout_14.setObjectName("gridLayout_14")
         self.sports_table_widget = QtGui.QTableWidget(self.sports_tab)
+        self.sports_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.sports_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.sports_table_widget.setObjectName("sports_table_widget")
         self.sports_table_widget.setColumnCount(6)
         self.sports_table_widget.setRowCount(0)
@@ -405,7 +430,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(12)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
