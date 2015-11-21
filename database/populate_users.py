@@ -16,9 +16,10 @@ DOB_LIST = ["01/26/1995"
             "07/17/1995"
             "12/26/1995"]
 
-for i in range(1):
+for i in range(4):
     serialize_user(User(username=USER_LIST[i],
                         password="pw",
                         email=EMAIL_LIST[i],
                         dob=DOB_LIST[i],
                         ), USER_LIST[i])
+

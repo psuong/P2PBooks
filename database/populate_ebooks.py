@@ -2,6 +2,7 @@ import os
 from database_objects import EBook, serialize_ebook
 
 PDF_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'pdf')
+USER_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 GENRE_LIST = ["Kids",
               "Adventure",
               "Education",
@@ -15,13 +16,8 @@ GENRE_LIST = ["Kids",
               "Religion",
               "Sports"]
 
-USER_LIST = ["Chris",
-             "MD",
-             "Porrith",
-             "Fioger"]
-
 init_ISBN = 1000000000
-count = 1
+count = 0
 
 for pdf in os.listdir(PDF_DIR_PATH):
     if count < len(GENRE_LIST):
@@ -32,8 +28,8 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               author="Author#" + count,
                               genre=GENRE_LIST[count],
                               price=count,
-                              uploader=USER_LIST[count % 4],
-                              ) , init_ISBN, pdf)
+                              uploader=os.listdir(USER_DIR_PATH)[count],
+                              book_text="",
+                              isbn=init_ISBN), init_ISBN, pdf)
         init_ISBN += 1
         count += 1
-
