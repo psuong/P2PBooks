@@ -125,7 +125,7 @@
     <item row="7" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>12</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -221,7 +221,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="top_checkout_push_button_2">
+         <widget class="QPushButton" name="kids_checkout_push_button">
           <property name="text">
            <string>Checkout</string>
           </property>
