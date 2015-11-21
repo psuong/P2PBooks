@@ -17,8 +17,8 @@ class UploadFormView(QtGui.QWidget):
     def build_ui(self):
         self.ui.setupUi(self)
         # Disable text edit and also put a temporary message
-        self.ui.preview_text_edit.setText('Please click upload to show preview.')
-        self.ui.preview_text_edit.setDisabled(True)
+        # self.ui.preview_text_edit.setText('Please click upload to show preview.')
+        # self.ui.preview_text_edit.setDisabled(True)
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
@@ -28,6 +28,7 @@ class UploadFormView(QtGui.QWidget):
         file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
         self.file_location = file_location[0]
         self.model.upload_file(self.file_location)
+        self.ui.file_location_label.setText("File: " + self.file_location)
 
     def submit(self):
         # Make sure all fields are entered before submitting

@@ -7,30 +7,31 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>581</height>
+    <height>186</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Upload</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="genres_line_edit"/>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSpinBox" name="price_spin_box">
-     <property name="maximum">
-      <number>9999</number>
+   <item row="1" column="3">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>ISBN #</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="title_line_edit"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_3">
+   <item row="5" column="4">
+    <widget class="QPushButton" name="submit_push_button">
      <property name="text">
-      <string>Genres</string>
+      <string>Submit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Author</string>
      </property>
     </widget>
    </item>
@@ -48,47 +49,43 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
+   <item row="0" column="2">
+    <widget class="QLineEdit" name="title_line_edit"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Genres</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
     <widget class="QPushButton" name="upload_push_button">
      <property name="text">
       <string>Upload</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QTextEdit" name="preview_text_edit"/>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="genres_line_edit"/>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Preview</string>
+   <item row="2" column="2">
+    <widget class="QSpinBox" name="price_spin_box">
+     <property name="maximum">
+      <number>9999</number>
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Author</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
+   <item row="0" column="4">
     <widget class="QLineEdit" name="author_line_edit"/>
    </item>
-   <item row="1" column="3">
+   <item row="1" column="4">
     <widget class="QLineEdit" name="isbn_line_edit"/>
    </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_4">
+   <item row="4" column="0">
+    <widget class="QLabel" name="file_location_label">
      <property name="text">
-      <string>ISBN #</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QPushButton" name="submit_push_button">
-     <property name="text">
-      <string>Submit</string>
+      <string>File:</string>
      </property>
     </widget>
    </item>
@@ -101,7 +98,6 @@
   <tabstop>isbn_line_edit</tabstop>
   <tabstop>price_spin_box</tabstop>
   <tabstop>upload_push_button</tabstop>
-  <tabstop>preview_text_edit</tabstop>
   <tabstop>submit_push_button</tabstop>
  </tabstops>
  <resources/>
