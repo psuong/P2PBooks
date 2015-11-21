@@ -2,6 +2,7 @@ from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
 from models.main_model import submit_upload_form
+from database import database_objects
 
 
 class UploadFormView(QtGui.QWidget):
@@ -181,6 +182,7 @@ class LoginFormView(QtGui.QWidget):
         self.model = model
         super(LoginFormView, self).__init__()
         self.ui = Ui_LoginForm.Ui_Form()
+        self.database = database_objects
         self.build_ui()
         self.main_window = None
         self.register_window = None
@@ -202,7 +204,8 @@ class LoginFormView(QtGui.QWidget):
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
-                self.main_window = MainWindowRegisteredView(self.model, username)
+                user_file = self.database.load_serialized_user(username)
+                self.main_window = MainWindowRegisteredView(self.model, username, user_file.credits)
                 self.main_window.show()
                 self.hide()
             else:
@@ -293,9 +296,10 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
 
 class MainWindowRegisteredView(QtGui.QMainWindow):
-    def __init__(self, model, username):
+    def __init__(self, model, username, reputation):
         self.model = model
         self.username = username
+        self.reputation = reputation
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.upload_view = UploadFormView(self.model, username, self)
@@ -318,7 +322,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.upload_push_button.clicked.connect(self.upload)
         self.ui.library_push_button.clicked.connect(self.library)
 
-        self.ui.username_label.setText(self.username)
+        self.ui.username_label.setText('Hello, ' + self.username)
+        self.ui.reputation_label.setText('Credits: ' + str(self.reputation))
 
     def search(self):
         if self.ui.search_line_edit.text():
