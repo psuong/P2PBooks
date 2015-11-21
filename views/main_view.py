@@ -301,6 +301,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.reputation = reputation
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
+        self.database = database_objects
         self.upload_view = UploadFormView(self.model, username, self)
         self.build_ui()
 
@@ -323,6 +324,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
         self.ui.username_label.setText('Hello, ' + self.username)
         self.ui.reputation_label.setText('Credits: ' + str(self.reputation))
+
+        user_file = self.database.load_serialized_user(self.username)
+        if user_file.group_policy == 'RU':
+            self.ui.admin_push_button.hide()
 
     def search(self):
         if self.ui.search_line_edit.text():
