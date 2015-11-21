@@ -278,11 +278,20 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
     def load_ebooks(self):
         row = 0
-        print self.model.catalogue_loader()
         for book in self.model.catalogue_loader():
             self.ui.adventure_table_widget.insertRow(row)
-            item = QtGui.QTableWidgetItem.text(book)
-            self.ui.adventure_table_widget.setItem(0, 0, item)
+            self.ui.adventure_table_widget.setItem(row, 0,
+                                                   QtGui.QTableWidgetItem(book.title))
+            self.ui.adventure_table_widget.setItem(row, 1,
+                                                   QtGui.QTableWidgetItem(book.author))
+            self.ui.adventure_table_widget.setItem(row, 2,
+                                                   QtGui.QTableWidgetItem(book.isbn))
+            self.ui.adventure_table_widget.setItem(row, 3,
+                                                   QtGui.QTableWidgetItem(book.price))
+            self.ui.adventure_table_widget.setItem(row, 4,
+                                                   QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.adventure_table_widget.setItem(row, 5,
+                                                   QtGui.QTableWidgetItem(book.rating))
             row += 1
 
     def search(self):
