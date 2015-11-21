@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Sat Nov 21 13:59:46 2015
+# Created: Sat Nov 21 13:48:07 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -109,9 +109,9 @@ class Ui_MainWindow(object):
         item = QtGui.QTableWidgetItem()
         self.kids_table_widget.setHorizontalHeaderItem(5, item)
         self.gridLayout_5.addWidget(self.kids_table_widget, 0, 0, 1, 1)
-        self.kids_checkout_push_button = QtGui.QPushButton(self.kids_tab)
-        self.kids_checkout_push_button.setObjectName("kids_checkout_push_button")
-        self.gridLayout_5.addWidget(self.kids_checkout_push_button, 1, 0, 1, 1)
+        self.top_checkout_push_button_2 = QtGui.QPushButton(self.kids_tab)
+        self.top_checkout_push_button_2.setObjectName("top_checkout_push_button_2")
+        self.gridLayout_5.addWidget(self.top_checkout_push_button_2, 1, 0, 1, 1)
         self.tabWidget.addTab(self.kids_tab, "")
         self.adventure_tab = QtGui.QWidget()
         self.adventure_tab.setObjectName("adventure_tab")
@@ -405,7 +405,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(12)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -435,7 +435,7 @@ class Ui_MainWindow(object):
         self.kids_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Cost", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
-        self.kids_checkout_push_button.setText(QtGui.QApplication.translate("MainWindow", "Checkout", None, QtGui.QApplication.UnicodeUTF8))
+        self.top_checkout_push_button_2.setText(QtGui.QApplication.translate("MainWindow", "Checkout", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.kids_tab), QtGui.QApplication.translate("MainWindow", "Kids", None, QtGui.QApplication.UnicodeUTF8))
         self.adventure_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.adventure_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Author", None, QtGui.QApplication.UnicodeUTF8))

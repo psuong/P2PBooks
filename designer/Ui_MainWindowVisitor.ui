@@ -125,7 +125,7 @@
     <item row="7" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -188,9 +188,6 @@
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
          <widget class="QTableWidget" name="kids_table_widget">
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
           <column>
            <property name="text">
             <string>Title</string>
@@ -224,7 +221,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="kids_checkout_push_button">
+         <widget class="QPushButton" name="top_checkout_push_button_2">
           <property name="text">
            <string>Checkout</string>
           </property>
