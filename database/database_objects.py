@@ -30,7 +30,7 @@ def serialize_ebook(db_object, save_file_name, file_location):
 
 def load_serialized_ebook(save_file_name):
     try:
-        with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
+        with open(os.path.join(EBOOKS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
             return cPickle.load(input_file)
     except IOError:
         return None
@@ -104,7 +104,7 @@ class EBook(object):
         self.genre = genre
         self.isbn = isbn
         self.price = price
-        self.book_text = summary
+        self.summary = summary
         self.cover_img = cover_img
         self.approved = False
         self.current_page = 0

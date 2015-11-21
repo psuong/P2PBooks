@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog
 from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user
 import os
@@ -62,6 +62,34 @@ class UploadFormView(QtGui.QWidget):
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
         super(UploadFormView, self).hide()
+
+
+class ConfirmedPurchaseDialogView(QtGui.QDialog):
+    def __init__(self, model, username, rate, cover_img, summary, main_window_inst, isbn):
+        self.model = model
+        self.main_window = main_window_inst
+        self.username = username
+        self.rate = rate
+        self.cover_img = cover_img
+        self.summary = summary
+        self.isbn = isbn
+        super(ConfirmedPurchaseDialogView, self).__init__()
+        self.ui = Ui_ConfirmPurchaseDialog.Ui_Dialog()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        self.ui.summary_text_browser.setText(self.summary)
+        self.ui.cover_img_web_view.setHtml('<img src="' + self.cover_img + '">')
+        self.ui.cost_label.setText(str(self.rate))
+
+    def accept(self, *args, **kwargs):
+        pass
+
+    def reject(self, *args, **kwargs):
+        self.main_window.show()
+        super(ConfirmedPurchaseDialogView, self).reject()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -305,7 +333,6 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.kids_table_widget.selectedItems()))
-
 
         self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.adventure_table_widget.selectedItems()))
@@ -576,6 +603,7 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 class MainWindowRegisteredView(QtGui.QMainWindow):
     def __init__(self, model, username):
         self.model = model
+        self.purchase_dialog = None
         self.username = username
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
@@ -641,7 +669,16 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.sports_table_widget.selectedItems()))
 
     def checkout_ebook(self, row_items):
-        print row_items[2].text()
+        book = self.model.get_book_instance(row_items[2].text())
+        self.purchase_dialog = ConfirmedPurchaseDialogView(self.model,
+                                                           username=self.username,
+                                                           rate=book.price,
+                                                           cover_img=book.cover_img,
+                                                           summary=book.summary,
+                                                           isbn=book.isbn,
+                                                           main_window_inst=self,
+                                                           )
+        self.purchase_dialog.exec_()
 
     def load_ebooks(self):
         book_dict = self.model.catalogue_loader()
