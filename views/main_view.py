@@ -3,6 +3,8 @@ from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered
 from models.main_model import submit_upload_form
+from database.database_objects import load_serialized_user
+import os
 
 
 class UploadFormView(QtGui.QWidget):
@@ -33,9 +35,10 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
-            upload_status = self.model.upload_status(self.file_location)
-            if upload_status:
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
+                and self.ui.isbn_line_edit.text():
+            does_file_exist = os.path.isfile(self.file_location)
+            if does_file_exist:
                 # File uploaded successfully
                 submit_upload_form(self.ui.title_line_edit.text(),
                                    self.ui.author_line_edit.text(),
@@ -49,9 +52,11 @@ class UploadFormView(QtGui.QWidget):
                 self.main_window.show()
                 self.close()
             else:
-                # Failure, return the error with second element in tuple of submit_status
-                pass
-
+                # Returns an Error message if file DNE
+                QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
+        else:
+            QtGui.QMessageBox.about(self, "Error", "Invalid Fields.")
+    
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
         super(UploadFormView, self).closeEvent()
@@ -196,9 +201,16 @@ class LoginFormView(QtGui.QWidget):
         # Grab component in object
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
+
+        # Checks if the username and passwords are empty string
         if username == '' and password == '':
-            # Must return a warning
-            print "Empty Fields"
+            QtGui.QMessageBox.about(self, "Error", "Invalid password and username.")
+        # Checks if username is an empty string
+        elif username == '' and password != '':
+            QtGui.QMessageBox.about(self, "Error", "Invalid Username.")
+        # Checks if password is an empty string
+        elif password == '' and username != '':
+            QtGui.QMessageBox.about(self, "Error", "Invalid Password.")
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
@@ -207,7 +219,7 @@ class LoginFormView(QtGui.QWidget):
                 self.hide()
             else:
                 # Nothing was return; error
-                pass
+                QtGui.QMessageBox.about(self, "Error", "No username/password found.")
 
     # sign_up(self) must open up the Register window
     def sign_up(self):
@@ -235,7 +247,9 @@ class RegisterFormView(QtGui.QWidget):
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
         confirm_password = self.ui.confirm_password_line_edit.text()
-        if password == confirm_password:
+
+        # Checks username and passwords
+        if password == confirm_password and load_serialized_user(username) is None and username:
             self.model.register_user(username,
                                      password,
                                      self.ui.email_line_edit.text(),
@@ -244,9 +258,18 @@ class RegisterFormView(QtGui.QWidget):
                                                                    self.ui.username_line_edit.text())
             self.registered_main_window.show()
             self.hide()
+
         else:
-            # Throw a Warning
-            pass
+            if load_serialized_user(username) is not None and password == confirm_password:
+                QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
+            elif load_serialized_user(username) is None and password != confirm_password:
+                QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
+                                                                           "are not the same!")
+            elif load_serialized_user(username) is None and password != confirm_password:
+                QtGui.QMessageBox.about(self, "Invalid Username & Password", "Username exists already and passwords"
+                                                                             "do not match!")
+            else:
+                QtGui.QMessageBox.about(self, "Error", "Invalid Credentials")
 
 
 class MainWindowVisitorView(QtGui.QMainWindow):
@@ -527,6 +550,9 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()
             self.ui.close_push_button.show()
+            # TODO: Add search functionality when populate script is finished.
+        else:
+            QtGui.QMessageBox.about(self, "Error", "Empty search fields, please enter a genre, title, etc.")
 
     def close_search(self):
         self.ui.search_table_widget.hide()

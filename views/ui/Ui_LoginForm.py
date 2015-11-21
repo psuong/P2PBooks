@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer\Ui_LoginForm.ui'
+# Form implementation generated from reading ui file 'Ui_LoginForm.ui'
 #
-# Created: Fri Nov 06 22:05:11 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.2
+# Created: Sat Nov 21 13:48:10 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(377, 134)
+        Form.resize(377, 168)
         self.formLayout = QtGui.QFormLayout(Form)
         self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
         self.formLayout.setObjectName("formLayout")
