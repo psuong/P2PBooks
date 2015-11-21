@@ -83,7 +83,7 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, book_text, uploader, rating=0):
+    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, rating=0):
         """
         Class definition for a EBook object
         :param title: str
@@ -91,9 +91,10 @@ class EBook(object):
         :param genre: list
         :param isbn: str
         :param price: int
-        :param book_text: str
+        :param summary: str
         :param uploader: User
         :param rating: int
+        :param cover_img: str
         :param file_location: str
         :return:
         """
@@ -103,7 +104,8 @@ class EBook(object):
         self.genre = genre
         self.isbn = isbn
         self.price = price
-        self.book_text = book_text
+        self.book_text = summary
+        self.cover_img = cover_img
         self.approved = False
         self.current_page = 0
         self.total_pages = 1.0

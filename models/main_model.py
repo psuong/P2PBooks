@@ -2,7 +2,7 @@ from database.database_objects import serialize_user, User, load_serialized_user
     load_serialized_ebook, get_ebook_pickles
 
 
-def submit_upload_form(title, author, genre, isbn, price, uploader, file_location):
+def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cover_img, file_location):
     """
     Saves file to the database folder, preferably under the blobs subdirectory.
     :param title: str
@@ -11,9 +11,12 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, file_locatio
     :param isbn: str
     :param price: int
     :param uploader: str
+    :param summary: str
+    :param cover_img: str
     :param file_location: str
     :return:
     """
+
     # Upload file to subdirectory
     serialize_ebook(EBook(title=title,
                           author=author,
@@ -21,7 +24,8 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, file_locatio
                           isbn=isbn,
                           price=price,
                           uploader=load_serialized_user(uploader),
-                          book_text=""
+                          summary=summary,
+                          cover_img=cover_img,
                           ), isbn, file_location)
 
 
@@ -72,3 +76,7 @@ def catalogue_loader():
         book_dict[book.genre].append(book)
 
     return book_dict
+
+
+def checkout_ebook(user_object, isbn):
+    pass

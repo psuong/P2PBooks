@@ -30,8 +30,8 @@ class UploadFormView(QtGui.QWidget):
     def upload(self):
         file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
         self.file_location = file_location[0]
-        self.model.upload_file(self.file_location)
-        self.ui.file_location_label.setText("File: " + self.file_location)
+        if self.file_location:
+            self.ui.file_location_label.setText("File: " + self.file_location)
 
     def submit(self):
         # Make sure all fields are entered before submitting
@@ -46,6 +46,8 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.isbn_line_edit.text(),
                                    self.ui.price_spin_box.text(),
                                    self.username,
+                                   self.ui.summary_plain_text_edit.toPlainText(),
+                                   self.ui.cover_img_line_edit.text(),
                                    self.file_location
                                    )
                 self.main_window = MainWindowRegisteredView(self.model, self.username)
@@ -59,7 +61,7 @@ class UploadFormView(QtGui.QWidget):
     
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
-        super(UploadFormView, self).closeEvent()
+        super(UploadFormView, self).hide()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -300,6 +302,10 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         # Connect checkout buttons
         self.ui.top_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.top_table_widget.selectedItems()))
+
+        self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
+            self.ui.kids_table_widget.selectedItems()))
+
 
         self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.adventure_table_widget.selectedItems()))

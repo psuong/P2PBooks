@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_UploadForm.ui'
 #
-# Created: Sat Nov 21 12:42:40 2015
+# Created: Sat Nov 21 17:15:12 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,18 +12,21 @@ from PySide import QtCore, QtGui
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(578, 186)
+        Form.resize(660, 225)
         self.gridLayout = QtGui.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
+        self.upload_push_button = QtGui.QPushButton(Form)
+        self.upload_push_button.setObjectName("upload_push_button")
+        self.gridLayout.addWidget(self.upload_push_button, 5, 4, 1, 1)
+        self.label_5 = QtGui.QLabel(Form)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 3, 0, 1, 1)
         self.label_2 = QtGui.QLabel(Form)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
         self.label = QtGui.QLabel(Form)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 3, 1, 1)
-        self.label_5 = QtGui.QLabel(Form)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout.addWidget(self.label_5, 3, 0, 1, 1)
         self.isbn_line_edit = QtGui.QLineEdit(Form)
         self.isbn_line_edit.setObjectName("isbn_line_edit")
         self.gridLayout.addWidget(self.isbn_line_edit, 1, 4, 1, 1)
@@ -58,16 +61,25 @@ class Ui_Form(object):
         self.genres_combo_box.addItem("")
         self.genres_combo_box.addItem("")
         self.gridLayout.addWidget(self.genres_combo_box, 1, 2, 1, 1)
-        self.upload_push_button = QtGui.QPushButton(Form)
-        self.upload_push_button.setObjectName("upload_push_button")
-        self.gridLayout.addWidget(self.upload_push_button, 4, 4, 1, 1)
         self.submit_push_button = QtGui.QPushButton(Form)
         self.submit_push_button.setObjectName("submit_push_button")
-        self.gridLayout.addWidget(self.submit_push_button, 5, 4, 1, 1)
+        self.gridLayout.addWidget(self.submit_push_button, 6, 4, 1, 1)
+        self.label_6 = QtGui.QLabel(Form)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 4, 0, 1, 1)
+        self.label_7 = QtGui.QLabel(Form)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 3, 3, 1, 1)
+        self.summary_plain_text_edit = QtGui.QPlainTextEdit(Form)
+        self.summary_plain_text_edit.setObjectName("summary_plain_text_edit")
+        self.gridLayout.addWidget(self.summary_plain_text_edit, 4, 2, 1, 1)
+        self.cover_img_line_edit = QtGui.QLineEdit(Form)
+        self.cover_img_line_edit.setObjectName("cover_img_line_edit")
+        self.gridLayout.addWidget(self.cover_img_line_edit, 3, 4, 1, 1)
         self.file_location_label = QtGui.QLabel(Form)
         self.file_location_label.setWordWrap(True)
         self.file_location_label.setObjectName("file_location_label")
-        self.gridLayout.addWidget(self.file_location_label, 4, 0, 2, 4)
+        self.gridLayout.addWidget(self.file_location_label, 4, 3, 1, 2)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -77,9 +89,10 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
+        self.upload_push_button.setText(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("Form", "Price", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Form", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Form", "Author", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("Form", "Price", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("Form", "Genres", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("Form", "ISBN #", None, QtGui.QApplication.UnicodeUTF8))
         self.genres_combo_box.setItemText(0, QtGui.QApplication.translate("Form", "Kids", None, QtGui.QApplication.UnicodeUTF8))
@@ -94,7 +107,8 @@ class Ui_Form(object):
         self.genres_combo_box.setItemText(9, QtGui.QApplication.translate("Form", "Magazine", None, QtGui.QApplication.UnicodeUTF8))
         self.genres_combo_box.setItemText(10, QtGui.QApplication.translate("Form", "Religion", None, QtGui.QApplication.UnicodeUTF8))
         self.genres_combo_box.setItemText(11, QtGui.QApplication.translate("Form", "Sports", None, QtGui.QApplication.UnicodeUTF8))
-        self.upload_push_button.setText(QtGui.QApplication.translate("Form", "Upload", None, QtGui.QApplication.UnicodeUTF8))
         self.submit_push_button.setText(QtGui.QApplication.translate("Form", "Submit", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("Form", "Summary", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("Form", "Cover Img", None, QtGui.QApplication.UnicodeUTF8))
         self.file_location_label.setText(QtGui.QApplication.translate("Form", "File:", None, QtGui.QApplication.UnicodeUTF8))
 
