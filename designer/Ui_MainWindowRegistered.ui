@@ -15,10 +15,199 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="8" column="0" colspan="4">
-     <widget class="QLineEdit" name="search_line_edit"/>
+    <item row="0" column="0">
+     <widget class="QLabel" name="username_label">
+      <property name="text">
+       <string>Username</string>
+      </property>
+     </widget>
     </item>
-    <item row="11" column="0" colspan="5">
+    <item row="0" column="5">
+     <widget class="QPushButton" name="library_push_button">
+      <property name="text">
+       <string>Library</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="6">
+     <widget class="QTableWidget" name="library_table_widget">
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string># of Reports</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="4" column="0" colspan="6">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTableWidget" name="reading_table_widget">
+        <property name="columnCount">
+         <number>6</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>ISBN</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cost</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Uploader</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Rating</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="saved_table_widget">
+        <property name="columnCount">
+         <number>6</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>ISBN</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cost</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Uploader</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Rating</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="4">
+     <widget class="QPushButton" name="upload_push_button">
+      <property name="text">
+       <string>Upload</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="5">
+     <widget class="QPushButton" name="go_push_button">
+      <property name="text">
+       <string>Go</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="5">
+     <widget class="QTableWidget" name="search_table_widget">
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Uploader</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="15" column="0" colspan="6">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>12</number>
@@ -619,7 +808,14 @@
         <string>Sports</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_40">
-        <item row="0" column="0">
+        <item row="2" column="0">
+         <widget class="QPushButton" name="sports_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QTableWidget" name="sports_table_widget">
           <column>
            <property name="text">
@@ -653,32 +849,11 @@
           </column>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="sports_checkout_push_button">
-          <property name="text">
-           <string>Checkout</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="upload_push_button">
-      <property name="text">
-       <string>Upload</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QPushButton" name="library_push_button">
-      <property name="text">
-       <string>Library</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
+    <item row="3" column="0" colspan="6">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="label_6">
@@ -690,96 +865,33 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Saved</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
-    <item row="1" column="0" colspan="5">
-     <widget class="QTableWidget" name="library_table_widget">
-      <column>
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Cost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Rating</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string># of Reports</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="8" column="4">
-     <widget class="QPushButton" name="go_push_button">
-      <property name="text">
-       <string>Go</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0" colspan="4">
-     <widget class="QTableWidget" name="search_table_widget">
-      <column>
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>ISBN</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Cost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Uploader</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Rating</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="9" column="4">
+    <item row="7" column="5">
      <widget class="QPushButton" name="close_push_button">
       <property name="text">
        <string>Close</string>
       </property>
      </widget>
     </item>
-    <item row="10" column="0">
+    <item row="0" column="1">
+     <widget class="QLabel" name="reputation_label">
+      <property name="text">
+       <string>Reputation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="6">
      <spacer name="horizontalSpacer_3">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -792,7 +904,36 @@
       </property>
      </spacer>
     </item>
-    <item row="10" column="1">
+    <item row="2" column="0" colspan="6">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="9" column="0" colspan="6">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="6" column="0" colspan="5">
+     <widget class="QLineEdit" name="search_line_edit"/>
+    </item>
+    <item row="10" column="3">
      <widget class="QLabel" name="label">
       <property name="lineWidth">
        <number>1</number>
@@ -808,144 +949,23 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0" colspan="5">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QTableWidget" name="reading_table_widget">
-        <property name="columnCount">
-         <number>6</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Author</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>ISBN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Cost</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Uploader</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Rating</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTableWidget" name="saved_table_widget">
-        <property name="columnCount">
-         <number>6</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Author</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>ISBN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Cost</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Uploader</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Rating</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="reputation_label">
-      <property name="text">
-       <string>Reputation</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="username_label">
-      <property name="text">
-       <string>Username</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Saved</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <spacer name="horizontalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Search</string>
-      </property>
-     </widget>
-    </item>
    </layout>
    <zorder>username_label</zorder>
    <zorder>library_push_button</zorder>
    <zorder>upload_push_button</zorder>
    <zorder>search_line_edit</zorder>
-   <zorder>reputation_label</zorder>
    <zorder>go_push_button</zorder>
    <zorder>search_table_widget</zorder>
    <zorder>close_push_button</zorder>
    <zorder>horizontalSpacer_4</zorder>
    <zorder>library_table_widget</zorder>
    <zorder>tabWidget</zorder>
-   <zorder>label</zorder>
-   <zorder>horizontalSpacer_3</zorder>
    <zorder>label_7</zorder>
-   <zorder>label_2</zorder>
+   <zorder>reputation_label</zorder>
+   <zorder>horizontalSpacer</zorder>
+   <zorder>horizontalSpacer_2</zorder>
+   <zorder>horizontalSpacer_3</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -953,7 +973,7 @@
      <x>0</x>
      <y>0</y>
      <width>947</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -961,6 +981,12 @@
      <string>About</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuAdmin">
+    <property name="title">
+     <string>Admin</string>
+    </property>
+   </widget>
+   <addaction name="menuAdmin"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
