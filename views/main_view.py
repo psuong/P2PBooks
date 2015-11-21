@@ -1,6 +1,6 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
-from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered
+from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, Ui_MainWindowRegistered, Ui_ApprovalReportedList
 from models.main_model import submit_upload_form
 from database import database_objects
 
@@ -190,6 +190,7 @@ class LoginFormView(QtGui.QWidget):
         self.ui.setupUi(self)
         # Connect buttons to their respective functions
         self.ui.login_push_button.clicked.connect(self.login)
+        self.ui.password_line_edit.returnPressed.connect(self.login)
         self.ui.sign_up_push_button.clicked.connect(self.sign_up)
         self.ui.password_line_edit.setEchoMode(QtGui.QLineEdit.EchoMode.Password)
 
@@ -304,6 +305,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.database = database_objects
         self.upload_view = UploadFormView(self.model, username, self)
         self.build_ui()
+        self.approve_report_list = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -321,6 +323,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.search_line_edit.returnPressed.connect(self.search)
         self.ui.upload_push_button.clicked.connect(self.upload)
         self.ui.library_push_button.clicked.connect(self.library)
+        self.ui.admin_push_button.clicked.connect(self.admin)
 
         self.ui.username_label.setText('Hello, ' + self.username)
         self.ui.reputation_label.setText('Credits: ' + str(self.reputation))
@@ -347,3 +350,40 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.library_table_widget.show()
         else:
             self.ui.library_table_widget.hide()
+
+    def admin(self):
+        self.approve_report_list = ApprovalReportedListView(self.model, self.username)
+        self.approve_report_list.show()
+        self.hide()
+
+
+class ApprovalReportedListView(QtGui.QWidget):
+    def __init__(self, model, username):
+        self.username = username
+        self.model = model
+        super(ApprovalReportedListView, self).__init__()
+        self.ui = Ui_ApprovalReportedList.Ui_Form()
+        self.database = database_objects
+        self.build_ui()
+        user_file = self.database.load_serialized_user(self.username)
+        self.main_window = MainWindowRegisteredView(self.model, user_file.username, user_file.credits)
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        self.ui.approve_push_button.clicked.connect(self.approve)
+        self.ui.delete_push_button.clicked.connect(self.delete)
+        self.ui.cancel_push_button.clicked.connect(self.cancel)
+
+    def approve(self):
+        print "approve pressed"
+        pass
+
+    def delete(self):
+        print "delete pressed"
+        pass
+
+    def cancel(self):
+        print "cancel"
+        self.hide()
+        self.main_window.show()
