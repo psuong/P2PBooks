@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>576</height>
+    <width>822</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,10 +65,67 @@
       </property>
      </spacer>
     </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QTableWidget" name="search_table_widget">
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Uploader</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="5" column="3">
+     <widget class="QPushButton" name="close_push_button">
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLabel" name="label">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="text">
+       <string>Catalog</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
     <item row="7" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -115,6 +172,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="top_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="kids_tab">
@@ -154,6 +218,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="top_checkout_push_button_2">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -254,6 +325,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="edu_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="diy_tab">
@@ -293,6 +371,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="diy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -336,6 +421,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="romance_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="comedy_tab">
@@ -375,6 +467,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="comedy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -418,6 +517,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="fantasy_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="biography_tab">
@@ -457,6 +563,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="biography_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -500,6 +613,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="history_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="magazine_tabs">
@@ -539,6 +659,13 @@
             <string>Rating</string>
            </property>
           </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="magazine_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -582,6 +709,13 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="religion_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="sports_tab">
@@ -623,65 +757,15 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="sports_checkout_push_button">
+          <property name="text">
+           <string>Checkout</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="5" column="1" colspan="2">
-     <widget class="QTableWidget" name="search_table_widget">
-      <column>
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>ISBN</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Cost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Uploader</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Rating</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="5" column="3">
-     <widget class="QPushButton" name="close_push_button">
-      <property name="text">
-       <string>Close</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLabel" name="label">
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="text">
-       <string>Catalog</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
      </widget>
     </item>
    </layout>
@@ -691,7 +775,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>822</width>
      <height>21</height>
     </rect>
    </property>
