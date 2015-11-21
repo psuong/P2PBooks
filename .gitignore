@@ -111,3 +111,7 @@ target/
 
 # Accounts
 /database/blobs/accounts/*.pickle
+
+# EBooks
+/database/blobs/ebooks/*.pickle
+/database/blobs/ebooks/*.pdf
