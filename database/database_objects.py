@@ -72,7 +72,7 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, book_text, uploader, file_location, rating=0):
+    def __init__(self, title, author, genre, isbn, price, book_text, uploader, rating=0):
         """
         Class definition for a EBook object
         :param title: str
@@ -101,7 +101,6 @@ class EBook(object):
         self.paused_time = None
         self.reports = []
         self.rating = rating
-        self.file_location = file_location
 
     @property
     def __unicode__(self):
