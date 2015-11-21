@@ -574,7 +574,9 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.upload_view = UploadFormView(self.model, username, self)
+        self.user_file = load_serialized_user(self.username)
         self.build_ui()
+        self.admin_view = None# = ApprovalReportedMainView(self.model, self.username)
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -592,6 +594,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.search_line_edit.returnPressed.connect(self.search)
         self.ui.upload_push_button.clicked.connect(self.upload)
         self.ui.library_push_button.clicked.connect(self.library)
+        self.ui.admin_push_button.clicked.connect(self.admin)
+
+        if self.user_file.group_policy == 'RU':
+            self.ui.admin_push_button.hide()
 
         self.ui.username_label.setText(self.username)
 
@@ -862,4 +868,36 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         else:
             self.ui.library_table_widget.hide()
 
+    def admin(self):
+        self.admin_view = ApprovalReportedMainView(self.model, self.username)
+        self.admin_view.show()
+        self.hide()
 
+
+class ApprovalReportedMainView(QtGui.QWidget):
+    def __init__(self, model, username):
+        self.model = model
+        self.username = username
+        super(ApprovalReportedMainView, self).__init__()
+        self.ui = Ui_ApprovalReportedList.Ui_Form()
+        self.build_ui()
+        self.main_view = None
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        self.ui.approve_push_button.clicked.connect(self.approve)
+        self.ui.delete_push_button.clicked.connect(self.delete)
+        self.ui.cancel_push_button.clicked.connect(self.cancel)
+
+    def approve(self):
+        print "approve clicked"
+
+    def delete(self):
+        print "delete clicked"
+
+    def cancel(self):
+        print "cancel clicked"
+        self.main_view = MainWindowRegisteredView(self.model, self.username)
+        self.main_view.show()
+        self.hide()
