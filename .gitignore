@@ -108,3 +108,10 @@ target/
 
 # PDFS
 /database/blobs/booksection/*.pdf
+
+# Accounts
+/database/blobs/accounts/*.pickle
+
+# EBooks
+/database/blobs/ebooks/*.pickle
+/database/blobs/ebooks/*.pdf

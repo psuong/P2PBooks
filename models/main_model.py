@@ -1,4 +1,5 @@
-from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, load_serialized_ebook
+from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
+    load_serialized_ebook, get_ebook_pickles
 
 
 def submit_upload_form(title, author, genre, isbn, price, uploader, file_location):
@@ -33,7 +34,7 @@ def pause_book():
 
 
 def register_user(username, password, email, dob):
-    # Check if username or email already exists
+    # TODO: Check if username or email already exists
     serialize_user(User(username=username,
                         password=password,
                         email=email,
@@ -50,3 +51,24 @@ def login_user(username, password):
             return None
     else:
         return None
+
+
+def catalogue_loader():
+    book_dict = {
+        "Kids": [],
+        "Adventure": [],
+        "Education": [],
+        "DIY": [],
+        "Romance": [],
+        "Comedy": [],
+        "Fantasy": [],
+        "Biography": [],
+        "History": [],
+        "Magazine": [],
+        "Religion": [],
+        "Sports": []
+    }
+    for book in get_ebook_pickles():
+        book_dict[book.genre].append(book)
+
+    return book_dict
