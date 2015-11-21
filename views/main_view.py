@@ -33,14 +33,13 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
-                and self.ui.isbn_line_edit.text():
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
             upload_status = self.model.upload_status(self.file_location)
             if upload_status:
                 # File uploaded successfully
                 submit_upload_form(self.ui.title_line_edit.text(),
                                    self.ui.author_line_edit.text(),
-                                   self.ui.genres_line_edit.text(),
+                                   self.ui.genres_combo_box.currentText(),
                                    self.ui.isbn_line_edit.text(),
                                    self.ui.price_spin_box.text(),
                                    self.username,
