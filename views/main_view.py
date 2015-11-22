@@ -14,6 +14,7 @@ class UploadFormView(QtGui.QWidget):
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
+        self.cover_img_location = None
         self.main_window = main_window_inst
         self.username = username
 
@@ -39,16 +40,17 @@ class UploadFormView(QtGui.QWidget):
                                                           'Open cover image',
                                                           '',
                                                           'image formats (*.png *.jpg *jpeg)')
-        self.file_location = file_location[0]
-        if self.file_location:
+        self.cover_img_location = file_location[0]
+        if self.cover_img_location:
             self.ui.cover_img_web_view.setHtml('<img alt="Cover img" '
-                                               + 'src="' + self.file_location
+                                               + 'src="' + self.cover_img_location
                                                + '" style="width: 225px; height: 325px">')
-
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
+        if self.ui.title_line_edit.text() \
+                and self.ui.author_line_edit.text() \
+                and self.ui.genres_combo_box.currentText() \
                 and self.ui.isbn_line_edit.text():
             does_file_exist = os.path.isfile(self.file_location)
             if does_file_exist:
@@ -60,8 +62,8 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.price_spin_box.text(),
                                    self.username,
                                    self.ui.summary_plain_text_edit.toPlainText(),
-                                   self.ui.cover_img_line_edit.text(),
-                                   self.file_location
+                                   self.cover_img_location,
+                                   self.file_location,
                                    )
                 self.main_window = MainWindowRegisteredView(self.model, self.username)
                 self.main_window.show()

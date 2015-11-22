@@ -104,7 +104,7 @@ class EBook(object):
         self.genre = genre
         self.isbn = isbn
         self.price = price
-        self.book_text = summary
+        self.summary = summary
         self.cover_img = cover_img
         self.approved = False
         self.current_page = 0
