@@ -19,7 +19,7 @@ GENRE_LIST = ["Kids",
               "Sports"]
 
 init_ISBN = 1000000000
-count, user_count = 0, 0
+count, user_count, price = 0, 0, 10
 user_list = []
 lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel massa non sem tristique condimentum.
 Nullam egestas nibh nibh, nec gravida nunc pharetra nec. Nullam accumsan facilisis quam sed laoreet. Nam lorem nisi,
@@ -39,7 +39,7 @@ for pdf in os.listdir(PDF_DIR_PATH):
         serialize_ebook(EBook(title=(pdf[:-4]),
                               author="Author#" + str(count),
                               genre=GENRE_LIST[count],
-                              price=count,
+                              price=price,
                               uploader=user_list[user_count],
                               summary=lorem,
                               cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
@@ -51,3 +51,4 @@ for pdf in os.listdir(PDF_DIR_PATH):
             user_count = 0
         init_ISBN += 1
         count += 1
+        price += 10
