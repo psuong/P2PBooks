@@ -21,6 +21,11 @@ GENRE_LIST = ["Kids",
 init_ISBN = 1000000000
 count, user_count = 0, 0
 user_list = []
+lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel massa non sem tristique condimentum.
+Nullam egestas nibh nibh, nec gravida nunc pharetra nec. Nullam accumsan facilisis quam sed laoreet. Nam lorem nisi,
+mattis eget justo eu, mattis congue arcu. Aenean vitae urna at justo ultrices congue at eget sem. Suspendisse sed
+justo quis enim varius congue. Maecenas venenatis aliquam nulla et congue. Nulla sit amet pellentesque dui. Fusce
+tempus massa et dui tempor iaculis."""
 
 for user in os.listdir(USER_DIR_PATH):
     if user.endswith('.pickle'):
@@ -36,7 +41,8 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               genre=GENRE_LIST[count],
                               price=count,
                               uploader=user_list[user_count],
-                              book_text="",
+                              summary=lorem,
+                              cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
                               isbn=str(init_ISBN)),
                         str(init_ISBN),
                         os.path.join(PDF_DIR_PATH, pdf))

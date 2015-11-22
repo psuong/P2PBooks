@@ -30,7 +30,7 @@ def serialize_ebook(db_object, save_file_name, file_location):
 
 def load_serialized_ebook(save_file_name):
     try:
-        with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
+        with open(os.path.join(EBOOKS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
             return cPickle.load(input_file)
     except IOError:
         return None
@@ -83,7 +83,7 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, book_text, uploader, rating=0):
+    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, rating=0):
         """
         Class definition for a EBook object
         :param title: str
@@ -91,9 +91,10 @@ class EBook(object):
         :param genre: list
         :param isbn: str
         :param price: int
-        :param book_text: str
+        :param summary: str
         :param uploader: User
         :param rating: int
+        :param cover_img: str
         :param file_location: str
         :return:
         """
@@ -103,23 +104,16 @@ class EBook(object):
         self.genre = genre
         self.isbn = isbn
         self.price = price
-        self.book_text = book_text
+        self.summary = summary
+        self.cover_img = cover_img
         self.approved = False
-        self.current_page = 0
-        self.total_pages = 1.0
-        self.checked_out_time = None
-        self.return_time = None
-        self.paused_time = None
         self.reports = []
         self.rating = rating
+        self.history = []
 
     @property
     def __unicode__(self):
         return self.isbn
-
-    @property
-    def progress(self):
-        return self.current_page / self.total_pages
 
     def report(self, report):
         """
@@ -127,6 +121,23 @@ class EBook(object):
         :return:
         """
         self.reports.append(report)
+
+
+class PurchasedEBook(object):
+    def __init__(self, username, ebook, checked_out_time, return_time, paused_time):
+        """
+
+        :param username: str
+        :param ebook: EBook
+        :param checked_out_time: str
+        :param return_time: str
+        :param paused_time: str
+        :return:
+        """
+        self.ebook = ebook
+        self.checked_out_time = checked_out_time
+        self.return_time = return_time
+        self.paused_time = paused_time
 
 
 class Report(object):

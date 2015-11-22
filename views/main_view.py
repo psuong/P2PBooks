@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ApprovalReportedList
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList
 from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user
 import os
@@ -30,8 +30,8 @@ class UploadFormView(QtGui.QWidget):
     def upload(self):
         file_location = QtGui.QFileDialog.getOpenFileName(self, 'Open eBook', '', 'eBook Formats (*.pdf *.txt)')
         self.file_location = file_location[0]
-        self.model.upload_file(self.file_location)
-        self.ui.file_location_label.setText("File: " + self.file_location)
+        if self.file_location:
+            self.ui.file_location_label.setText("File: " + self.file_location)
 
     def submit(self):
         # Make sure all fields are entered before submitting
@@ -46,6 +46,8 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.isbn_line_edit.text(),
                                    self.ui.price_spin_box.text(),
                                    self.username,
+                                   self.ui.summary_plain_text_edit.toPlainText(),
+                                   self.ui.cover_img_line_edit.text(),
                                    self.file_location
                                    )
                 self.main_window = MainWindowRegisteredView(self.model, self.username)
@@ -59,7 +61,36 @@ class UploadFormView(QtGui.QWidget):
     
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
-        super(UploadFormView, self).closeEvent()
+        super(UploadFormView, self).hide()
+
+
+class ConfirmedPurchaseDialogView(QtGui.QDialog):
+    def __init__(self, model, username, rate, cover_img, summary, main_window_inst, isbn):
+        self.model = model
+        self.main_window = main_window_inst
+        self.username = username
+        self.rate = rate
+        self.cover_img = cover_img
+        self.summary = summary
+        self.isbn = isbn
+        super(ConfirmedPurchaseDialogView, self).__init__()
+        self.ui = Ui_ConfirmPurchaseDialog.Ui_Dialog()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        self.ui.summary_text_browser.setText(self.summary)
+        self.ui.cover_img_web_view.setHtml('<img alt="Cover img" '
+                                           'src="' + self.cover_img + '" style="width: 300px; height: 300px">')
+        self.ui.cost_label.setText(str(self.rate))
+
+    def accept(self, *args, **kwargs):
+        pass
+
+    def reject(self, *args, **kwargs):
+        self.main_window.show()
+        super(ConfirmedPurchaseDialogView, self).reject()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -277,6 +308,7 @@ class RegisterFormView(QtGui.QWidget):
 class MainWindowVisitorView(QtGui.QMainWindow):
     def __init__(self, model):
         self.model = model
+        self.purchase_dialog = None
         super(MainWindowVisitorView, self).__init__()
         self.ui = Ui_MainWindowVisitor.Ui_MainWindow()
         self.login_view = LoginFormView(self.model)
@@ -302,6 +334,9 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         # Connect checkout buttons
         self.ui.top_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.top_table_widget.selectedItems()))
+
+        self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
+            self.ui.kids_table_widget.selectedItems()))
 
         self.ui.adventure_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.adventure_table_widget.selectedItems()))
@@ -340,7 +375,19 @@ class MainWindowVisitorView(QtGui.QMainWindow):
         self.load_ebooks()
 
     def checkout_ebook(self, row_items):
-        print row_items[2].text()
+        book = self.model.get_book_instance(row_items[2].text())
+        self.purchase_dialog = ConfirmedPurchaseDialogView(self.model,
+                                                           username='visitor',
+                                                           rate=book.price,
+                                                           cover_img=book.cover_img,
+                                                           summary=book.summary,
+                                                           isbn=book.isbn,
+                                                           main_window_inst=self,
+                                                           )
+        self.purchase_dialog.setWindowTitle('Confirm Purchase [RU Only]')
+        self.purchase_dialog.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setDisabled(True)
+        self.purchase_dialog.ui.length_spin_box.setDisabled(True)
+        self.purchase_dialog.exec_()
 
     def load_ebooks(self):
         book_dict = self.model.catalogue_loader()
@@ -572,6 +619,7 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 class MainWindowRegisteredView(QtGui.QMainWindow):
     def __init__(self, model, username, reputation):
         self.model = model
+        self.purchase_dialog = None
         self.username = username
         self.reputation = reputation
         super(MainWindowRegisteredView, self).__init__()
@@ -645,7 +693,16 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.sports_table_widget.selectedItems()))
 
     def checkout_ebook(self, row_items):
-        print row_items[2].text()
+        book = self.model.get_book_instance(row_items[2].text())
+        self.purchase_dialog = ConfirmedPurchaseDialogView(self.model,
+                                                           username=self.username,
+                                                           rate=book.price,
+                                                           cover_img=book.cover_img,
+                                                           summary=book.summary,
+                                                           isbn=book.isbn,
+                                                           main_window_inst=self,
+                                                           )
+        self.purchase_dialog.exec_()
 
     def load_ebooks(self):
         book_dict = self.model.catalogue_loader()
