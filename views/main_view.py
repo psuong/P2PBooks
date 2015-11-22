@@ -710,6 +710,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
     def load_ebooks(self):
         # Remove rows if exists
+        self.ui.kids_table_widget.setRowCount(0)
         self.ui.adventure_table_widget.setRowCount(0)
         self.ui.top_table_widget.setRowCount(0)
         self.ui.edu_table_widget.setRowCount(0)
