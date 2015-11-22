@@ -25,6 +25,7 @@ class UploadFormView(QtGui.QWidget):
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
+        self.ui.pick_image_push_button.clicked.connect(self.pick_image)
         self.ui.submit_push_button.clicked.connect(self.submit)
 
     def upload(self):
@@ -32,6 +33,18 @@ class UploadFormView(QtGui.QWidget):
         self.file_location = file_location[0]
         if self.file_location:
             self.ui.file_location_label.setText("File: " + self.file_location)
+
+    def pick_image(self):
+        file_location = QtGui.QFileDialog.getOpenFileName(self,
+                                                          'Open cover image',
+                                                          '',
+                                                          'image formats (*.png *.jpg *jpeg)')
+        self.file_location = file_location[0]
+        if self.file_location:
+            self.ui.cover_img_web_view.setHtml('<img alt="Cover img" '
+                                               + 'src="' + self.file_location
+                                               + '" style="width: 225px; height: 325px">')
+
 
     def submit(self):
         # Make sure all fields are entered before submitting
