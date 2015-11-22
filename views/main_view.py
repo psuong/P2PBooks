@@ -656,6 +656,9 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.load_ebooks()
 
         # Connect checkout buttons
+        self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
+            self.ui.kids_table_widget.selectedItems()))
+
         self.ui.top_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.top_table_widget.selectedItems()))
 
