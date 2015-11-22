@@ -247,8 +247,7 @@ class LoginFormView(QtGui.QWidget):
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
-                self.user_file = load_serialized_user(username)
-                self.main_window = MainWindowRegisteredView(self.model, username, self.user_file.credits)
+                self.main_window = MainWindowRegisteredView(self.model, username)
                 self.main_window.show()
                 self.hide()
             else:
@@ -618,15 +617,14 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
 
 class MainWindowRegisteredView(QtGui.QMainWindow):
-    def __init__(self, model, username, reputation):
+    def __init__(self, model, username):
         self.model = model
         self.purchase_dialog = None
         self.username = username
-        self.reputation = reputation
+        self.user_file = load_serialized_user(self.username)
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.upload_view = UploadFormView(self.model, username, self)
-        self.user_file = load_serialized_user(self.username)
         self.build_ui()
         self.admin_view = None
 
@@ -651,8 +649,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         if self.user_file.group_policy == 'RU':
             self.ui.admin_push_button.hide()
 
-        self.ui.username_label.setText('Hello ' + self.username)
-        self.ui.reputation_label.setText('Credits: ' + str(self.reputation))
+        self.ui.username_label.setText('Hello, ' + self.username)
+        self.ui.reputation_label.setText('Credits: ' + str(self.user_file.credits))
 
         self.load_ebooks()
 
@@ -949,16 +947,17 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.library_table_widget.hide()
 
     def admin(self):
-        self.admin_view = ApprovalReportedMainView(self.model, self.username, self.reputation)
+        self.admin_view = ApprovalReportedMainView(self.model, self.username)
         self.admin_view.show()
         self.hide()
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
-    def __init__(self, model, username, reputation):
+    def __init__(self, model, username):
         self.model = model
         self.username = username
-        self.reputation = reputation
+        self.user_file = load_serialized_user(self.username)
+        self.reputation = self.user_file.credits
         super(ApprovalReportedMainView, self).__init__()
         self.ui = Ui_ApprovalReportedList.Ui_Form()
         self.build_ui()
@@ -979,6 +978,6 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
     def cancel(self):
         print "cancel clicked"
-        self.main_view = MainWindowRegisteredView(self.model, self.username, self.reputation)
+        self.main_view = MainWindowRegisteredView(self.model, self.username)
         self.main_view.show()
         self.hide()
