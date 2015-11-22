@@ -14,6 +14,7 @@ class UploadFormView(QtGui.QWidget):
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
+        self.new_book = False
         self.main_window = main_window_inst
         self.username = username
 
@@ -35,8 +36,7 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.genres_line_edit.text() \
-                and self.ui.isbn_line_edit.text():
+        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
             does_file_exist = os.path.isfile(self.file_location)
             if does_file_exist:
                 # File uploaded successfully
@@ -50,8 +50,7 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.cover_img_line_edit.text(),
                                    self.file_location
                                    )
-                self.main_window = MainWindowRegisteredView(self.model, self.username)
-                self.main_window.show()
+                self.new_book = True
                 self.close()
             else:
                 # Returns an Error message if file DNE
@@ -61,6 +60,8 @@ class UploadFormView(QtGui.QWidget):
     
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
+        if self.new_book:
+            self.main_window.load_ebooks()
         super(UploadFormView, self).hide()
 
 
@@ -708,6 +709,20 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.purchase_dialog.exec_()
 
     def load_ebooks(self):
+        # Remove rows if exists
+        self.ui.adventure_table_widget.setRowCount(0)
+        self.ui.top_table_widget.setRowCount(0)
+        self.ui.edu_table_widget.setRowCount(0)
+        self.ui.diy_table_widget.setRowCount(0)
+        self.ui.romance_table_widget.setRowCount(0)
+        self.ui.comedy_table_widget.setRowCount(0)
+        self.ui.fantasy_table_widget.setRowCount(0)
+        self.ui.biography_table_widget.setRowCount(0)
+        self.ui.history_table_widget.setRowCount(0)
+        self.ui.magazine_table_widget.setRowCount(0)
+        self.ui.religion_table_widget.setRowCount(0)
+        self.ui.sports_table_widget.setRowCount(0)
+
         book_dict = self.model.catalogue_loader()
         row = 0
         for book in book_dict['Adventure']:
