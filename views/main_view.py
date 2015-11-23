@@ -91,16 +91,20 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        ebook_purchase = PurchasedEBook(self.username,
-                                      self.ebook_in_transaction,
-                                      datetime.datetime.now(),
-                                      self.ui.length_spin_box.value(),
-                                      datetime.datetime.now())
-        self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
-        self.user_instance.rented_books[self.isbn] = ebook_purchase
-        serialize_user(self.user_instance, self.user_instance.__unicode__)
-        self.main_window.reload_user_info()
-        self.hide()
+        if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
+            ebook_purchase = PurchasedEBook(self.username,
+                                            self.ebook_in_transaction,
+                                            datetime.datetime.now(),
+                                            self.ui.length_spin_box.value(),
+                                            datetime.datetime.now())
+            self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
+            self.user_instance.rented_books[self.isbn] = ebook_purchase
+            serialize_user(self.user_instance, self.user_instance.__unicode__)
+            self.main_window.reload_user_info()
+            self.hide()
+        else:
+            # NOT ENOUGH FUNDS; THROW ERROR
+            pass
 
 
 class ReportDialogView(QtGui.QDialog):
