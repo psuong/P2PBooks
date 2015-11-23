@@ -93,7 +93,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
     def accept(self, *args, **kwargs):
         if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
             ebook_purchase = PurchasedEBook(self.username,
-                                            self.ebook_in_transaction,
+                                            self.isbn,
                                             datetime.datetime.now(),
                                             self.ui.length_spin_box.value(),
                                             datetime.datetime.now())
@@ -147,13 +147,14 @@ class ReaderFormView(QtGui.QWidget):
         self.user_instance = user_instance
         self.main_window = main_window
         self.book_purchase_info = user_instance.rented_books[book_isbn]
-        self.book_instance = self.book_purchase_info.isbn
+        self.initial_pause_time = self.book_purchase_info.paused_time.second
+        self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
         self.report_dialog = ReportDialogView(self.model)
         self.timer = QtCore.QTimer(self)
         self.paused = True
-        self.location = None
+        self.pdf_reader_location = None
         self.reader_process = None
         self.build_ui()
 
@@ -168,14 +169,18 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.uploader_by_line_edit.setText(self.book_instance.uploader.username)
         self.ui.ratings_line_edit.setText(str(self.book_instance.rating))
         self.ui.title_line_edit.setText(self.book_instance.title)
+
         # Set book to paused state
         self.ui.read_pause_push_button.setText('Read')
-        self.ui.checkout_at_label.setText(self.book_purchase_info.checked_out_time.strftime('%H:%M:%S %m/%d/%y'))
+        if self.user_instance.default_pdf_reader is not None:
+            self.pdf_reader_location = self.user_instance.default_pdf_reader
+            self.ui.pdf_reader_path_label.setText(self.user_instance.default_pdf_reader)
 
+        self.ui.checkout_at_label.setText(self.book_purchase_info.checked_out_time.strftime('%H:%M:%S %m/%d/%y'))
         # Calculate remaining time
         time_remaining = self.book_purchase_info.paused_time + datetime.timedelta(
-            minutes=self.book_purchase_info.paused_time.second * self.book_purchase_info.length_on_rent)
-        self.ui.time_remaining_label.setText(time_remaining.strftime('%M'))
+            seconds=self.book_purchase_info.paused_time.second * self.book_purchase_info.length_on_rent)
+        self.ui.time_remaining_label.setText(time_remaining.strftime('%S seconds'))
 
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
@@ -187,25 +192,29 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def show_time(self):
-        self.ui.time_remaining_label.setText(datetime.datetime.now().strftime('%S'))
+        self.initial_pause_time -= 1
+        self.ui.time_remaining_label.setText(str(self.initial_pause_time))
+        if self.initial_pause_time == 0:
+            self.reader_process.kill()
+            self.timer.stop()
+            self.ui.read_pause_push_button.setDisabled(True)
 
     @QtCore.Slot()
     def read_pause(self):
         if not self.paused:
             # Pause the book
-            if self.model.pause_book():
-                self.paused = True
-                self.reader_process.kill()
-                self.timer.stop()
+            self.paused = True
+            self.reader_process.kill()
+            self.timer.stop()
+            self.book_purchase_info.paused_time = datetime.datetime.now()
         else:
             # Check if book can be read
-            if self.model.read_book():
-                arguments = ['C:/Users/unid/OneDrive/p2pbooks/views/pdf.pdf']
-                self.reader_process = QtCore.QProcess(self)
-                self.reader_process.started.connect(self.started)
-                self.reader_process.finished.connect(self.finished)
-                self.reader_process.start(self.location, arguments)
-                self.paused = False
+            arguments = [self.pdf_reader_location]
+            self.reader_process = QtCore.QProcess(self)
+            self.reader_process.started.connect(self.started)
+            self.reader_process.finished.connect(self.finished)
+            self.reader_process.start(self.pdf_reader_location, arguments)
+            self.paused = False
 
     @QtCore.Slot()
     def started(self):
@@ -229,11 +238,14 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def browse_reader_location(self):
-        self.location = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '', 'PDF Reader Formats (*.exe)')
-        if self.location[1]:
-            self.ui.pdf_reader_path_label.setText(self.location[0])
+        pdf_reader = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
+                                                       'PDF Reader Formats (*.exe)')
+        if pdf_reader[1]:
+            self.ui.pdf_reader_path_label.setText(pdf_reader[0])
+            self.pdf_reader_location = pdf_reader[0]
 
     def closeEvent(self, *args, **kwargs):
+        self.user_instance.default_pdf_reader = self.pdf_reader_location
         serialize_user(self.user_instance, self.user_instance.username)
         self.main_window.show()
         self.hide()
