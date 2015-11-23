@@ -67,9 +67,9 @@ class User(object):
         self.credits = p2p_credits
         self.group_policy = group_policy
         self.uploaded_books = []  # Make sure to store EBooks objects
-        self.rented_books = []  # Make sure to store EBooks objects
-        self.reported_books = []  # Make sure to store EBooks objects
-        self.infractions = []
+        self.rented_books = {}  # Make sure to store EBooks objects
+        self.reported_books = {}  # Make sure to store EBooks objects
+        self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
 

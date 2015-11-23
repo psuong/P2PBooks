@@ -91,13 +91,13 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        ebook_bought = PurchasedEBook(self.username,
+        ebook_purchase = PurchasedEBook(self.username,
                                       self.ebook_in_transaction,
                                       datetime.datetime.now(),
                                       self.ui.length_spin_box.value(),
                                       datetime.datetime.now())
         self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
-        self.user_instance.rented_books.append(ebook_bought)
+        self.user_instance.rented_books[self.isbn] = ebook_purchase
         serialize_user(self.user_instance, self.user_instance.__unicode__)
         self.main_window.reload_user_info()
         self.hide()
@@ -645,6 +645,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.search_table_widget.hide()
         self.ui.close_push_button.hide()
         self.ui.library_table_widget.hide()
+        self.ui.read_library_push_button.hide()
 
         self.ui.go_push_button.clicked.connect(self.search)
         self.ui.close_push_button.clicked.connect(self.close_search)
@@ -703,6 +704,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.user_instance = load_serialized_user(self.username)
         self.ui.username_label.setText('Hello, ' + self.username)
         self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
+        self.load_library_books()
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
@@ -715,6 +717,30 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
                                                            main_window_inst=self,
                                                            )
         self.purchase_dialog.exec_()
+
+    def load_library_books(self):
+        self.ui.library_table_widget.setRowCount(0)
+        row = 0
+        rented_books_instances = []
+        if len(self.user_instance.rented_books) > 0:
+            for book_isbn_key in self.user_instance.rented_books.keys():
+                rented_books_instances.append(load_serialized_ebook(book_isbn_key))
+
+        for book in rented_books_instances:
+            self.ui.library_table_widget.insertRow(row)
+            self.ui.library_table_widget.setItem(row, 0,
+                                                 QtGui.QTableWidgetItem(book.title))
+            self.ui.library_table_widget.setItem(row, 1,
+                                                 QtGui.QTableWidgetItem(book.author))
+            self.ui.library_table_widget.setItem(row, 2,
+                                                 QtGui.QTableWidgetItem(book.isbn))
+            self.ui.library_table_widget.setItem(row, 3,
+                                                 QtGui.QTableWidgetItem(str(book.price)))
+            self.ui.library_table_widget.setItem(row, 4,
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.library_table_widget.setItem(row, 5,
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
+            row += 1
 
     def load_ebooks(self):
         # Remove rows if exists
@@ -732,27 +758,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.religion_table_widget.setRowCount(0)
         self.ui.sports_table_widget.setRowCount(0)
 
-        self.ui.library_table_widget.setRowCount(0)
-        row = 0
-        rented_books_instances = []
-        if len(self.user_instance.rented_books) > 0:
-            for book in self.user_instance.rented_books:
-                rented_books_instances.append(book.isbn)
-        for book in rented_books_instances:
-            self.ui.library_table_widget.insertRow(row)
-            self.ui.library_table_widget.setItem(row, 0,
-                                                 QtGui.QTableWidgetItem(book.title))
-            self.ui.library_table_widget.setItem(row, 1,
-                                                 QtGui.QTableWidgetItem(book.author))
-            self.ui.library_table_widget.setItem(row, 2,
-                                                 QtGui.QTableWidgetItem(book.isbn))
-            self.ui.library_table_widget.setItem(row, 3,
-                                                 QtGui.QTableWidgetItem(str(book.price)))
-            self.ui.library_table_widget.setItem(row, 4,
-                                                 QtGui.QTableWidgetItem(book.uploader.username))
-            self.ui.library_table_widget.setItem(row, 5,
-                                                 QtGui.QTableWidgetItem(str(book.rating)))
-            row += 1
+        self.load_library_books()
 
         book_dict = self.model.catalogue_loader()
         row = 0
@@ -975,13 +981,18 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
     def library(self):
         if self.ui.library_table_widget.isHidden():
             self.ui.library_table_widget.show()
+            self.ui.read_library_push_button.show()
         else:
             self.ui.library_table_widget.hide()
+            self.ui.read_library_push_button.hide()
 
     def admin(self):
         self.admin_view = ApprovalReportedMainView(self.model, self.username)
         self.admin_view.show()
         self.hide()
+
+    def read_book(self, book_isbn):
+        pass
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
