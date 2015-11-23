@@ -1,10 +1,10 @@
 from PySide import QtGui, QtCore
-from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList
 from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
+import datetime
 
 
 class UploadFormView(QtGui.QWidget):
@@ -14,7 +14,7 @@ class UploadFormView(QtGui.QWidget):
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
-        self.new_book = False
+        self.new_book_added = False
         self.main_window = main_window_inst
         self.username = username
 
@@ -50,17 +50,17 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.cover_img_line_edit.text(),
                                    self.file_location
                                    )
-                self.new_book = True
+                self.new_book_added = True
                 self.close()
             else:
                 # Returns an Error message if file DNE
                 QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
         else:
-            QtGui.QMessageBox.about(self, "Error", "Invalid Fields.")
-    
+            QtGui.QMessageBox.about(self, "Error", "Fields must be field in.")
+
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
-        if self.new_book:
+        if self.new_book_added:
             self.main_window.load_ebooks()
         super(UploadFormView, self).hide()
 
@@ -77,10 +77,10 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         super(ConfirmedPurchaseDialogView, self).__init__()
         self.ui = Ui_ConfirmPurchaseDialog.Ui_Dialog()
         self.build_ui()
-        self.user_file = load_serialized_user(self.username)
-        self.e_book = load_serialized_ebook(self.isbn)
-        self.ebook_bought = None
-        self.main_view = None
+
+        # Load the user info + book info
+        self.user_instance = load_serialized_user(self.username)
+        self.ebook_in_transaction = load_serialized_ebook(self.isbn)
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -91,15 +91,16 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        self.ebook_bought = PurchasedEBook(self.username, self.e_book, 0, 0, 0)
-        self.user_file.rented_books = self.ebook_bought.ebook.isbn
-        serialize_user(self.user_file, self.user_file.__unicode__)
+        ebook_bought = PurchasedEBook(self.username,
+                                      self.ebook_in_transaction,
+                                      datetime.datetime.now(),
+                                      self.ui.length_spin_box.value(),
+                                      datetime.datetime.now())
+        self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
+        self.user_instance.rented_books.append(ebook_bought)
+        serialize_user(self.user_instance, self.user_instance.__unicode__)
+        self.main_window.reload_user_info()
         self.hide()
-
-
-    def reject(self, *args, **kwargs):
-        self.main_window.show()
-        super(ConfirmedPurchaseDialogView, self).reject()
 
 
 class ReportDialogView(QtGui.QDialog):
@@ -172,7 +173,7 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def show_time(self):
-        self.ui.time_remaining_label.setText(datetime.now().strftime('%H:%M:%S %m/%d/%y'))
+        self.ui.time_remaining_label.setText(datetime.datetime.now().strftime('%H:%M:%S %m/%d/%y'))
 
     @QtCore.Slot()
     def read_pause(self):
@@ -194,13 +195,11 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def started(self):
-        print datetime.now()
         self.ui.read_pause_push_button.setText('Pause')
         self.timer.start(1000)
 
     @QtCore.Slot()
     def finished(self):
-        print datetime.now()
         self.ui.read_pause_push_button.setText('Read')
         self.timer.stop()
 
@@ -629,7 +628,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.model = model
         self.purchase_dialog = None
         self.username = username
-        self.user_file = load_serialized_user(self.username)
+        self.user_instance = load_serialized_user(self.username)
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.upload_view = UploadFormView(self.model, username, self)
@@ -654,12 +653,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.library_push_button.clicked.connect(self.library)
         self.ui.admin_push_button.clicked.connect(self.admin)
 
-        if self.user_file.group_policy == 'RU':
+        if self.user_instance.group_policy == 'RU':
             self.ui.admin_push_button.hide()
 
-        self.ui.username_label.setText('Hello, ' + self.username)
-        self.ui.reputation_label.setText('Credits: ' + str(self.user_file.credits))
-
+        self.reload_user_info()
         self.load_ebooks()
 
         # Connect checkout buttons
@@ -702,6 +699,11 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.sports_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.sports_table_widget.selectedItems()))
 
+    def reload_user_info(self):
+        self.user_instance = load_serialized_user(self.username)
+        self.ui.username_label.setText('Hello, ' + self.username)
+        self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
+
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
         self.purchase_dialog = ConfirmedPurchaseDialogView(self.model,
@@ -729,6 +731,28 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.magazine_table_widget.setRowCount(0)
         self.ui.religion_table_widget.setRowCount(0)
         self.ui.sports_table_widget.setRowCount(0)
+
+        self.ui.library_table_widget.setRowCount(0)
+        row = 0
+        rented_books_instances = []
+        if len(self.user_instance.rented_books) > 0:
+            for book in self.user_instance.rented_books:
+                rented_books_instances.append(book.isbn)
+        for book in rented_books_instances:
+            self.ui.library_table_widget.insertRow(row)
+            self.ui.library_table_widget.setItem(row, 0,
+                                                 QtGui.QTableWidgetItem(book.title))
+            self.ui.library_table_widget.setItem(row, 1,
+                                                 QtGui.QTableWidgetItem(book.author))
+            self.ui.library_table_widget.setItem(row, 2,
+                                                 QtGui.QTableWidgetItem(book.isbn))
+            self.ui.library_table_widget.setItem(row, 3,
+                                                 QtGui.QTableWidgetItem(str(book.price)))
+            self.ui.library_table_widget.setItem(row, 4,
+                                                 QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.library_table_widget.setItem(row, 5,
+                                                 QtGui.QTableWidgetItem(str(book.rating)))
+            row += 1
 
         book_dict = self.model.catalogue_loader()
         row = 0

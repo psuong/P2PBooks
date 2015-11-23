@@ -124,19 +124,19 @@ class EBook(object):
 
 
 class PurchasedEBook(object):
-    def __init__(self, username, ebook, checked_out_time, return_time, paused_time):
+    def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time):
         """
 
         :param username: str
-        :param ebook: EBook
-        :param checked_out_time: str
-        :param return_time: str
-        :param paused_time: str
+        :param isbn: EBook
+        :param checked_out_time: datetime
+        :param length_on_rent: int
+        :param paused_time: datetime
         :return:
         """
-        self.ebook = ebook
+        self.isbn = isbn
         self.checked_out_time = checked_out_time
-        self.return_time = return_time
+        self.return_time = length_on_rent
         self.paused_time = paused_time
 
 
