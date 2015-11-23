@@ -142,8 +142,12 @@ class ReportDialogView(QtGui.QDialog):
 
 
 class ReaderFormView(QtGui.QWidget):
-    def __init__(self, model, current_book):
+    def __init__(self, model, main_window, book_isbn, user_instance):
         self.model = model
+        self.user_instance = user_instance
+        self.main_window = main_window
+        self.book_purchase_info = user_instance.rented_books[book_isbn]
+        self.book_instance = self.book_purchase_info.isbn
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
         self.report_dialog = ReportDialogView(self.model)
@@ -157,15 +161,21 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.setupUi(self)
 
         # Disable line edits
-        self.ui.published_by_line_edit.setDisabled(True)
+        self.ui.uploader_by_line_edit.setDisabled(True)
         self.ui.ratings_line_edit.setDisabled(True)
         self.ui.title_line_edit.setDisabled(True)
 
+        self.ui.uploader_by_line_edit.setText(self.book_instance.uploader.username)
+        self.ui.ratings_line_edit.setText(str(self.book_instance.rating))
+        self.ui.title_line_edit.setText(self.book_instance.title)
         # Set book to paused state
         self.ui.read_pause_push_button.setText('Read')
+        self.ui.checkout_at_label.setText(self.book_purchase_info.checked_out_time.strftime('%H:%M:%S %m/%d/%y'))
 
-        # TODO: Write function get the progression
-        self.ui.progress_bar.setValue(50)
+        # Calculate remaining time
+        time_remaining = self.book_purchase_info.paused_time + datetime.timedelta(
+            minutes=self.book_purchase_info.paused_time.second * self.book_purchase_info.length_on_rent)
+        self.ui.time_remaining_label.setText(time_remaining.strftime('%M'))
 
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
@@ -177,7 +187,7 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def show_time(self):
-        self.ui.time_remaining_label.setText(datetime.datetime.now().strftime('%H:%M:%S %m/%d/%y'))
+        self.ui.time_remaining_label.setText(datetime.datetime.now().strftime('%S'))
 
     @QtCore.Slot()
     def read_pause(self):
@@ -221,7 +231,12 @@ class ReaderFormView(QtGui.QWidget):
     def browse_reader_location(self):
         self.location = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '', 'PDF Reader Formats (*.exe)')
         if self.location[1]:
-            self.ui.pdf_reader_path_label.setText(self.location[1])
+            self.ui.pdf_reader_path_label.setText(self.location[0])
+
+    def closeEvent(self, *args, **kwargs):
+        serialize_user(self.user_instance, self.user_instance.username)
+        self.main_window.show()
+        self.hide()
 
 
 class LoginFormView(QtGui.QWidget):
@@ -633,11 +648,12 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.purchase_dialog = None
         self.username = username
         self.user_instance = load_serialized_user(self.username)
+        self.admin_view = None
+        self.upload_view = UploadFormView(self.model, username, self)
+        self.reader_view = None
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
-        self.upload_view = UploadFormView(self.model, username, self)
         self.build_ui()
-        self.admin_view = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -658,9 +674,14 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.library_push_button.clicked.connect(self.library)
         self.ui.admin_push_button.clicked.connect(self.admin)
 
+        self.ui.read_library_push_button.clicked.connect(lambda: self.read_book(
+            self.ui.library_table_widget.selectedItems()[2].text()
+        ))
+
         if self.user_instance.group_policy == 'RU':
             self.ui.admin_push_button.hide()
 
+        # Load the user/ebook info
         self.reload_user_info()
         self.load_ebooks()
 
@@ -996,7 +1017,9 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.hide()
 
     def read_book(self, book_isbn):
-        pass
+        self.reader_view = ReaderFormView(self.model, self, book_isbn, self.user_instance)
+        self.reader_view.show()
+        self.hide()
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
