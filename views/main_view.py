@@ -14,6 +14,7 @@ class UploadFormView(QtGui.QWidget):
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
+        self.cover_img_location = None
         self.new_book_added = False
         self.main_window = main_window_inst
         self.username = username
@@ -26,6 +27,7 @@ class UploadFormView(QtGui.QWidget):
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
+        self.ui.pick_image_push_button.clicked.connect(self.pick_image)
         self.ui.submit_push_button.clicked.connect(self.submit)
 
     def upload(self):
@@ -33,6 +35,17 @@ class UploadFormView(QtGui.QWidget):
         self.file_location = file_location[0]
         if self.file_location:
             self.ui.file_location_label.setText("File: " + self.file_location)
+
+    def pick_image(self):
+        file_location = QtGui.QFileDialog.getOpenFileName(self,
+                                                          'Open cover image',
+                                                          '',
+                                                          'image formats (*.png *.jpg *jpeg)')
+        self.cover_img_location = file_location[0]
+        if self.cover_img_location:
+            self.ui.cover_img_web_view.setHtml('<img alt="Cover img" '
+                                               + 'src="' + self.cover_img_location
+                                               + '" style="width: 225px; height: 325px">')
 
     def submit(self):
         # Make sure all fields are entered before submitting
@@ -47,8 +60,8 @@ class UploadFormView(QtGui.QWidget):
                                    self.ui.price_spin_box.text(),
                                    self.username,
                                    self.ui.summary_plain_text_edit.toPlainText(),
-                                   self.ui.cover_img_line_edit.text(),
-                                   self.file_location
+                                   self.cover_img_location,
+                                   self.file_location,
                                    )
                 self.new_book_added = True
                 self.close()
