@@ -3,7 +3,7 @@ from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList
 from models.main_model import submit_upload_form
-from database.database_objects import load_serialized_user
+from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
 
 
@@ -77,6 +77,10 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         super(ConfirmedPurchaseDialogView, self).__init__()
         self.ui = Ui_ConfirmPurchaseDialog.Ui_Dialog()
         self.build_ui()
+        self.user_file = load_serialized_user(self.username)
+        self.e_book = load_serialized_ebook(self.isbn)
+        self.ebook_bought = None
+        self.main_view = None
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -87,7 +91,11 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        pass
+        self.ebook_bought = PurchasedEBook(self.username, self.e_book, 0, 0, 0)
+        self.user_file.rented_books = self.ebook_bought.ebook.isbn
+        serialize_user(self.user_file, self.user_file.__unicode__)
+        self.hide()
+
 
     def reject(self, *args, **kwargs):
         self.main_window.show()
