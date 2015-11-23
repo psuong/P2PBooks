@@ -247,9 +247,12 @@ class LoginFormView(QtGui.QWidget):
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
-                self.main_window = MainWindowRegisteredView(self.model, username)
-                self.main_window.show()
-                self.hide()
+                if len(load_serialized_user(username).infractions) >= 2:
+                    QtGui.QMessageBox.about(self, "Invalid Account", "Account has been banned");
+                else:
+                    self.main_window = MainWindowRegisteredView(self.model, username)
+                    self.main_window.show()
+                    self.hide()
             else:
                 # Nothing was return; error
                 QtGui.QMessageBox.about(self, "Error", "No username/password found.")
