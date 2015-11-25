@@ -30,7 +30,7 @@ def serialize_ebook(db_object, save_file_name, file_location):
 
 def load_serialized_ebook(save_file_name):
     try:
-        with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'rb') as input_file:
+        with open(os.path.join(EBOOKS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
             return cPickle.load(input_file)
     except IOError:
         return None
@@ -67,9 +67,9 @@ class User(object):
         self.credits = p2p_credits
         self.group_policy = group_policy
         self.uploaded_books = []  # Make sure to store EBooks objects
-        self.rented_books = []  # Make sure to store EBooks objects
-        self.reported_books = []  # Make sure to store EBooks objects
-        self.infractions = []
+        self.rented_books = {}  # Make sure to store EBooks objects
+        self.reported_books = {}  # Make sure to store EBooks objects
+        self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
 
@@ -109,21 +109,13 @@ class EBook(object):
         self.book_text = book_text
 
         self.approved = False
-        self.current_page = 0
-        self.total_pages = 1.0
-        self.checked_out_time = None
-        self.return_time = None
-        self.paused_time = None
         self.reports = []
         self.rating = rating
+        self.history = []
 
     @property
     def __unicode__(self):
         return self.isbn
-
-    @property
-    def progress(self):
-        return self.current_page / self.total_pages
 
     def report(self, report):
         """
@@ -131,6 +123,23 @@ class EBook(object):
         :return:
         """
         self.reports.append(report)
+
+
+class PurchasedEBook(object):
+    def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time):
+        """
+
+        :param username: str
+        :param isbn: EBook
+        :param checked_out_time: datetime
+        :param length_on_rent: int
+        :param paused_time: datetime
+        :return:
+        """
+        self.isbn = isbn
+        self.checked_out_time = checked_out_time
+        self.return_time = length_on_rent
+        self.paused_time = paused_time
 
 
 class Report(object):

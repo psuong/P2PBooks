@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
+# Form implementation generated from reading ui file 'designer/Ui_MainWindowVisitor.ui'
 #
-# Created: Sat Nov 21 16:26:11 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.2
+# Created: Sat Nov 21 17:27:06 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,23 +17,24 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtGui.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.login_push_button = QtGui.QPushButton(self.centralwidget)
-        self.login_push_button.setObjectName("login_push_button")
-        self.gridLayout.addWidget(self.login_push_button, 0, 3, 1, 1)
         self.go_push_button = QtGui.QPushButton(self.centralwidget)
         self.go_push_button.setObjectName("go_push_button")
         self.gridLayout.addWidget(self.go_push_button, 4, 3, 1, 1)
+        self.login_push_button = QtGui.QPushButton(self.centralwidget)
+        self.login_push_button.setObjectName("login_push_button")
+        self.gridLayout.addWidget(self.login_push_button, 0, 3, 1, 1)
         self.register_push_button = QtGui.QPushButton(self.centralwidget)
         self.register_push_button.setObjectName("register_push_button")
         self.gridLayout.addWidget(self.register_push_button, 0, 2, 1, 1)
+        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 2, 0, 1, 4)
         self.search_line_edit = QtGui.QLineEdit(self.centralwidget)
         self.search_line_edit.setObjectName("search_line_edit")
         self.gridLayout.addWidget(self.search_line_edit, 4, 1, 1, 2)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem, 0, 1, 1, 1)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem1, 2, 0, 1, 4)
+        self.gridLayout.addItem(spacerItem1, 0, 1, 1, 1)
         self.search_table_widget = QtGui.QTableWidget(self.centralwidget)
+        self.search_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.search_table_widget.setObjectName("search_table_widget")
         self.search_table_widget.setColumnCount(6)
         self.search_table_widget.setRowCount(0)
@@ -53,12 +54,6 @@ class Ui_MainWindow(object):
         self.close_push_button = QtGui.QPushButton(self.centralwidget)
         self.close_push_button.setObjectName("close_push_button")
         self.gridLayout.addWidget(self.close_push_button, 5, 3, 1, 1)
-        self.label = QtGui.QLabel(self.centralwidget)
-        self.label.setLineWidth(1)
-        self.label.setTextFormat(QtCore.Qt.RichText)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 6, 1, 1, 1)
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName("tabWidget")
         self.top_tab = QtGui.QWidget()
@@ -394,6 +389,7 @@ class Ui_MainWindow(object):
         self.gridLayout_14 = QtGui.QGridLayout(self.sports_tab)
         self.gridLayout_14.setObjectName("gridLayout_14")
         self.sports_table_widget = QtGui.QTableWidget(self.sports_tab)
+        self.sports_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.sports_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.sports_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.sports_table_widget.setObjectName("sports_table_widget")
@@ -416,10 +412,18 @@ class Ui_MainWindow(object):
         self.sports_checkout_push_button.setObjectName("sports_checkout_push_button")
         self.gridLayout_14.addWidget(self.sports_checkout_push_button, 1, 0, 1, 1)
         self.tabWidget.addTab(self.sports_tab, "")
-        self.gridLayout.addWidget(self.tabWidget, 7, 0, 1, 4)
+        self.gridLayout.addWidget(self.tabWidget, 11, 0, 1, 4)
+        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem2, 6, 1, 1, 3)
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setLineWidth(1)
+        self.label.setTextFormat(QtCore.Qt.RichText)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 7, 1, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 26))
         self.menubar.setObjectName("menubar")
         self.menuAbout = QtGui.QMenu(self.menubar)
         self.menuAbout.setObjectName("menuAbout")
@@ -435,8 +439,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "P2PBooks", None, QtGui.QApplication.UnicodeUTF8))
-        self.login_push_button.setText(QtGui.QApplication.translate("MainWindow", "Login", None, QtGui.QApplication.UnicodeUTF8))
         self.go_push_button.setText(QtGui.QApplication.translate("MainWindow", "Go", None, QtGui.QApplication.UnicodeUTF8))
+        self.login_push_button.setText(QtGui.QApplication.translate("MainWindow", "Login", None, QtGui.QApplication.UnicodeUTF8))
         self.register_push_button.setText(QtGui.QApplication.translate("MainWindow", "Register", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Author", None, QtGui.QApplication.UnicodeUTF8))
@@ -445,7 +449,6 @@ class Ui_MainWindow(object):
         self.search_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
         self.close_push_button.setText(QtGui.QApplication.translate("MainWindow", "Close", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MainWindow", "Catalog", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Author", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", "ISBN", None, QtGui.QApplication.UnicodeUTF8))
@@ -550,5 +553,6 @@ class Ui_MainWindow(object):
         self.sports_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
         self.sports_checkout_push_button.setText(QtGui.QApplication.translate("MainWindow", "Checkout", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.sports_tab), QtGui.QApplication.translate("MainWindow", "Sports", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "Catalog", None, QtGui.QApplication.UnicodeUTF8))
         self.menuAbout.setTitle(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
 

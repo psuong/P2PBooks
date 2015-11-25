@@ -2,7 +2,6 @@ import os
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
 from models.main_model import convert_pdf_to_txt
 
-
 PDF_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'pdf')
 USER_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
@@ -21,7 +20,7 @@ GENRE_LIST = ["Kids",
               "Sports"]
 
 init_ISBN = 1000000000
-count, user_count = 0, 0
+count, user_count, price = 0, 0, 10
 user_list = []
 lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel massa non sem tristique condimentum.
 Nullam egestas nibh nibh, nec gravida nunc pharetra nec. Nullam accumsan facilisis quam sed laoreet. Nam lorem nisi,
@@ -41,10 +40,10 @@ for pdf in os.listdir(PDF_DIR_PATH):
         serialize_ebook(EBook(title=(pdf[:-4]),
                               author="Author#" + str(count),
                               genre=GENRE_LIST[count],
-                              price=count,
+                              price=price,
                               uploader=user_list[user_count],
                               summary=lorem,
-                              cover_img='',
+                              cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
                               isbn=str(init_ISBN),
                               book_text=convert_pdf_to_txt(PDF_DIR_PATH+"\\"+pdf)),
                         str(init_ISBN),
@@ -53,4 +52,5 @@ for pdf in os.listdir(PDF_DIR_PATH):
         if user_count == len(user_list):
             user_count = 0
         init_ISBN += 1
-        count += 1
+        count += 1        
+        price += 10

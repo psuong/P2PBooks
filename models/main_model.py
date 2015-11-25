@@ -84,6 +84,10 @@ def catalogue_loader():
     return book_dict
 
 
+def get_book_instance(isbn):
+    return load_serialized_ebook(isbn)
+
+
 def checkout_ebook(user_object, isbn):
     pass
 
