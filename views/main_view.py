@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from datetime import datetime
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered
+    Ui_MainWindowRegistered, Ui_BadWordsDialog
 from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user
 import os
@@ -84,6 +84,7 @@ class ReportDialogView(QtGui.QDialog):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
+        self.bad_words_dialog = BadWordsDialogView(self.model)
         self.build_ui()
 
     def build_ui(self):
@@ -96,6 +97,11 @@ class ReportDialogView(QtGui.QDialog):
                                            "Copyright violation infringement",
                                            "None of the above (Specify below)",
                                            ])
+
+        # Opens bad_words_dialog on activate of index 1 ("Violent/repulsive content")
+        self.connect(self.ui.report_combo_box, QtCore.SIGNAL("activated(int)"),
+                     self.show_bad_words_dialog)
+
 
     def accept(self, *args, **kwargs):
         # Press OK
@@ -111,6 +117,22 @@ class ReportDialogView(QtGui.QDialog):
         else:
             # Display an error message to tell the user to select a selection from the combo box
             QtGui.QMessageBox.about(self, "Error", "Please select a reason from the dropdown")
+
+    @QtCore.Slot()
+    def show_bad_words_dialog(self, index):
+        if index == 1:
+            self.bad_words_dialog.show()
+
+
+class BadWordsDialogView(QtGui.QDialog):
+    def __init__(self, model):
+        self.model = model
+        super(BadWordsDialogView, self).__init__()
+        self.ui = Ui_BadWordsDialog.Ui_Dialog()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
 
 
 class ReaderFormView(QtGui.QWidget):
