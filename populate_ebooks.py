@@ -1,5 +1,6 @@
 import os
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
+from models.main_model import convert_pdf_to_txt
 
 
 PDF_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'pdf')
@@ -44,7 +45,8 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               uploader=user_list[user_count],
                               summary=lorem,
                               cover_img='',
-                              isbn=str(init_ISBN)),
+                              isbn=str(init_ISBN),
+                              book_text=convert_pdf_to_txt(PDF_DIR_PATH+"\\"+pdf)),
                         str(init_ISBN),
                         os.path.join(PDF_DIR_PATH, pdf))
         user_count += 1

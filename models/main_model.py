@@ -31,6 +31,7 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cov
                           uploader=load_serialized_user(uploader),
                           summary=summary,
                           cover_img=cover_img,
+                          book_text=convert_pdf_to_txt(file_location)
                           ), isbn, file_location)
 
 
