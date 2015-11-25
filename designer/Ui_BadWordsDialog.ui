@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="search_push_button">
      <property name="text">
       <string>Search</string>
      </property>

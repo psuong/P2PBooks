@@ -133,6 +133,17 @@ class BadWordsDialogView(QtGui.QDialog):
 
     def build_ui(self):
         self.ui.setupUi(self)
+        self.ui.search_push_button.clicked.connect(self.search_words)
+
+    @QtCore.Slot()
+    def search_words(self):
+        bad_words_text = self.ui.bad_words_text_edit.toPlainText()
+        if bad_words_text == "":
+            # Display an error message to tell the user to write a description
+            QtGui.QMessageBox.about(self, "Error", "You have not yet listed any bad words")
+        else:
+            bad_words_list = bad_words_text.split(', ')
+            print bad_words_list
 
 
 class ReaderFormView(QtGui.QWidget):
