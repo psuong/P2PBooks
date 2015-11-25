@@ -1,6 +1,7 @@
 import os
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
 
+
 PDF_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'pdf')
 USER_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')

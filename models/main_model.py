@@ -1,5 +1,10 @@
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from pdfminer.pdfpage import PDFPage
+from cStringIO import StringIO
 
 
 def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cover_img, file_location):
@@ -80,3 +85,27 @@ def catalogue_loader():
 
 def checkout_ebook(user_object, isbn):
     pass
+
+
+def convert_pdf_to_txt(path):
+    rsrcmgr = PDFResourceManager()
+    retstr = StringIO()
+    codec = 'utf-8'
+    laparams = LAParams()
+    device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+    fp = file(path, 'rb')
+    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    password = ""
+    maxpages = 0
+    caching = True
+    pagenos=set()
+
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
+        interpreter.process_page(page)
+
+    text = retstr.getvalue()
+
+    fp.close()
+    device.close()
+    retstr.close()
+    return text
