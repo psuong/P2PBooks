@@ -122,7 +122,7 @@ def convert_pdf_to_txt(path):
 
 
 def submit_report_form(reporter, reason, description, book_instance):
-    report_name = "Report_" + book_instance.isbn + " " + str(datetime.datetime.now()).replace(":", "-")
+    report_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
     serialize_report(Report(reporter=reporter,
                             reason=reason,
                             description=description
@@ -132,10 +132,5 @@ def submit_report_form(reporter, reason, description, book_instance):
 
 def add_report_to_book(book_instance, report_name):
     book_instance.add_report(load_serialized_report(report_name))
-    add_reported_book_to_uploader(book_instance)
-    serialize_ebook(book_instance, book_instance.isbn, EBOOKS_DIR_PATH + "\\" + book_instance.isbn + ".pickle")
+    serialize_ebook(book_instance, book_instance.isbn, os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + ".pickle"))
 
-
-def add_reported_book_to_uploader(book_instance):
-    book_instance.uploader.reported_books[book_instance.isbn] = book_instance
-    serialize_user(book_instance.uploader, book_instance.uploader.username)

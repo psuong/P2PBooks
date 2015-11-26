@@ -11,6 +11,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
 class UploadFormView(QtGui.QWidget):
     def __init__(self, model, username, main_window_inst):
         self.model = model

@@ -50,6 +50,7 @@ def load_serialized_report(save_file_name):
     except IOError:
         return None
 
+
 def get_ebook_pickles():
     ebooks_list = []
     for pickle in os.listdir(EBOOKS_DIR_PATH):
@@ -82,7 +83,6 @@ class User(object):
         self.group_policy = group_policy
         self.uploaded_books = []  # Make sure to store EBooks objects
         self.rented_books = {}  # Make sure to store EBooks objects
-        self.reported_books = {}  # Make sure to store EBooks objects
         self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
