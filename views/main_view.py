@@ -1,11 +1,15 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList
-from models.main_model import submit_upload_form
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
+from models.main_model import submit_upload_form, submit_report_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
 import datetime
+import sys
 
+# Change default encoding to be utf-8 for searching bad words in book_text
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class UploadFormView(QtGui.QWidget):
     def __init__(self, model, username, main_window_inst):
@@ -14,8 +18,8 @@ class UploadFormView(QtGui.QWidget):
         self.ui = Ui_UploadForm.Ui_Form()
         self.build_ui()
         self.file_location = None
-        self.cover_img_location = None
         self.new_book_added = False
+        self.cover_img_location = None
         self.main_window = main_window_inst
         self.username = username
 
@@ -69,7 +73,7 @@ class UploadFormView(QtGui.QWidget):
                 # Returns an Error message if file DNE
                 QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
         else:
-            QtGui.QMessageBox.about(self, "Error", "Fields must be field in.")
+            QtGui.QMessageBox.about(self, "Error", "Fields must be filled in.")
 
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
@@ -121,13 +125,16 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model):
+    def __init__(self, model, book_instance, reporter, reason=""):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
-        self.build_ui()
+        self.reporter = reporter
+        self.book_instance = book_instance
+        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter)
+        self.build_ui(reason)
 
-    def build_ui(self):
+    def build_ui(self, reason):
         self.ui.setupUi(self)
 
         # Give reason options to report_combo_box
@@ -137,6 +144,14 @@ class ReportDialogView(QtGui.QDialog):
                                            "Copyright violation infringement",
                                            "None of the above (Specify below)",
                                            ])
+
+        if reason != "":
+            self.ui.report_text_edit.setText(reason)
+            self.ui.report_combo_box.setCurrentIndex(1)
+
+        # Opens bad_words_dialog on activate of index 1 ("Violent/repulsive content")
+        self.connect(self.ui.report_combo_box, QtCore.SIGNAL("activated(int)"),
+                     self.show_bad_words_dialog)
 
     def accept(self, *args, **kwargs):
         # Press OK
@@ -148,10 +163,51 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
+                submit_report_form(self.reporter.username, report_selection, report_description, self.book_instance)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
             QtGui.QMessageBox.about(self, "Error", "Please select a reason from the dropdown")
+
+    @QtCore.Slot()
+    def show_bad_words_dialog(self, index):
+        if index == 1:
+            self.close()
+            self.bad_words_dialog.show()
+
+
+class BadWordsDialogView(QtGui.QDialog):
+    def __init__(self, model, book_instance, reporter):
+        self.model = model
+        self.book_instance = book_instance
+        super(BadWordsDialogView, self).__init__()
+        self.reporter = reporter
+        self.ui = Ui_BadWordsDialog.Ui_Dialog()
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+        self.ui.search_push_button.clicked.connect(self.search_words)
+
+    @QtCore.Slot()
+    def search_words(self):
+        bad_words_text = self.ui.bad_words_text_edit.toPlainText()
+        if bad_words_text == "":
+            # Display an error message to tell the user to write a description
+            QtGui.QMessageBox.about(self, "Error", "You have not yet listed any bad words")
+        else:
+            bad_words_list = bad_words_text.split(', ')
+            book_text = self.book_instance.book_text
+            reason = "Bad Words: \n"
+            for word in bad_words_list:
+                if book_text.find(word.lower(), 0, len(book_text)) >= 0:
+                    reason += word + ": Found \n"
+                else:
+                    reason += word + ": Not Found \n"
+
+            self.hide()
+            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, reason)
+            self.report_dialog.show()
 
 
 class ReaderFormView(QtGui.QWidget):
@@ -163,7 +219,7 @@ class ReaderFormView(QtGui.QWidget):
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.report_dialog = ReportDialogView(self.model)
+        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance)
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None
