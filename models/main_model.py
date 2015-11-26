@@ -1,3 +1,4 @@
+import os
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
@@ -5,6 +6,9 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
+
+ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
+EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
 
 
 def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cover_img, file_location):
@@ -126,7 +130,9 @@ def submit_report_form(reporter, reason, description, book_instance):
 def add_report_to_book(book_instance, report_name):
     book_instance.add_report(load_serialized_report(report_name))
     add_reported_book_to_uploader(book_instance)
-    # serialize_ebook(book_instance, book_instance.isbn, )
+    serialize_ebook(book_instance, book_instance.isbn, EBOOKS_DIR_PATH + "\\" + book_instance.isbn + ".pickle")
+
 
 def add_reported_book_to_uploader(book_instance):
     book_instance.uploader.reported_books.append(book_instance)
+    serialize_user(book_instance.uploader, book_instance.uploader.username)

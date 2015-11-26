@@ -8,7 +8,6 @@ EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
 REPORTS_DIR_PATH = os.path.join('database', 'blobs', 'reports')
 
 
-
 # Save and load users
 def serialize_user(db_object, save_file_name):
     with open(os.path.join(ACCOUNT_DIR_PATH, save_file_name + '.pickle'), 'wb') as out:
