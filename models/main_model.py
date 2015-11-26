@@ -1,4 +1,5 @@
 import os
+import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
@@ -119,12 +120,14 @@ def convert_pdf_to_txt(path):
     retstr.close()
     return text.lower()
 
+
 def submit_report_form(reporter, reason, description, book_instance):
+    report_name = "Report_" + book_instance.isbn + " " + str(datetime.datetime.now()).replace(":", "-")
     serialize_report(Report(reporter=reporter,
                             reason=reason,
                             description=description
-                            ), "Report #2222")
-    add_report_to_book(book_instance, "Report #2222")
+                            ), report_name)
+    add_report_to_book(book_instance, report_name)
 
 
 def add_report_to_book(book_instance, report_name):
