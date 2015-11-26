@@ -128,14 +128,14 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance):
+    def __init__(self, model, book_instance, reason=""):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
         self.bad_words_dialog = BadWordsDialogView(self.model, book_instance)
-        self.build_ui()
+        self.build_ui(reason)
 
-    def build_ui(self):
+    def build_ui(self, reason):
         self.ui.setupUi(self)
 
         # Give reason options to report_combo_box
@@ -146,10 +146,13 @@ class ReportDialogView(QtGui.QDialog):
                                            "None of the above (Specify below)",
                                            ])
 
+        if reason != "":
+            self.ui.report_text_edit.setText(reason)
+            self.ui.report_combo_box.setCurrentIndex(1)
+
         # Opens bad_words_dialog on activate of index 1 ("Violent/repulsive content")
         self.connect(self.ui.report_combo_box, QtCore.SIGNAL("activated(int)"),
                      self.show_bad_words_dialog)
-
 
     def accept(self, *args, **kwargs):
         # Press OK
@@ -169,6 +172,7 @@ class ReportDialogView(QtGui.QDialog):
     @QtCore.Slot()
     def show_bad_words_dialog(self, index):
         if index == 1:
+            self.close()
             self.bad_words_dialog.show()
 
 
@@ -193,9 +197,16 @@ class BadWordsDialogView(QtGui.QDialog):
         else:
             bad_words_list = bad_words_text.split(', ')
             book_text = self.book_instance.book_text
+            reason = "Bad Words: \n"
             for word in bad_words_list:
                 if book_text.find(word, 0, len(book_text) >= 0):
-                    print "YO"
+                    reason += word + ": Found \n"
+                else:
+                    reason += word + ": Not Found \n"
+
+            self.hide()
+            self.report_dialog = ReportDialogView(self.model, self.book_instance, reason)
+            self.report_dialog.show()
 
 
 class ReaderFormView(QtGui.QWidget):
