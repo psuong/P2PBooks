@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
-from models.main_model import submit_upload_form
+from models.main_model import submit_upload_form, submit_report_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
 import datetime
@@ -128,11 +128,13 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance, reason=""):
+    def __init__(self, model, book_instance, reporter, reason=""):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
-        self.bad_words_dialog = BadWordsDialogView(self.model, book_instance)
+        self.reporter = reporter
+        self.book_instance = book_instance
+        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter)
         self.build_ui(reason)
 
     def build_ui(self, reason):
@@ -164,6 +166,7 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
+                submit_report_form(self.reporter.username, report_selection, report_description)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -177,10 +180,11 @@ class ReportDialogView(QtGui.QDialog):
 
 
 class BadWordsDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance):
+    def __init__(self, model, book_instance, reporter):
         self.model = model
         self.book_instance = book_instance
         super(BadWordsDialogView, self).__init__()
+        self.reporter = reporter
         self.ui = Ui_BadWordsDialog.Ui_Dialog()
         self.build_ui()
 
@@ -205,7 +209,7 @@ class BadWordsDialogView(QtGui.QDialog):
                     reason += word + ": Not Found \n"
 
             self.hide()
-            self.report_dialog = ReportDialogView(self.model, self.book_instance, reason)
+            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, reason)
             self.report_dialog.show()
 
 
@@ -219,7 +223,7 @@ class ReaderFormView(QtGui.QWidget):
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.report_dialog = ReportDialogView(self.model, self.book_instance)
+        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance)
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None

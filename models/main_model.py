@@ -1,5 +1,5 @@
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
-    load_serialized_ebook, get_ebook_pickles
+    load_serialized_ebook, get_ebook_pickles, serialize_report, Report
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -114,3 +114,9 @@ def convert_pdf_to_txt(path):
     device.close()
     retstr.close()
     return text
+
+def submit_report_form(reporter, reason, description):
+    serialize_report(Report(reporter=reporter,
+                            reason=reason,
+                            description=description
+                            ), "Report #3333")

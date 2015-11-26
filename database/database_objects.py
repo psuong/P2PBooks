@@ -5,6 +5,8 @@ import shutil
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
+REPORTS_DIR_PATH = os.path.join('database', 'blobs', 'reports')
+
 
 
 # Save and load users
@@ -35,6 +37,19 @@ def load_serialized_ebook(save_file_name):
     except IOError:
         return None
 
+
+# Save and load reports
+def serialize_report(db_object, save_file_name):
+    with open(os.path.join(REPORTS_DIR_PATH, save_file_name + '.pickle'), 'wb') as out:
+        cPickle.dump(db_object, out)
+
+
+def load_serialized_report(save_file_name):
+    try:
+        with open(os.path.join(REPORTS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
+            return cPickle.load(input_file)
+    except IOError:
+        return None
 
 def get_ebook_pickles():
     ebooks_list = []
@@ -143,17 +158,17 @@ class PurchasedEBook(object):
 
 
 class Report(object):
-    def __init__(self, reporter, reason, comment):
+    def __init__(self, reporter, reason, description):
         """
         Class definition for a Report object
         :param reporter: str
         :param reason: str
-        :param comment: str
+        :param description: str
         """
         self.time_stamp = datetime.now()
         self.reporter = load_serialized_user(reporter)
         self.reason = reason
-        self.comment = comment
+        self.description = description
 
     @property
     def __unicode__(self):
