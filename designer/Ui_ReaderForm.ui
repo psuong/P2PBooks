@@ -17,12 +17,67 @@
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Published by</string>
+      <string>Uploader</string>
      </property>
     </widget>
    </item>
    <item row="0" column="2">
     <widget class="QLineEdit" name="title_line_edit"/>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="report_push_button">
+     <property name="text">
+      <string>Report</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" colspan="2">
+    <widget class="QLabel" name="pdf_reader_path_label">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="ratings_line_edit"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Title</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Ratings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Time remaining</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>PDF Reader</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="uploader_by_line_edit"/>
+   </item>
+   <item row="6" column="3">
+    <widget class="QPushButton" name="browse_pdf_reader_push_button">
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="3">
     <widget class="QPushButton" name="share_push_button">
@@ -38,37 +93,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Ratings</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Time Remaining</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QPushButton" name="report_push_button">
-     <property name="text">
-      <string>Report</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLineEdit" name="ratings_line_edit"/>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Title</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" colspan="3">
     <widget class="QPushButton" name="read_pause_push_button">
      <property name="text">
@@ -76,40 +100,17 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
-    <widget class="QLineEdit" name="published_by_line_edit"/>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_5">
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>PDF Reader</string>
+      <string>Checked out</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QProgressBar" name="progress_bar">
-     <property name="value">
-      <number>0</number>
-     </property>
-     <property name="textVisible">
-      <bool>false</bool>
-     </property>
-     <property name="invertedAppearance">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1" colspan="2">
-    <widget class="QLabel" name="pdf_reader_path_label">
+   <item row="5" column="1" colspan="2">
+    <widget class="QLabel" name="checkout_at_label">
      <property name="text">
       <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QPushButton" name="browse_pdf_reader_push_button">
-     <property name="text">
-      <string>Browse</string>
      </property>
     </widget>
    </item>

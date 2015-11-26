@@ -136,7 +136,7 @@ class PurchasedEBook(object):
         """
         self.isbn = isbn
         self.checked_out_time = checked_out_time
-        self.return_time = length_on_rent
+        self.length_on_rent = length_on_rent
         self.paused_time = paused_time
 
 
