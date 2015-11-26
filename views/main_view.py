@@ -5,7 +5,11 @@ from models.main_model import submit_upload_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
 import datetime
+import sys
 
+# Change default encoding to be utf-8 for searching bad words in book_text
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class UploadFormView(QtGui.QWidget):
     def __init__(self, model, username, main_window_inst):
@@ -124,11 +128,11 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model):
+    def __init__(self, model, book_instance):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
-        self.bad_words_dialog = BadWordsDialogView(self.model)
+        self.bad_words_dialog = BadWordsDialogView(self.model, book_instance)
         self.build_ui()
 
     def build_ui(self):
@@ -169,8 +173,9 @@ class ReportDialogView(QtGui.QDialog):
 
 
 class BadWordsDialogView(QtGui.QDialog):
-    def __init__(self, model):
+    def __init__(self, model, book_instance):
         self.model = model
+        self.book_instance = book_instance
         super(BadWordsDialogView, self).__init__()
         self.ui = Ui_BadWordsDialog.Ui_Dialog()
         self.build_ui()
@@ -187,7 +192,10 @@ class BadWordsDialogView(QtGui.QDialog):
             QtGui.QMessageBox.about(self, "Error", "You have not yet listed any bad words")
         else:
             bad_words_list = bad_words_text.split(', ')
-            print bad_words_list
+            book_text = self.book_instance.book_text
+            for word in bad_words_list:
+                if book_text.find(word, 0, len(book_text) >= 0):
+                    print "YO"
 
 
 class ReaderFormView(QtGui.QWidget):
@@ -200,7 +208,7 @@ class ReaderFormView(QtGui.QWidget):
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.report_dialog = ReportDialogView(self.model)
+        self.report_dialog = ReportDialogView(self.model, self.book_instance)
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None
