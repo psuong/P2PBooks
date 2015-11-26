@@ -147,7 +147,6 @@ class ReaderFormView(QtGui.QWidget):
         self.user_instance = user_instance
         self.main_window = main_window
         self.book_purchase_info = user_instance.rented_books[book_isbn]
-        self.initial_pause_time = self.book_purchase_info.paused_time.second
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
@@ -177,10 +176,10 @@ class ReaderFormView(QtGui.QWidget):
             self.ui.pdf_reader_path_label.setText(self.user_instance.default_pdf_reader)
 
         self.ui.checkout_at_label.setText(self.book_purchase_info.checked_out_time.strftime('%H:%M:%S %m/%d/%y'))
-        # Calculate remaining time
-        time_remaining = self.book_purchase_info.paused_time + datetime.timedelta(
-            seconds=self.book_purchase_info.paused_time.second * self.book_purchase_info.length_on_rent)
-        self.ui.time_remaining_label.setText(time_remaining.strftime('%S seconds'))
+        # Time remaining, lock read if 0
+        self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
+        if self.book_purchase_info.length_on_rent == 0:
+            self.ui.read_pause_push_button.setDisabled(True)
 
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
@@ -192,9 +191,9 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def show_time(self):
-        self.initial_pause_time -= 1
-        self.ui.time_remaining_label.setText(str(self.initial_pause_time))
-        if self.initial_pause_time == 0:
+        self.book_purchase_info.length_on_rent -= 1
+        self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
+        if self.book_purchase_info.length_on_rent == 0:
             self.reader_process.kill()
             self.timer.stop()
             self.ui.read_pause_push_button.setDisabled(True)
@@ -209,7 +208,7 @@ class ReaderFormView(QtGui.QWidget):
             self.book_purchase_info.paused_time = datetime.datetime.now()
         else:
             # Check if book can be read
-            arguments = [self.pdf_reader_location]
+            arguments = [os.path.join('database', 'blobs', 'ebooks', self.book_instance.isbn + '.pdf')]
             self.reader_process = QtCore.QProcess(self)
             self.reader_process.started.connect(self.started)
             self.reader_process.finished.connect(self.finished)
