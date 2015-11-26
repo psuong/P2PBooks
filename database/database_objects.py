@@ -132,7 +132,7 @@ class EBook(object):
     def __unicode__(self):
         return self.isbn
 
-    def report(self, report):
+    def add_report(self, report):
         """
         :param report: Report object
         :return:

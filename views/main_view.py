@@ -166,7 +166,7 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
-                submit_report_form(self.reporter.username, report_selection, report_description)
+                submit_report_form(self.reporter.username, report_selection, report_description, self.book_instance)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -203,7 +203,7 @@ class BadWordsDialogView(QtGui.QDialog):
             book_text = self.book_instance.book_text
             reason = "Bad Words: \n"
             for word in bad_words_list:
-                if book_text.find(word, 0, len(book_text) >= 0):
+                if book_text.find(word.lower(), 0, len(book_text)) >= 0:
                     reason += word + ": Found \n"
                 else:
                     reason += word + ": Not Found \n"
