@@ -110,7 +110,7 @@ def convert_pdf_to_txt(path):
     caching = True
     pagenos=set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=2, password=password,caching=caching, check_extractable=True):
         interpreter.process_page(page)
 
     text = retstr.getvalue()
@@ -137,5 +137,5 @@ def add_report_to_book(book_instance, report_name):
 
 
 def add_reported_book_to_uploader(book_instance):
-    book_instance.uploader.reported_books.append(book_instance)
+    book_instance.uploader.reported_books[book_instance.isbn] = book_instance
     serialize_user(book_instance.uploader, book_instance.uploader.username)
