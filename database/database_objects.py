@@ -127,6 +127,8 @@ class EBook(object):
         self.rating = rating
         self.history = []
 
+        self.total_seconds = 0
+
     @property
     def __unicode__(self):
         return self.isbn

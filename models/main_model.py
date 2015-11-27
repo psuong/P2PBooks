@@ -134,3 +134,6 @@ def add_report_to_book(book_instance, report_name):
     book_instance.add_report(load_serialized_report(report_name))
     serialize_ebook(book_instance, book_instance.isbn, os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + ".pickle"))
 
+
+def submit_review_rate_form(book_instance, reviewer, rating, review):
+    pass

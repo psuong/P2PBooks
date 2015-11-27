@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
-from models.main_model import submit_upload_form, submit_report_form
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
+from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
 import os
 import datetime
@@ -221,6 +221,7 @@ class ReaderFormView(QtGui.QWidget):
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance)
+        self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance)
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None
@@ -255,6 +256,7 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
+        self.ui.review_rate_push_button.clicked.connect(self.review_rate)
         self.ui.browse_pdf_reader_push_button.clicked.connect(self.browse_reader_location)
 
         self.timer.timeout.connect(self.show_time)
@@ -306,6 +308,11 @@ class ReaderFormView(QtGui.QWidget):
         self.report_dialog.show()
 
     @QtCore.Slot()
+    def review_rate(self):
+        # Trigger the report widget
+        self.review_rate_dialog.show()
+
+    @QtCore.Slot()
     def browse_reader_location(self):
         pdf_reader = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
                                                        'PDF Reader Formats (*.exe)')
@@ -318,6 +325,36 @@ class ReaderFormView(QtGui.QWidget):
         serialize_user(self.user_instance, self.user_instance.username)
         self.main_window.show()
         self.hide()
+
+
+class ReviewRateDialogView(QtGui.QDialog):
+    def __init__(self, model, book_instance, reviewer):
+        self.model = model
+        super(ReviewRateDialogView, self).__init__()
+        self.ui = Ui_ReviewRateDialog.Ui_Dialog()
+
+        self.book_instance = book_instance
+        self.reviewer = reviewer
+
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Setup combo box
+        self.ui.rating_combo_box.addItems(["", "1", "2", "3", "4", "5"])
+
+        self.ui.submit_push_button.clicked.connect(self.submit)
+
+    @QtCore.Slot()
+    def submit(self):
+        review_text = self.ui.review_text_edit.toPlainText()
+        if review_text == "":
+            # Display an error message to tell the user to write a description
+            QtGui.QMessageBox.about(self, "Error", "You have not yet written anything in the review")
+        else:
+            submit_review_rate_form(self.book_instance, self.reviewer, int(self.ui.rating_combo_box.currentText()),
+                                    review_text)
 
 
 class LoginFormView(QtGui.QWidget):
