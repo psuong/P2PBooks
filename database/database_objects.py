@@ -139,7 +139,7 @@ class EBook(object):
         self.book_text = book_text
         self.buy_count = 0
 
-        self.approved = False
+        self.award_amount = None
         self.reports = []
         self.rating = rating
         self.history = []

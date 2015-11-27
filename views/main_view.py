@@ -1153,6 +1153,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.username = username
         self.main_window = main_window
         self.reader_process = None
+        self.reports_message_box = QtGui.QMessageBox()
         self.pdf_reader_location = pdf_reader_location
         self.user_file = load_serialized_user(self.username)
         self.reputation = self.user_file.credits
@@ -1169,6 +1170,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.ui.verify_reports_push_button.clicked.connect(
             lambda: self.verify_report(self.ui.reports_table_widget.selectedItems()))
         self.ui.cancel_push_button.clicked.connect(self.closeEvent)
+
+        self.ui.remove_book_push_button.clicked.connect(
+            lambda: self.remove_book(self.ui.reports_table_widget.selectedItems())
+        )
 
         # Load books awaiting approval and reports
         self.books_waiting()
@@ -1198,6 +1203,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
             self.model.add_user_credits(self.username, self.ui.credit_amount_spin_box.value())
             book = load_serialized_ebook(row_items[0].text())
             book.approved = True
+            book.award_amount = self.ui.credit_amount_spin_box.value()
             update_serialized_ebook(book)
             self.main_window.reload_user_info()
         else:
@@ -1206,7 +1212,14 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.books_waiting()
 
     def verify_report(self, row_items):
-        print "delete clicked"
+        self.reports_message_box.setText(self.model.report_info(
+            row_items[0].text() + '-' + row_items[3].text().replace(':', '-')).description)
+        self.reports_message_box.exec_()
+
+    def remove_book(self, row_items):
+        self.model.remove_ebook_with_infraction(row_items[0].text(),
+                                                row_items[1].text())
+
 
     def books_waiting(self):
         self.ui.approvals_table_widget.setRowCount(0)
@@ -1231,7 +1244,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
                                                  QtGui.QTableWidgetItem(str(report.reporter.username)))
             self.ui.reports_table_widget.setItem(row, 3,
                                                  QtGui.QTableWidgetItem(
-                                                     str(report.time_stamp.strftime('%b %d %Y %H:%M:%S'))))
+                                                     str(report.time_stamp)))
 
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()

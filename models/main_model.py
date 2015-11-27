@@ -171,6 +171,10 @@ def reports_list():
     return get_report_pickles()
 
 
+def report_info(isbn_datetime):
+    return load_serialized_report(isbn_datetime)
+
+
 def add_user_credits(username, credit):
     user = load_serialized_user(username)
     user.credits += credit
@@ -184,5 +188,15 @@ def remove_user_credits(username, credit):
 
 
 def remove_ebook(isbn):
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
+
+
+def remove_ebook_with_infraction(isbn, infraction_reason):
+    book = load_serialized_ebook(isbn)
+    user = load_serialized_user(book.uploader.username)
+    user.credits -= book.reward_amount
+    user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
+    serialize_user(user, user.username)
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
