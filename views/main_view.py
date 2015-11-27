@@ -2,8 +2,8 @@ from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form
-from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user,\
-    update_serialized_ebook
+from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
+    update_serialized_ebook, update_serialized_user
 import os
 import datetime
 import sys
@@ -111,7 +111,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
     def accept(self, *args, **kwargs):
         if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
-            if self.user_instance.rented_books[self.isbn]:
+            if self.isbn in self.user_instance.rented_books.keys():
                 self.user_instance.rented_books[self.isbn].length_on_rent += self.ui.length_spin_box.value()
             else:
                 ebook_purchase = PurchasedEBook(self.username,
@@ -288,7 +288,11 @@ class ReaderFormView(QtGui.QWidget):
             self.timer.stop()
             self.book_purchase_info.paused_time = datetime.datetime.now()
             self.book_instance.add_seconds(self.count_seconds)
+            self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
+
+            update_serialized_user(self.user_instance)
             update_serialized_ebook(self.book_instance)
+
         else:
             self.count_seconds = 0
             # Check if book can be read
@@ -361,12 +365,25 @@ class ReviewRateDialogView(QtGui.QDialog):
     @QtCore.Slot()
     def submit(self):
         review_text = self.ui.review_text_edit.toPlainText()
-        if review_text == "":
-            # Display an error message to tell the user to write a description
-            QtGui.QMessageBox.about(self, "Error", "You have not yet written anything in the review")
+        if self.book_instance.total_seconds == 0.0:
+            # Display an error message to tell the user to read the book first! (Calculate rating when division
+            # by 0 is undefined!)
+            QtGui.QMessageBox.about(self, "Error", "You have not even read the book yet! "
+                                                   "Come back to review once you've read for at least a second")
         else:
-            submit_review_rate_form(self.book_instance, self.reviewer, int(self.ui.rating_combo_box.currentText()),
-                                    review_text)
+            if self.ui.rating_combo_box == "":
+                # Display an error message to tell the user to give a rating
+                QtGui.QMessageBox.about(self, "Error", "You have not yet selected a rating")
+            elif review_text == "":
+                # Display an error message to tell the user to write a description
+                QtGui.QMessageBox.about(self, "Error", "You have not yet written anything in the review")
+            else:
+                submit_review_rate_form(self.book_instance, self.reviewer.username,
+                                        float(self.ui.rating_combo_box.currentText()),
+                                        review_text)
+                self.hide()
+
+
 
 
 class LoginFormView(QtGui.QWidget):

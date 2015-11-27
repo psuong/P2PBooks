@@ -15,6 +15,12 @@ def serialize_user(db_object, save_file_name):
         cPickle.dump(db_object, out)
 
 
+def update_serialized_user(user_instance):
+    with open(os.path.join(ACCOUNT_DIR_PATH, user_instance.username + '.pickle'), 'wb') as out:
+        cPickle.dump(user_instance, out)
+
+
+
 def load_serialized_user(save_file_name):
     try:
         with open(os.path.join(ACCOUNT_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
@@ -117,7 +123,7 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0):
+    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0.0):
         """
         Class definition for a EBook object
         :param title: str
@@ -185,8 +191,8 @@ class PurchasedEBook(object):
         self.paused_time = paused_time
         self.total_seconds = 0.0
 
-        def add_seconds(self, seconds):
-            self.total_seconds+=seconds
+    def add_seconds(self, seconds):
+        self.total_seconds += seconds
 
 
 class Report(object):
