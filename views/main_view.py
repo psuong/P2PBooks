@@ -1331,6 +1331,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
             book.award_amount = self.ui.credit_amount_spin_box.value()
             update_serialized_ebook(book)
             self.main_window.reload_user_info()
+            self.main_window.load_ebooks()
         else:
             # Remove ebook from approval list
             self.model.remove_ebook(row_items[0].text())

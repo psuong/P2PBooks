@@ -114,7 +114,7 @@ def convert_pdf_to_txt(path):
     caching = True
     pagenos = set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=1, password=password,caching=caching, check_extractable=True):
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=1, password=password, caching=caching, check_extractable=True):
         interpreter.process_page(page)
 
     text = retstr.getvalue()
@@ -227,12 +227,14 @@ def blacklist_book_uploader(isbn):
     user.is_blacklisted = True
     serialize_user(user, user.username)
 
+
 def report_exists(reporter, book_instance):
     for book in reporter.reported_books:
         if book == book_instance:
             return True
 
     return False
+
 
 def submit_review_rate_form(book_instance, reviewer, rating, review):
     review_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
@@ -242,8 +244,8 @@ def submit_review_rate_form(book_instance, reviewer, rating, review):
     reviewer.reviewed_books.append(book_instance)
     update_serialized_user(reviewer)
 
-    book_instance.rating = (book_instance.rating*book_instance.count_seconds
-                            + reviewer.rented_books[book_instance.isbn].total_seconds*rating)/\
+    book_instance.rating = (book_instance.rating * book_instance.count_seconds
+                            + reviewer.rented_books[book_instance.isbn].total_seconds * rating) / \
                            book_instance.total_seconds
     book_instance.count_seconds = book_instance.total_seconds
 

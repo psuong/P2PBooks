@@ -20,7 +20,6 @@ def update_serialized_user(user_instance):
         cPickle.dump(user_instance, out)
 
 
-
 def load_serialized_user(save_file_name):
     try:
         with open(os.path.join(ACCOUNT_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
@@ -113,7 +112,7 @@ def get_ebook_pickles():
                     # If book has at least 3 reports
 
                     # TODO: Ensure B points is definitely the uploader's book price
-                    book_instance.uploader.credits -= (book_instance.price+100)
+                    book_instance.uploader.credits -= (book_instance.reward_amount + 100)
                     update_serialized_user(book_instance.uploader)
 
                     os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
@@ -155,8 +154,8 @@ class User(object):
         self.group_policy = group_policy
         self.uploaded_books = []  # Make sure to store EBooks objects
         self.rented_books = {}  # Make sure to store EBooks objects
-        self.reported_books = [] # Make sure to store EBooks objects
-        self.reviewed_books = [] # Make sure to store EBooks objects
+        self.reported_books = []  # Make sure to store EBooks objects
+        self.reviewed_books = []  # Make sure to store EBooks objects
         self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
@@ -210,7 +209,6 @@ class EBook(object):
         self.count_seconds = 0
 
         self.last_time_read = datetime.now()
-
 
     @property
     def __unicode__(self):
