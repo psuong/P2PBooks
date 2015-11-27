@@ -1136,7 +1136,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.read_library_push_button.hide()
 
     def admin(self):
-        self.admin_view = ApprovalReportedMainView(self.model, self.username, self)
+        self.admin_view = ApprovalReportedMainView(self.model, self.username, self,
+                                                   self.user_instance.default_pdf_reader)
         self.admin_view.show()
         self.hide()
 
@@ -1147,10 +1148,12 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
-    def __init__(self, model, username, main_window):
+    def __init__(self, model, username, main_window, pdf_reader_location):
         self.model = model
         self.username = username
         self.main_window = main_window
+        self.reader_process = None
+        self.pdf_reader_location = pdf_reader_location
         self.user_file = load_serialized_user(self.username)
         self.reputation = self.user_file.credits
         super(ApprovalReportedMainView, self).__init__()
@@ -1171,8 +1174,23 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.books_waiting()
         self.reports_waiting()
 
+        # Load PDF reader location
+        if self.pdf_reader_location is not None:
+            self.ui.pdf_location_label.setText(self.pdf_reader_location)
+
+        self.ui.pdf_reader_push_button.clicked.connect(self.browse_pdf_reader)
+
+    def browse_pdf_reader(self):
+        self.ui.pdf_location_label.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
+                                                                             'PDF Reader Formats (*.exe)'))
+
     def verify_approval(self, row_items):
-        print "approve clicked"
+        self.reader_process = QtCore.QProcess(self)
+        pdf = os.path.join('database', 'blobs', 'ebooks', row_items[0].text() + '.pdf')
+        self.reader_process.start(self.pdf_reader_location, [pdf])
+
+    def approve(self, row_items):
+        pass
 
     def verify_report(self, row_items):
         print "delete clicked"
