@@ -789,7 +789,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.reload_user_info()
         self.load_ebooks()
 
-        self.ui.action_infractions.triggered.connnect(self.trigger_infraction_message_box)
+        # self.ui.action_infractions.triggered.connnect(self.trigger_infraction_message_box)
 
         # Connect checkout buttons
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(

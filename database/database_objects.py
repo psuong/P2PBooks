@@ -113,7 +113,7 @@ class User(object):
 
 class EBook(object):
     def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0,
-                 approved=False):
+                 approved=False, reward_amount=0):
         """
         Class definition for a EBook object
         :param title: str
@@ -139,7 +139,7 @@ class EBook(object):
         self.book_text = book_text
         self.buy_count = 0
 
-        self.award_amount = None
+        self.reward_amount = reward_amount
         self.reports = []
         self.rating = rating
         self.history = []
