@@ -5,7 +5,6 @@ from models.main_model import submit_upload_form, submit_report_form, submit_rev
     report_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
     update_serialized_ebook, update_serialized_user
-    update_serialized_ebook
 from recommendations import get_top_related_books
 import os
 import datetime
