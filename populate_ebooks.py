@@ -1,4 +1,5 @@
 import os
+import random
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
 from models.main_model import convert_pdf_to_txt
 
@@ -45,7 +46,8 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               summary=lorem,
                               cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
                               isbn=str(init_ISBN),
-                              book_text=convert_pdf_to_txt(PDF_DIR_PATH+"\\"+pdf)),
+                              book_text=convert_pdf_to_txt(PDF_DIR_PATH+os.sep+pdf),
+                              rating=random.randrange(0, 11)),
                         str(init_ISBN),
                         os.path.join(PDF_DIR_PATH, pdf))
         user_count += 1
