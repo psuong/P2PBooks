@@ -1191,7 +1191,9 @@ class ApprovalReportedMainView(QtGui.QWidget):
         )
 
         # Ban user connect
-
+        self.ui.ban_ru_push_button.clicked.connect(
+            lambda: self.blacklist_user(self.ui.reports_table_widget.selectedItems())
+        )
         # Load books awaiting approval and reports
         self.books_waiting()
         self.reports_waiting()
@@ -1205,6 +1207,9 @@ class ApprovalReportedMainView(QtGui.QWidget):
             self.ui.pdf_location_label.setText(self.pdf_reader_location)
 
         self.ui.pdf_reader_push_button.clicked.connect(self.browse_pdf_reader)
+
+    def blacklist_user(self, row_items):
+        pass
 
     def browse_pdf_reader(self):
         self.ui.pdf_location_label.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
