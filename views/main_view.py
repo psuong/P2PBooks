@@ -111,13 +111,18 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
     def accept(self, *args, **kwargs):
         if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
-            ebook_purchase = PurchasedEBook(self.username,
-                                            self.isbn,
-                                            datetime.datetime.now(),
-                                            self.ui.length_spin_box.value(),
-                                            datetime.datetime.now())
+            if self.user_instance.rented_books[self.isbn]:
+                self.user_instance.rented_books[self.isbn].length_on_rent += self.ui.length_spin_box.value()
+            else:
+                ebook_purchase = PurchasedEBook(self.username,
+                                                self.isbn,
+                                                datetime.datetime.now(),
+                                                self.ui.length_spin_box.value(),
+                                                datetime.datetime.now())
+
+                self.user_instance.rented_books[self.isbn] = ebook_purchase
+
             self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
-            self.user_instance.rented_books[self.isbn] = ebook_purchase
             serialize_user(self.user_instance, self.user_instance.__unicode__)
             self.main_window.reload_user_info()
             self.hide()
@@ -284,7 +289,6 @@ class ReaderFormView(QtGui.QWidget):
             self.book_purchase_info.paused_time = datetime.datetime.now()
             self.book_instance.add_seconds(self.count_seconds)
             update_serialized_ebook(self.book_instance)
-            print load_serialized_ebook(self.book_instance.isbn).total_seconds
         else:
             self.count_seconds = 0
             # Check if book can be read

@@ -107,8 +107,6 @@ class User(object):
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
 
-        self.rented_seconds = {} # book_instance key; seconds value
-
     @property
     def __unicode__(self):
         return self.username
@@ -116,10 +114,6 @@ class User(object):
     def upload(self, ebook, username):
         self.uploaded_books.append(ebook)
         ebook.uploader = username
-
-    def add_seconds(self, rented_book, seconds):
-        self.rented_seconds[rented_book] += seconds
-
 
 
 class EBook(object):
@@ -173,6 +167,7 @@ class EBook(object):
     def add_seconds(self, seconds):
         self.total_seconds += seconds
 
+
 class PurchasedEBook(object):
     def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time):
         """
@@ -188,6 +183,10 @@ class PurchasedEBook(object):
         self.checked_out_time = checked_out_time
         self.length_on_rent = length_on_rent
         self.paused_time = paused_time
+        self.total_seconds = 0.0
+
+        def add_seconds(self, seconds):
+            self.total_seconds+=seconds
 
 
 class Report(object):
