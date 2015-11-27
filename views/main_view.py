@@ -58,15 +58,15 @@ class UploadFormView(QtGui.QWidget):
             does_file_exist = os.path.isfile(self.file_location)
             if does_file_exist:
                 # File uploaded successfully
-                submit_upload_form(self.ui.title_line_edit.text(),
-                                   self.ui.author_line_edit.text(),
-                                   self.ui.genres_combo_box.currentText(),
-                                   self.ui.isbn_line_edit.text(),
-                                   self.ui.price_spin_box.text(),
-                                   self.username,
-                                   self.ui.summary_plain_text_edit.toPlainText(),
-                                   self.cover_img_location,
-                                   self.file_location,
+                submit_upload_form(title=self.ui.title_line_edit.text(),
+                                   author=self.ui.author_line_edit.text(),
+                                   genre=self.ui.genres_combo_box.currentText(),
+                                   isbn=self.ui.isbn_line_edit.text(),
+                                   price=self.ui.price_spin_box.value(),
+                                   uploader=self.username,
+                                   summary=self.ui.summary_plain_text_edit.toPlainText(),
+                                   cover_img=self.cover_img_location,
+                                   file_location=self.file_location,
                                    )
                 self.new_book_added = True
                 self.close()
@@ -109,20 +109,23 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
+        transaction_price = self.ebook_in_transaction.price * self.ui.length_spin_box.value()
+        if self.user_instance.credits >= transaction_price:
+            print 'User has enough credits, purchasing'
             ebook_purchase = PurchasedEBook(self.username,
                                             self.isbn,
                                             datetime.datetime.now(),
                                             self.ui.length_spin_box.value(),
-                                            datetime.datetime.now())
-            self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
+                                            datetime.datetime.now(),
+                                            transaction_price)
+            self.user_instance.credits -= transaction_price
             self.user_instance.rented_books[self.isbn] = ebook_purchase
             serialize_user(self.user_instance, self.user_instance.__unicode__)
             self.main_window.reload_user_info()
             self.hide()
         else:
-            # NOT ENOUGH FUNDS; THROW ERROR
-            pass
+            print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
+            print str(self.user_instance.credits) + ' < ' + self.ebook_in_transaction.price
 
 
 class ReportDialogView(QtGui.QDialog):

@@ -140,7 +140,7 @@ class EBook(object):
 
 
 class PurchasedEBook(object):
-    def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time):
+    def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time, total_time_bought):
         """
 
         :param username: str
@@ -148,12 +148,14 @@ class PurchasedEBook(object):
         :param checked_out_time: datetime
         :param length_on_rent: int
         :param paused_time: datetime
+        :param total_time_bought: int
         :return:
         """
         self.isbn = isbn
         self.checked_out_time = checked_out_time
         self.length_on_rent = length_on_rent
         self.paused_time = paused_time
+        self.total_time_bought = total_time_bought
 
 
 class Report(object):
