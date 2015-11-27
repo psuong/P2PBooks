@@ -20,12 +20,23 @@ def sort_top_rated(pickle_list):
     return pickle_list
 
 
-def get_most_read_books():
+def sort_most_read_books(pickle_list):
     """
     Checks the buy count field in EBook and gets the most bought books
-    :return:
+    :param pickle_list: list of EBooks
+    :return: sorted list of EBooks
     """
-    pass
+    for index in range(0, len(pickle_list)):
+        current_book = pickle_list[index]
+        position = index
+
+        while position > 0 and pickle_list[position - 1].buy_count < current_book.buy_count:
+            pickle_list[position] = pickle_list[position - 1]
+            position -= 1
+
+        pickle_list[position] = current_book
+
+    return pickle_list
 
 
 def get_top_rated_books():
@@ -46,3 +57,12 @@ def get_top_related_books(user_instance):
     """
     #if not bool(user_instance.rented_books):
     pass
+
+def get_most_read_books():
+    pickle_files = get_ebook_pickles()
+    most_read = sort_most_read_books(pickle_files)
+    return most_read
+
+
+for book in get_most_read_books():
+    print book.title + " :" + str(book.buy_count)
