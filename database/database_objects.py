@@ -155,6 +155,7 @@ class EBook(object):
         self.history = []
 
         self.total_seconds = 0.0
+        self.count_seconds = 0
 
     @property
     def __unicode__(self):
@@ -173,6 +174,9 @@ class EBook(object):
     def add_seconds(self, seconds):
         self.total_seconds += seconds
 
+    def reset_count_seconds(self):
+        self.count_seconds = 0
+
 
 class PurchasedEBook(object):
     def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time):
@@ -190,10 +194,13 @@ class PurchasedEBook(object):
         self.length_on_rent = length_on_rent
         self.paused_time = paused_time
         self.total_seconds = 0.0
+        self.count_seconds = 0
 
     def add_seconds(self, seconds):
         self.total_seconds += seconds
 
+    def reset_count_seconds(self):
+        self.count_seconds = 0
 
 class Report(object):
     def __init__(self, reporter, reason, description):
