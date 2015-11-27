@@ -1,9 +1,5 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
-from models.main_model import submit_upload_form, submit_report_form
-from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
-    update_serialized_ebook
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
     report_exists
