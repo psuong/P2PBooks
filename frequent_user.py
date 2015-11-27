@@ -3,6 +3,7 @@ import random
 from database.database_objects import serialize_user, User, get_ebook_pickles
 from recommendations import get_top_related_books
 
+
 def populate_rented_books(user):
     """
     Get a random amount of EBook pickle files and loads them into
@@ -15,7 +16,6 @@ def populate_rented_books(user):
         user.rented_books[ebook_pickles[index].isbn] = ebook_pickles[index]
 
 
-
 def create_user():
     user = User(username='John',
             password='pw',
@@ -23,8 +23,15 @@ def create_user():
             dob='1/1/1990')
 
     populate_rented_books(user)
+    print type(user)
     return user
 
+#print get_top_related_books(create_user())
+
+print create_user().rented_books
+
 print get_top_related_books(create_user())
+
+serialize_user(create_user(), create_user().username)
 
 

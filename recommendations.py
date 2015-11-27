@@ -1,5 +1,5 @@
 from database.database_objects import load_serialized_ebook, get_ebook_pickles, EBOOKS_DIR_PATH
-
+import random
 
 def sort_top_rated(pickle_list):
     """
@@ -63,7 +63,7 @@ def get_genre_frequency(user_instance):
     """
 
     :param user_instance: User Object
-    :return: dict of genre
+    :return: list of genre
     """
     genre_frequency_dict = {
         "Kids": 0,
@@ -82,8 +82,7 @@ def get_genre_frequency(user_instance):
 
     genre_list = []
 
-    rented_books = user_instance.rented_books
-    for key, value in rented_books.iteritems():
+    for key, value in user_instance.rented_books.iteritems():
         genre_frequency_dict[value.genre] += 1
 
     frequency = 0
@@ -91,7 +90,6 @@ def get_genre_frequency(user_instance):
         if value >= frequency:
             genre_list.append(key)
             frequency = value
-            # print "Occurences: " + str(value)
     return genre_list
 
 
@@ -104,4 +102,9 @@ def get_top_related_books(user_instance):
     if not bool(user_instance.rented_books):
         return get_most_read_books()
     else:
-        return get_genre_frequency(user_instance)
+        random_book_genre = get_genre_frequency(user_instance)
+        similar_books = []
+        for book in get_ebook_pickles():
+            if book.genre == random_book_genre[random.randrange(0, len(random_book_genre))]:
+                similar_books.append(book)
+        return similar_books

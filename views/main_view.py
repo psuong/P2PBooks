@@ -4,6 +4,7 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 from models.main_model import submit_upload_form, submit_report_form
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
     update_serialized_ebook
+from recommendations import get_top_related_books
 import os
 import datetime
 import sys
@@ -889,6 +890,29 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
                                                  QtGui.QTableWidgetItem(book.uploader.username))
             self.ui.library_table_widget.setItem(row, 5,
                                                  QtGui.QTableWidgetItem(str(book.rating)))
+            row += 1
+
+    def load_recommended_books(self):
+        self.ui.saved_table_widget.setRowCount(0)
+        similar_books = get_top_related_books(self.user_instance)
+
+        print similar_books
+
+        row = 0
+        for book in similar_books:
+            self.ui.saved_table_widget.insertRow(row)
+            self.ui.saved_table_widget.setItem(row, 0,
+                                               QtGui.QTableWidgetItem(book.title))
+            self.ui.saved_table_widget.setItem(row, 1,
+                                               QtGui.QTableWidgetItem(book.author))
+            self.ui.saved_table_widget.setItem(row, 2,
+                                               QtGui.QTableWidgetItem(book.isbn))
+            self.ui.saved_table_widget.setItem(row, 3,
+                                               QtGui.QTableWidgetItem(str(book.price)))
+            self.ui.saved_table_widget.setItem(row, 4,
+                                               QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.saved_table_widget.setItem(row, 5,
+                                               QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
     def load_ebooks(self):
