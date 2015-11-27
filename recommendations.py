@@ -28,3 +28,12 @@ def get_top_rated_books():
     pickle_files = get_ebook_pickles()
     top_books = insertion_sort(pickle_files)
     return top_books[0:5]
+
+
+def get_top_related_books(user_instance):
+    """
+    Gets at most 5 books that are similar to the one the reader read before.
+    :param user_instance: User
+    :return: list
+    """
+    pass
