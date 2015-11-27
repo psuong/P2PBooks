@@ -29,6 +29,11 @@ def serialize_ebook(db_object, save_file_name, file_location):
     shutil.copy(file_location, os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pdf'))
 
 
+def update_serialized_ebook(book_instance):
+    with open(os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + '.pickle'), 'wb') as out:
+        cPickle.dump(book_instance, out)
+
+
 def load_serialized_ebook(save_file_name):
     try:
         with open(os.path.join(EBOOKS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
@@ -121,6 +126,7 @@ class EBook(object):
         self.summary = summary
         self.cover_img = cover_img
         self.book_text = book_text
+        self.buy_count = 0
 
         self.approved = False
         self.reports = []

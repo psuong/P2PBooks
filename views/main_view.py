@@ -2,7 +2,8 @@ from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
 from models.main_model import submit_upload_form, submit_report_form
-from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
+from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
+    update_serialized_ebook
 import os
 import datetime
 import sys
@@ -99,6 +100,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         # Load the user info + book info
         self.user_instance = load_serialized_user(self.username)
         self.ebook_in_transaction = load_serialized_ebook(self.isbn)
+        self.ui.num_of_purchases_label.setText(str(self.ebook_in_transaction.buy_count))
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -111,7 +113,6 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
     def accept(self, *args, **kwargs):
         transaction_price = self.ebook_in_transaction.price * self.ui.length_spin_box.value()
         if self.user_instance.credits >= transaction_price:
-            print 'User has enough credits, purchasing'
             ebook_purchase = PurchasedEBook(self.username,
                                             self.isbn,
                                             datetime.datetime.now(),
@@ -120,6 +121,9 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
                                             transaction_price)
             self.user_instance.credits -= transaction_price
             self.user_instance.rented_books[self.isbn] = ebook_purchase
+            # Increment buy count in EBook
+            self.ebook_in_transaction.buy_count += 1
+            update_serialized_ebook(self.ebook_in_transaction)
             serialize_user(self.user_instance, self.user_instance.__unicode__)
             self.main_window.reload_user_info()
             self.hide()
