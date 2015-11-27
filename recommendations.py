@@ -66,6 +66,7 @@ def get_genre_frequency(user_instance):
     :param user_instance: User Object
     :return: list of genre
     """
+
     genre_frequency_dict = {
         "Kids": 0,
         "Adventure": 0,
@@ -107,7 +108,6 @@ def get_top_related_books(user_instance):
         similar_books = []
         for book in get_ebook_pickles():
             if book.genre == random_book_genre[random.randrange(0, len(random_book_genre))]:
-                # print "Genre: " + str(random_book_genre[random.randrange(0, len(random_book_genre))])
-                similar_books.append(book)
-            # similar_books.append(book)
+                if not user_instance.rented_books.has_key(book.isbn):
+                    similar_books.append(book)
         return similar_books
