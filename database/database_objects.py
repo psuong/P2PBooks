@@ -89,7 +89,7 @@ class User(object):
         self.uploaded_books = []  # Make sure to store EBooks objects
         self.rented_books = {}  # Make sure to store EBooks objects
         self.infractions = {}
-        self.currently_reading = None # Stores an Ebook obj related
+        self.currently_reading = None  # Stores an EBook obj
         self.default_pdf_reader = None
 
     @property

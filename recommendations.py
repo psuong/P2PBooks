@@ -49,20 +49,51 @@ def get_top_rated_books():
     return top_books[0:5]
 
 
+def get_most_read_books():
+    """
+    Returns the top 5 most read/purchased books
+    :return: list
+    """
+    pickle_files = get_ebook_pickles()
+    most_read = sort_most_read_books(pickle_files)
+    return most_read[0:5]
+
+
+def get_genre_frequency(user_instance):
+    """
+
+    :param user_instance: User Object
+    :return: dict of genre
+    """
+    genre_frequency_dict = {
+        "Kids": 0,
+        "Adventure": 0,
+        "Education": 0,
+        "DIY": 0,
+        "Romance": 0,
+        "Comedy": 0,
+        "Fantasy": 0,
+        "Biography": 0,
+        "History": 0,
+        "Magazine": 0,
+        "Religion": 0,
+        "Sports": 0
+    }
+
+    rented_books = user_instance.rented_books
+    for key, value in rented_books.iteritems():
+        genre_frequency_dict[value.genre] += 1
+
+    return genre_frequency_dict
+
 def get_top_related_books(user_instance):
     """
     Gets at most 5 books that are similar to the one the reader read before.
     :param user_instance: User
     :return: list
     """
-    #if not bool(user_instance.rented_books):
-    pass
-
-def get_most_read_books():
-    pickle_files = get_ebook_pickles()
-    most_read = sort_most_read_books(pickle_files)
-    return most_read
-
-
-for book in get_most_read_books():
-    print book.title + " :" + str(book.buy_count)
+    if not bool(user_instance.rented_books):
+        return get_most_read_books()
+    else:
+        rented_books_dict = user_instance.rented_books
+        return
