@@ -7,6 +7,7 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
+from fuzzywuzzy import process
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
@@ -108,9 +109,9 @@ def convert_pdf_to_txt(path):
     password = ""
     maxpages = 0
     caching = True
-    pagenos=set()
+    pagenos = set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=2, password=password,caching=caching, check_extractable=True):
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=2, password=password, caching=caching, check_extractable=True):
         interpreter.process_page(page)
 
     text = retstr.getvalue()
@@ -134,3 +135,23 @@ def add_report_to_book(book_instance, report_name):
     book_instance.add_report(load_serialized_report(report_name))
     serialize_ebook(book_instance, book_instance.isbn, os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + ".pickle"))
 
+
+def search(query):
+    try:
+        query = int(query)
+        book = load_serialized_ebook(str(query))
+        if book is not None:
+            return book
+        else:
+            return {}
+    except ValueError:
+        books = get_ebook_pickles()
+        result_set_tuple = process.extract(query=query,
+                                           choices=[book.title for book in books],
+                                           limit=5)
+        found_book_instance = []
+        for title in result_set_tuple:
+            for book in books:
+                if book.title == title[0]:
+                    found_book_instance.append(book)
+        return found_book_instance
