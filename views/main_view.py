@@ -56,27 +56,30 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
-            does_file_exist = os.path.isfile(self.file_location)
-            if does_file_exist:
-                # File uploaded successfully
-                submit_upload_form(title=self.ui.title_line_edit.text(),
-                                   author=self.ui.author_line_edit.text(),
-                                   genre=self.ui.genres_combo_box.currentText(),
-                                   isbn=self.ui.isbn_line_edit.text(),
-                                   price=self.ui.price_spin_box.value(),
-                                   uploader=self.username,
-                                   summary=self.ui.summary_plain_text_edit.toPlainText(),
-                                   cover_img=self.cover_img_location,
-                                   file_location=self.file_location,
-                                   )
-                self.new_book_added = True
-                self.close()
+        if len(self.ui.isbn_line_edit.text()) == 10:
+            if self.ui.title_line_edit.text() and self.ui.author_line_edit.text():
+                does_file_exist = os.path.isfile(self.file_location)
+                if does_file_exist:
+                    # File uploaded successfully
+                    submit_upload_form(title=self.ui.title_line_edit.text(),
+                                       author=self.ui.author_line_edit.text(),
+                                       genre=self.ui.genres_combo_box.currentText(),
+                                       isbn=self.ui.isbn_line_edit.text(),
+                                       price=self.ui.price_spin_box.value(),
+                                       uploader=self.username,
+                                       summary=self.ui.summary_plain_text_edit.toPlainText(),
+                                       cover_img=self.cover_img_location,
+                                       file_location=self.file_location,
+                                       )
+                    self.new_book_added = True
+                    self.close()
+                else:
+                    # Returns an Error message if file DNE
+                    QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
             else:
-                # Returns an Error message if file DNE
-                QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
+                QtGui.QMessageBox.about(self, "Error", "Fields must be filled in.")
         else:
-            QtGui.QMessageBox.about(self, "Error", "Fields must be filled in.")
+            QtGui.QMessageBox.about(self, "ISBN Error", "ISBN must be of length 10")
 
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
