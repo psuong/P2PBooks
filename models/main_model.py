@@ -85,7 +85,8 @@ def catalogue_loader():
         "Sports": []
     }
     for book in get_ebook_pickles():
-        book_dict[book.genre].append(book)
+        if book.approved:
+            book_dict[book.genre].append(book)
 
     return book_dict
 
@@ -168,3 +169,15 @@ def not_approved_ebooks():
 
 def reports_list():
     return get_report_pickles()
+
+
+def add_user_credits(username, credit):
+    user = load_serialized_user(username)
+    user.credits += credit
+    serialize_user(user, username)
+
+
+def remove_user_credits(username, credit):
+    user = load_serialized_user(username)
+    user.credits -= credit
+    serialize_user(user, username)

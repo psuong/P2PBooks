@@ -1174,6 +1174,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.books_waiting()
         self.reports_waiting()
 
+        self.ui.approve_push_button.clicked.connect(
+            lambda: self.approve(self.ui.approvals_table_widget.selectedItems())
+        )
+
         # Load PDF reader location
         if self.pdf_reader_location is not None:
             self.ui.pdf_location_label.setText(self.pdf_reader_location)
@@ -1190,7 +1194,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.reader_process.start(self.pdf_reader_location, [pdf])
 
     def approve(self, row_items):
-        pass
+        book = load_serialized_ebook(row_items[0].text())
+        book.approved = True
+        update_serialized_ebook(book)
+        self.books_waiting()
 
     def verify_report(self, row_items):
         print "delete clicked"
