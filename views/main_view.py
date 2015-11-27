@@ -330,6 +330,14 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.read_pause_push_button.setText('Read')
         self.timer.stop()
 
+        self.book_instance.add_seconds(self.count_seconds)
+        self.book_instance.update_last_time_read()
+        self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
+        self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
+
+        update_serialized_user(self.user_instance)
+        update_serialized_ebook(self.book_instance)
+
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
