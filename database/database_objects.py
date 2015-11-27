@@ -123,10 +123,6 @@ class User(object):
         self.uploaded_books.append(ebook)
         ebook.uploader = username
 
-    def blacklist_user(self):
-        if len(self.infractions) >= 2:
-            self.is_blacklisted = True
-
 
 class EBook(object):
     def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0,

@@ -1,5 +1,6 @@
 # This script creates a blacklisted user.
 from database.database_objects import serialize_user, User
+from models.main_model import check_infractions
 
 
 def populate_infractions(user_instance):
@@ -15,7 +16,7 @@ def populate_infractions(user_instance):
 def create_user():
     user = User('Doe', 'pw', 'doe@gmail.com', '1/1/1980')
     populate_infractions(user)
-    user.blacklist_user()
+    check_infractions(user)
     return user
 
 

@@ -205,3 +205,13 @@ def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     if timestamp is not None:
         report = isbn + '-' + timestamp.replace(':', '-')
         os.remove(os.path.join(REPORTS_DIR_PATH, report + '.pickle'))
+
+
+def check_infractions(user_instance):
+    """
+    Checks if the # of infractions is greater >= 2
+    :param user_instance: User
+    :return:
+    """
+    if len(user_instance.infractions) >= 2:
+        user_instance.is_blacklisted = True
