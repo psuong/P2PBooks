@@ -86,7 +86,19 @@ def get_ebook_pickles():
 
             if divmod(elapsed_time.total_seconds(), 60) <= (10.0, 0):
                 # If elapsed_time is less than 10 minutes
-                ebooks_list.append(book_instance)  # -7 to truncate file ending
+
+                if len(book_instance.reports) >= 3:
+                    # If book has at least 3 reports
+
+                    # TODO: Ensure B points is definitely the uploader's book price
+                    book_instance.uploader.credits -= (book_instance.price+100)
+                    update_serialized_user(book_instance.uploader)
+
+                    os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
+                    os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
+
+                else:
+                    ebooks_list.append(book_instance)  # -7 to truncate file ending
             else:
                 # If elapsed_time is more than 10 minutes, delete it and subtract 5 points from the uploader
                 book_instance.uploader.credits -= 5
