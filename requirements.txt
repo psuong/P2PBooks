@@ -1,1 +1,3 @@
 pyside
+pdfminer
+fuzzywuzzy

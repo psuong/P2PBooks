@@ -5,6 +5,7 @@ import shutil
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
+REPORTS_DIR_PATH = os.path.join('database', 'blobs', 'reports')
 
 
 # Save and load users
@@ -28,9 +29,28 @@ def serialize_ebook(db_object, save_file_name, file_location):
     shutil.copy(file_location, os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pdf'))
 
 
+def update_serialized_ebook(book_instance):
+    with open(os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + '.pickle'), 'wb') as out:
+        cPickle.dump(book_instance, out)
+
+
 def load_serialized_ebook(save_file_name):
     try:
         with open(os.path.join(EBOOKS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
+            return cPickle.load(input_file)
+    except IOError:
+        return None
+
+
+# Save and load reports
+def serialize_report(db_object, save_file_name):
+    with open(os.path.join(REPORTS_DIR_PATH, save_file_name + '.pickle'), 'wb') as out:
+        cPickle.dump(db_object, out)
+
+
+def load_serialized_report(save_file_name):
+    try:
+        with open(os.path.join(REPORTS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
             return cPickle.load(input_file)
     except IOError:
         return None
@@ -67,9 +87,8 @@ class User(object):
         self.credits = p2p_credits
         self.group_policy = group_policy
         self.uploaded_books = []  # Make sure to store EBooks objects
-        self.rented_books = []  # Make sure to store EBooks objects
-        self.reported_books = []  # Make sure to store EBooks objects
-        self.infractions = []
+        self.rented_books = {}  # Make sure to store EBooks objects
+        self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
 
@@ -83,7 +102,7 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, rating=0):
+    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0):
         """
         Class definition for a EBook object
         :param title: str
@@ -95,7 +114,7 @@ class EBook(object):
         :param uploader: User
         :param rating: int
         :param cover_img: str
-        :param file_location: str
+        :param book_text: str
         :return:
         """
         self.uploader = uploader
@@ -106,6 +125,9 @@ class EBook(object):
         self.price = price
         self.summary = summary
         self.cover_img = cover_img
+        self.book_text = book_text
+        self.buy_count = 0
+
         self.approved = False
         self.reports = []
         self.rating = rating
@@ -115,7 +137,7 @@ class EBook(object):
     def __unicode__(self):
         return self.isbn
 
-    def report(self, report):
+    def add_report(self, report):
         """
         :param report: Report object
         :return:
@@ -124,34 +146,36 @@ class EBook(object):
 
 
 class PurchasedEBook(object):
-    def __init__(self, username, ebook, checked_out_time, return_time, paused_time):
+    def __init__(self, username, isbn, checked_out_time, length_on_rent, paused_time, total_time_bought):
         """
 
         :param username: str
-        :param ebook: EBook
-        :param checked_out_time: str
-        :param return_time: str
-        :param paused_time: str
+        :param isbn: EBook
+        :param checked_out_time: datetime
+        :param length_on_rent: int
+        :param paused_time: datetime
+        :param total_time_bought: int
         :return:
         """
-        self.ebook = ebook
+        self.isbn = isbn
         self.checked_out_time = checked_out_time
-        self.return_time = return_time
+        self.length_on_rent = length_on_rent
         self.paused_time = paused_time
+        self.total_time_bought = total_time_bought
 
 
 class Report(object):
-    def __init__(self, reporter, reason, comment):
+    def __init__(self, reporter, reason, description):
         """
         Class definition for a Report object
         :param reporter: str
         :param reason: str
-        :param comment: str
+        :param description: str
         """
         self.time_stamp = datetime.now()
         self.reporter = load_serialized_user(reporter)
         self.reason = reason
-        self.comment = comment
+        self.description = description
 
     @property
     def __unicode__(self):

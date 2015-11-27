@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer/Ui_MainWindowVisitor.ui'
+# Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Sat Nov 21 17:27:06 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
+# Created: Thu Nov 26 21:09:01 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -35,6 +35,8 @@ class Ui_MainWindow(object):
         self.gridLayout.addItem(spacerItem1, 0, 1, 1, 1)
         self.search_table_widget = QtGui.QTableWidget(self.centralwidget)
         self.search_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.search_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.search_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.search_table_widget.setObjectName("search_table_widget")
         self.search_table_widget.setColumnCount(6)
         self.search_table_widget.setRowCount(0)
@@ -423,7 +425,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label, 7, 1, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 21))
         self.menubar.setObjectName("menubar")
         self.menuAbout = QtGui.QMenu(self.menubar)
         self.menuAbout.setObjectName("menuAbout")

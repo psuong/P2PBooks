@@ -15,7 +15,27 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="11" column="0" colspan="13">
+    <item row="3" column="0" colspan="13">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="10" column="12">
+     <widget class="QPushButton" name="close_push_button">
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0" colspan="13">
      <spacer name="horizontalSpacer_3">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -28,14 +48,38 @@
       </property>
      </spacer>
     </item>
-    <item row="9" column="12">
-     <widget class="QPushButton" name="close_push_button">
+    <item row="4" column="0" colspan="13">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Reading</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Recommended</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="reputation_label">
       <property name="text">
-       <string>Close</string>
+       <string>Reputation</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="13">
+    <item row="6" column="0" colspan="13">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -55,10 +99,10 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="reputation_label">
+    <item row="9" column="12">
+     <widget class="QPushButton" name="go_push_button">
       <property name="text">
-       <string>Reputation</string>
+       <string>Go</string>
       </property>
      </widget>
     </item>
@@ -69,39 +113,144 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="12">
-     <widget class="QPushButton" name="go_push_button">
+    <item row="9" column="0" colspan="12">
+     <widget class="QLineEdit" name="search_line_edit"/>
+    </item>
+    <item row="0" column="11">
+     <widget class="QPushButton" name="upload_push_button">
       <property name="text">
-       <string>Go</string>
+       <string>Upload</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="0" colspan="13">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Reading</string>
+    <item row="5" column="0" colspan="13">
+     <layout class="QGridLayout" name="gridLayout_15">
+      <item row="0" column="1">
+       <widget class="QTableWidget" name="reading_table_widget">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="columnCount">
+         <number>6</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>ISBN</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cost</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Uploader</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Rating</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QTableWidget" name="saved_table_widget">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="columnCount">
+         <number>6</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>ISBN</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cost</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Uploader</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Rating</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="read_reading_push_button">
+        <property name="text">
+         <string>Read</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="label_7">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="checkout_recommended_push_button">
         <property name="text">
-         <string>Saved</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>Checkout</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="2" column="0" colspan="13">
-     <spacer name="horizontalSpacer">
+    <item row="14" column="7">
+     <widget class="QLabel" name="label">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="text">
+       <string>Catalog</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2" colspan="8">
+     <spacer name="horizontalSpacer_4">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -113,98 +262,7 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="0" colspan="13">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QTableWidget" name="reading_table_widget">
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <property name="columnCount">
-         <number>6</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Author</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>ISBN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Cost</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Uploader</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Rating</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTableWidget" name="saved_table_widget">
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <property name="columnCount">
-         <number>6</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Author</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>ISBN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Cost</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Uploader</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Rating</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="11">
-     <widget class="QPushButton" name="upload_push_button">
-      <property name="text">
-       <string>Upload</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0" colspan="13">
+    <item row="15" column="0" colspan="13">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
@@ -946,63 +1004,23 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="2" colspan="8">
-     <spacer name="horizontalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="0" column="10">
+     <widget class="QPushButton" name="admin_push_button">
+      <property name="text">
+       <string>Check Approval/Reported List</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="8" column="0" colspan="12">
-     <widget class="QLineEdit" name="search_line_edit"/>
-    </item>
-    <item row="9" column="0" colspan="12">
-     <widget class="QTableWidget" name="search_table_widget">
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <column>
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>ISBN</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Cost</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Uploader</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Rating</string>
-       </property>
-      </column>
      </widget>
     </item>
     <item row="1" column="0" colspan="13">
      <widget class="QTableWidget" name="library_table_widget">
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
       </property>
       <column>
        <property name="text">
@@ -1041,27 +1059,61 @@
       </column>
      </widget>
     </item>
-    <item row="0" column="10">
-     <widget class="QPushButton" name="admin_push_button">
+    <item row="2" column="0">
+     <widget class="QPushButton" name="read_library_push_button">
       <property name="text">
-       <string>Check Approval/Reported List</string>
+       <string>Read</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="7">
-     <widget class="QLabel" name="label">
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
+    <item row="11" column="12">
+     <widget class="QPushButton" name="search_checkout_push_button">
       <property name="text">
-       <string>Catalog</string>
+       <string>Checkout</string>
       </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
+     </widget>
+    </item>
+    <item row="10" column="0" rowspan="2" colspan="12">
+     <widget class="QTableWidget" name="search_table_widget">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
       </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cost</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Uploader</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rating</string>
+       </property>
+      </column>
      </widget>
     </item>
    </layout>
@@ -1081,6 +1133,8 @@
    <zorder>library_table_widget</zorder>
    <zorder>admin_push_button</zorder>
    <zorder>label</zorder>
+   <zorder>read_library_push_button</zorder>
+   <zorder>search_checkout_push_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
