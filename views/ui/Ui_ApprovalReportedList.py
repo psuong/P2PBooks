@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ApprovalReportedList.ui'
 #
-# Created: Thu Nov 26 21:48:55 2015
+# Created: Thu Nov 26 22:14:05 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(744, 429)
+        Form.resize(974, 429)
         self.gridLayout = QtGui.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
         self.approvals_table_widget = QtGui.QTableWidget(Form)
@@ -34,7 +34,7 @@ class Ui_Form(object):
         self.reports_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.reports_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.reports_table_widget.setObjectName("reports_table_widget")
-        self.reports_table_widget.setColumnCount(3)
+        self.reports_table_widget.setColumnCount(4)
         self.reports_table_widget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
         self.reports_table_widget.setHorizontalHeaderItem(0, item)
@@ -42,6 +42,8 @@ class Ui_Form(object):
         self.reports_table_widget.setHorizontalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
         self.reports_table_widget.setHorizontalHeaderItem(2, item)
+        item = QtGui.QTableWidgetItem()
+        self.reports_table_widget.setHorizontalHeaderItem(3, item)
         self.gridLayout.addWidget(self.reports_table_widget, 1, 2, 1, 2)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 3, 2, 1, 1)
@@ -78,6 +80,7 @@ class Ui_Form(object):
         self.reports_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("Form", "ISBN", None, QtGui.QApplication.UnicodeUTF8))
         self.reports_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("Form", "Report Reason", None, QtGui.QApplication.UnicodeUTF8))
         self.reports_table_widget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("Form", "Reporter", None, QtGui.QApplication.UnicodeUTF8))
+        self.reports_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("Form", "Timestamp", None, QtGui.QApplication.UnicodeUTF8))
         self.verify_reports_push_button.setText(QtGui.QApplication.translate("Form", "Verify", None, QtGui.QApplication.UnicodeUTF8))
         self.verify_approval_push_button.setText(QtGui.QApplication.translate("Form", "Verify", None, QtGui.QApplication.UnicodeUTF8))
         self.cancel_push_button.setText(QtGui.QApplication.translate("Form", "Cancel", None, QtGui.QApplication.UnicodeUTF8))

@@ -1,7 +1,7 @@
 import os
 import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
-    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report
+    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -167,4 +167,4 @@ def not_approved_ebooks():
 
 
 def reports_list():
-    pass
+    return get_report_pickles()

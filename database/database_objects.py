@@ -60,7 +60,9 @@ def get_report_pickles():
     reports_list = []
     for pickle in os.listdir(REPORTS_DIR_PATH):
         if pickle.endswith('.pickle'):
-            reports_list.append(load_serialized_report(pickle[:-7]))
+            report = load_serialized_report(pickle[:-7])
+            report.isbn = pickle[:10]
+            reports_list.append(report)
     return reports_list
 
 

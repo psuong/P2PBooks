@@ -1169,6 +1169,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
         # Load books awaiting approval and reports
         self.books_waiting()
+        self.reports_waiting()
 
     def verify_approval(self, row_items):
         print "approve clicked"
@@ -1177,6 +1178,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
         print "delete clicked"
 
     def books_waiting(self):
+        self.ui.approvals_table_widget.setRowCount(0)
         for row, result_book in enumerate(self.model.not_approved_ebooks()):
             self.ui.approvals_table_widget.insertRow(row)
             self.ui.approvals_table_widget.setItem(row, 0,
@@ -1185,6 +1187,20 @@ class ApprovalReportedMainView(QtGui.QWidget):
                                                    QtGui.QTableWidgetItem(result_book.uploader.username))
             self.ui.approvals_table_widget.setItem(row, 2,
                                                    QtGui.QTableWidgetItem(str(result_book.price)))
+
+    def reports_waiting(self):
+        self.ui.reports_table_widget.setRowCount(0)
+        for row, report in enumerate(self.model.reports_list()):
+            self.ui.reports_table_widget.insertRow(row)
+            self.ui.reports_table_widget.setItem(row, 0,
+                                                 QtGui.QTableWidgetItem(report.isbn))
+            self.ui.reports_table_widget.setItem(row, 1,
+                                                 QtGui.QTableWidgetItem(report.reason))
+            self.ui.reports_table_widget.setItem(row, 2,
+                                                 QtGui.QTableWidgetItem(str(report.reporter.username)))
+            self.ui.reports_table_widget.setItem(row, 3,
+                                                 QtGui.QTableWidgetItem(
+                                                     str(report.time_stamp.strftime('%b %d %Y %H:%M:%S'))))
 
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
