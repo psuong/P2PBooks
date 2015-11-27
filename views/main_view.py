@@ -2,7 +2,8 @@ from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form
-from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user
+from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user,\
+    update_serialized_ebook
 import os
 import datetime
 import sys
@@ -228,6 +229,8 @@ class ReaderFormView(QtGui.QWidget):
         self.reader_process = None
         self.build_ui()
 
+        self.count_seconds = 0
+
     def build_ui(self):
         self.ui.setupUi(self)
 
@@ -263,6 +266,7 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def show_time(self):
+        self.count_seconds += 1
         self.book_purchase_info.length_on_rent -= 1
         self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
         if self.book_purchase_info.length_on_rent == 0:
@@ -278,7 +282,11 @@ class ReaderFormView(QtGui.QWidget):
             self.reader_process.kill()
             self.timer.stop()
             self.book_purchase_info.paused_time = datetime.datetime.now()
+            self.book_instance.add_seconds(self.count_seconds)
+            update_serialized_ebook(self.book_instance)
+            print load_serialized_ebook(self.book_instance.isbn).total_seconds
         else:
+            self.count_seconds = 0
             # Check if book can be read
             arguments = [os.path.join('database', 'blobs', 'ebooks', self.book_instance.isbn + '.pdf')]
             self.reader_process = QtCore.QProcess(self)
