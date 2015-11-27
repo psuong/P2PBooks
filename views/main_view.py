@@ -805,6 +805,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         # Load the user/ebook info
         self.reload_user_info()
         self.load_ebooks()
+        self.load_recommended_books()
 
         # Connect checkout buttons
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(

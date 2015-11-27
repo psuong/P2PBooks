@@ -1,6 +1,7 @@
 from database.database_objects import load_serialized_ebook, get_ebook_pickles, EBOOKS_DIR_PATH
 import random
 
+
 def sort_top_rated(pickle_list):
     """
     Sorts a list of EBook objects from greatest value to smallest
@@ -83,7 +84,7 @@ def get_genre_frequency(user_instance):
     genre_list = []
 
     for key, value in user_instance.rented_books.iteritems():
-        genre_frequency_dict[value.genre] += 1
+        genre_frequency_dict[load_serialized_ebook(value.isbn).genre] += 1
 
     frequency = 0
     for key, value in genre_frequency_dict.iteritems():
