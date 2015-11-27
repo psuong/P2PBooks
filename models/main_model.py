@@ -1,7 +1,9 @@
 import os
 import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
-    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report
+    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles, \
+    REPORTS_DIR_PATH, delete_ebook_from_users, update_serialized_ebook, Review, serialize_review, \
+    load_serialized_review, update_serialized_user
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -87,7 +89,8 @@ def catalogue_loader():
         "Sports": []
     }
     for book in get_ebook_pickles():
-        book_dict[book.genre].append(book)
+        if book.approved:
+            book_dict[book.genre].append(book)
 
     for book in get_top_rated_books():
         book_dict["TOP"].append(book)
@@ -116,7 +119,7 @@ def convert_pdf_to_txt(path):
     caching = True
     pagenos = set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=2, password=password, caching=caching, check_extractable=True):
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=1, password=password,caching=caching, check_extractable=True):
         interpreter.process_page(page)
 
     text = retstr.getvalue()
@@ -129,11 +132,14 @@ def convert_pdf_to_txt(path):
 
 def submit_report_form(reporter, reason, description, book_instance):
     report_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
-    serialize_report(Report(reporter=reporter,
+    serialize_report(Report(reporter=reporter.username,
                             reason=reason,
                             description=description
                             ), report_name)
     add_report_to_book(book_instance, report_name)
+
+    reporter.reported_books.append(book_instance)
+    update_serialized_user(reporter)
 
 
 def add_report_to_book(book_instance, report_name):
@@ -160,3 +166,98 @@ def search(query):
                 if book.title == title[0]:
                     found_book_instance.append(book)
         return found_book_instance
+
+
+def not_approved_ebooks():
+    book_list = get_ebook_pickles()
+    not_approved_book_list = []
+    for book in book_list:
+        if not book.approved:
+            not_approved_book_list.append(book)
+    return not_approved_book_list
+
+
+def reports_list():
+    return get_report_pickles()
+
+
+def report_info(isbn_datetime):
+    return load_serialized_report(isbn_datetime)
+
+
+def add_user_credits(username, credit):
+    user = load_serialized_user(username)
+    user.credits += credit
+    serialize_user(user, username)
+
+
+def remove_user_credits(username, credit):
+    user = load_serialized_user(username)
+    user.credits -= credit
+    serialize_user(user, username)
+
+
+def remove_ebook(isbn):
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
+
+
+def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
+    book = load_serialized_ebook(isbn)
+    user = load_serialized_user(book.uploader.username)
+    user.credits -= book.reward_amount
+    user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
+    serialize_user(user, user.username)
+    delete_ebook_from_users(isbn)
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
+    if timestamp is not None:
+        report = isbn + '-' + timestamp.replace(':', '-')
+        os.remove(os.path.join(REPORTS_DIR_PATH, report + '.pickle'))
+
+
+def check_infractions(user_instance):
+    """
+    Checks if the # of infractions is greater >= 2
+    :param user_instance: User
+    :return:
+    """
+    if len(user_instance.infractions) >= 2:
+        user_instance.is_blacklisted = True
+
+
+def blacklist_book_uploader(isbn):
+    book = load_serialized_ebook(isbn)
+    user = load_serialized_user(book.uploader.username)
+    user.is_blacklisted = True
+    serialize_user(user, user.username)
+
+def report_exists(reporter, book_instance):
+    for book in reporter.reported_books:
+        if book == book_instance:
+            return True
+
+    return False
+
+def submit_review_rate_form(book_instance, reviewer, rating, review):
+    review_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
+    serialize_review(Review(reviewer=reviewer.username,
+                            review=review), review_name)
+    book_instance.add_review(load_serialized_review(review_name))
+    reviewer.reviewed_books.append(book_instance)
+    update_serialized_user(reviewer)
+
+    book_instance.rating = (book_instance.rating*book_instance.count_seconds
+                            + reviewer.rented_books[book_instance.isbn].total_seconds*rating)/\
+                           book_instance.total_seconds
+    book_instance.count_seconds = book_instance.total_seconds
+
+    update_serialized_ebook(book_instance)
+
+
+def review_exists(reviewer, book_instance):
+    for book in reviewer.reviewed_books:
+        if book == book_instance:
+            return True
+
+    return False

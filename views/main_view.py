@@ -1,8 +1,10 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog
-from models.main_model import submit_upload_form, submit_report_form
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
+from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
+    report_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
+    update_serialized_ebook, update_serialized_user
     update_serialized_ebook
 from recommendations import get_top_related_books
 import os
@@ -56,27 +58,30 @@ class UploadFormView(QtGui.QWidget):
 
     def submit(self):
         # Make sure all fields are entered before submitting
-        if self.ui.title_line_edit.text() and self.ui.author_line_edit.text() and self.ui.isbn_line_edit.text():
-            does_file_exist = os.path.isfile(self.file_location)
-            if does_file_exist:
-                # File uploaded successfully
-                submit_upload_form(title=self.ui.title_line_edit.text(),
-                                   author=self.ui.author_line_edit.text(),
-                                   genre=self.ui.genres_combo_box.currentText(),
-                                   isbn=self.ui.isbn_line_edit.text(),
-                                   price=self.ui.price_spin_box.value(),
-                                   uploader=self.username,
-                                   summary=self.ui.summary_plain_text_edit.toPlainText(),
-                                   cover_img=self.cover_img_location,
-                                   file_location=self.file_location,
-                                   )
-                self.new_book_added = True
-                self.close()
+        if len(self.ui.isbn_line_edit.text()) == 10:
+            if self.ui.title_line_edit.text() and self.ui.author_line_edit.text():
+                does_file_exist = os.path.isfile(self.file_location)
+                if does_file_exist:
+                    # File uploaded successfully
+                    submit_upload_form(title=self.ui.title_line_edit.text(),
+                                       author=self.ui.author_line_edit.text(),
+                                       genre=self.ui.genres_combo_box.currentText(),
+                                       isbn=self.ui.isbn_line_edit.text(),
+                                       price=self.ui.price_spin_box.value(),
+                                       uploader=self.username,
+                                       summary=self.ui.summary_plain_text_edit.toPlainText(),
+                                       cover_img=self.cover_img_location,
+                                       file_location=self.file_location,
+                                       )
+                    self.new_book_added = True
+                    self.close()
+                else:
+                    # Returns an Error message if file DNE
+                    QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
             else:
-                # Returns an Error message if file DNE
-                QtGui.QMessageBox.about(self, "Invalid PDF", "PDF file does not exist: " + str(self.file_location))
+                QtGui.QMessageBox.about(self, "Error", "Fields must be filled in.")
         else:
-            QtGui.QMessageBox.about(self, "Error", "Fields must be filled in.")
+            QtGui.QMessageBox.about(self, "ISBN Error", "ISBN must be of length 10")
 
     def closeEvent(self, *args, **kwargs):
         self.main_window.show()
@@ -125,6 +130,19 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
             # Increment buy count in EBook
             self.ebook_in_transaction.buy_count += 1
             update_serialized_ebook(self.ebook_in_transaction)
+        if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
+            if self.isbn in self.user_instance.rented_books.keys():
+                self.user_instance.rented_books[self.isbn].length_on_rent += self.ui.length_spin_box.value()
+            else:
+                ebook_purchase = PurchasedEBook(self.username,
+                                                self.isbn,
+                                                datetime.datetime.now(),
+                                                self.ui.length_spin_box.value(),
+                                                datetime.datetime.now())
+
+                self.user_instance.rented_books[self.isbn] = ebook_purchase
+
+            self.user_instance.credits -= (self.ebook_in_transaction.price * self.ui.length_spin_box.value())
             serialize_user(self.user_instance, self.user_instance.__unicode__)
             self.main_window.reload_user_info()
             self.hide()
@@ -134,11 +152,12 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance, reporter, reason=""):
+    def __init__(self, model, book_instance, reporter, report_push_button, reason=""):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
         self.reporter = reporter
+        self.report_push_button = report_push_button
         self.book_instance = book_instance
         self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter)
         self.build_ui(reason)
@@ -172,7 +191,8 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
-                submit_report_form(self.reporter.username, report_selection, report_description, self.book_instance)
+                submit_report_form(self.reporter, report_selection, report_description, self.book_instance)
+                self.report_push_button.setDisabled(True)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -228,12 +248,17 @@ class ReaderFormView(QtGui.QWidget):
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance)
+
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None
         self.reader_process = None
         self.build_ui()
+
+        self.count_seconds = 0
+        self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
+        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
+
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -263,12 +288,14 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
         self.ui.share_push_button.clicked.connect(self.share)
         self.ui.report_push_button.clicked.connect(self.report)
+        self.ui.review_rate_push_button.clicked.connect(self.review_rate)
         self.ui.browse_pdf_reader_push_button.clicked.connect(self.browse_reader_location)
 
         self.timer.timeout.connect(self.show_time)
 
     @QtCore.Slot()
     def show_time(self):
+        self.count_seconds += 1
         self.book_purchase_info.length_on_rent -= 1
         self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
         if self.book_purchase_info.length_on_rent == 0:
@@ -284,7 +311,16 @@ class ReaderFormView(QtGui.QWidget):
             self.reader_process.kill()
             self.timer.stop()
             self.book_purchase_info.paused_time = datetime.datetime.now()
+            self.book_instance.add_seconds(self.count_seconds)
+            self.book_instance.update_last_time_read()
+            self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
+            self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
+
+            update_serialized_user(self.user_instance)
+            update_serialized_ebook(self.book_instance)
+
         else:
+            self.count_seconds = 0
             # Check if book can be read
             arguments = [os.path.join('database', 'blobs', 'ebooks', self.book_instance.isbn + '.pdf')]
             self.reader_process = QtCore.QProcess(self)
@@ -303,6 +339,14 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.read_pause_push_button.setText('Read')
         self.timer.stop()
 
+        self.book_instance.add_seconds(self.count_seconds)
+        self.book_instance.update_last_time_read()
+        self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
+        self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
+
+        update_serialized_user(self.user_instance)
+        update_serialized_ebook(self.book_instance)
+
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
@@ -311,7 +355,18 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def report(self):
         # Trigger the report widget
-        self.report_dialog.show()
+        if not report_exists(self.user_instance, self.book_instance):
+            self.report_dialog.show()
+        else:
+            QtGui.QMessageBox.about(self, "Error", "You have already reported this book once!")
+
+    @QtCore.Slot()
+    def review_rate(self):
+        # Trigger the report widget
+        if not review_exists(self.user_instance, self.book_instance):
+            self.review_rate_dialog.show()
+        else:
+            QtGui.QMessageBox.about(self, "Error", "You have already reviewed/rated this book once!")
 
     @QtCore.Slot()
     def browse_reader_location(self):
@@ -322,10 +377,57 @@ class ReaderFormView(QtGui.QWidget):
             self.pdf_reader_location = pdf_reader[0]
 
     def closeEvent(self, *args, **kwargs):
+        self.user_instance.rented_books[self.book_instance.isbn].reset_count_seconds()
         self.user_instance.default_pdf_reader = self.pdf_reader_location
         serialize_user(self.user_instance, self.user_instance.username)
         self.main_window.show()
         self.hide()
+
+
+class ReviewRateDialogView(QtGui.QDialog):
+    def __init__(self, model, book_instance, reviewer, review_rate_push_button):
+        self.model = model
+        super(ReviewRateDialogView, self).__init__()
+        self.ui = Ui_ReviewRateDialog.Ui_Dialog()
+
+        self.book_instance = book_instance
+        self.reviewer = reviewer
+        self.review_rate_push_button = review_rate_push_button
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        # Setup combo box
+        self.ui.rating_combo_box.addItems(["", "1", "2", "3", "4", "5"])
+
+        self.ui.submit_push_button.clicked.connect(self.submit)
+
+    @QtCore.Slot()
+    def submit(self):
+        review_text = self.ui.review_text_edit.toPlainText()
+
+        if self.ui.rating_combo_box == "":
+            # Display an error message to tell the user to give a rating
+            QtGui.QMessageBox.about(self, "Error", "You have not yet selected a rating")
+        elif review_text == "":
+            # Display an error message to tell the user to write a description
+            QtGui.QMessageBox.about(self, "Error", "You have not yet written anything in the review")
+        else:
+            if self.book_instance.total_seconds == 0.0 or \
+                            self.reviewer.rented_books[self.book_instance.isbn].total_seconds == 0:
+                # Display an error message to tell the user to read the book first! (Calculate rating when division
+                # by 0 is undefined!)
+                QtGui.QMessageBox.about(self, "Error", 'You have not even read the book yet! '
+                                                       'Come back to review once you\'ve read for at least a second')
+                return
+
+            submit_review_rate_form(self.book_instance, self.reviewer,
+                                    float(self.ui.rating_combo_box.currentText()),
+                                    review_text)
+
+            self.review_rate_push_button.setDisabled(True)
+            self.hide()
 
 
 class LoginFormView(QtGui.QWidget):
@@ -362,9 +464,13 @@ class LoginFormView(QtGui.QWidget):
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
-                self.main_window = MainWindowRegisteredView(self.model, username)
-                self.main_window.show()
-                self.hide()
+                if load_serialized_user(username).is_blacklisted:
+                    QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+                                                                     " infractions!");
+                else:
+                    self.main_window = MainWindowRegisteredView(self.model, username)
+                    self.main_window.show()
+                    self.hide()
             else:
                 # Nothing was return; error
                 QtGui.QMessageBox.about(self, "Error", "No username/password found.")
@@ -408,7 +514,10 @@ class RegisterFormView(QtGui.QWidget):
             self.hide()
 
         else:
-            if load_serialized_user(username) is not None and password == confirm_password:
+            if load_serialized_user(username).is_blacklisted:
+                QtGui.QMessageBox.about(self, "Banned Account!", "This user cannot register as this instance has been"
+                                                                 " banned.")
+            elif load_serialized_user(username) is not None and password == confirm_password and not load_serialized_user(username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
@@ -769,6 +878,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.username = username
         self.user_instance = load_serialized_user(self.username)
         self.admin_view = None
+        self.infraction_message_box = None
         self.upload_view = UploadFormView(self.model, username, self)
         self.reader_view = None
         super(MainWindowRegisteredView, self).__init__()
@@ -806,6 +916,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.reload_user_info()
         self.load_ebooks()
         self.load_recommended_books()
+
+        # self.ui.action_infractions.triggered.connnect(self.trigger_infraction_message_box)
 
         # Connect checkout buttons
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
@@ -851,6 +963,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.search_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.search_table_widget.selectedItems()))
 
+    def trigger_infraction_message_box(self):
+        self.infraction_message_box = QtGui.QMessageBox(self)
+        self.infraction_message_box.setText(len(self.user_instance.infractions.values()))
+
     def reload_user_info(self):
         self.user_instance = load_serialized_user(self.username)
         self.ui.username_label.setText('Hello, ' + self.username)
@@ -874,6 +990,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         row = 0
         rented_books_instances = []
         if len(self.user_instance.rented_books) > 0:
+            self.user_instance = load_serialized_user(self.user_instance.username)
             for book_isbn_key in self.user_instance.rented_books.keys():
                 rented_books_instances.append(load_serialized_ebook(book_isbn_key))
 
@@ -1193,7 +1310,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.read_library_push_button.hide()
 
     def admin(self):
-        self.admin_view = ApprovalReportedMainView(self.model, self.username)
+        self.admin_view = ApprovalReportedMainView(self.model, self.username, self,
+                                                   self.user_instance.default_pdf_reader)
         self.admin_view.show()
         self.hide()
 
@@ -1204,9 +1322,13 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
-    def __init__(self, model, username):
+    def __init__(self, model, username, main_window, pdf_reader_location):
         self.model = model
         self.username = username
+        self.main_window = main_window
+        self.reader_process = None
+        self.reports_message_box = QtGui.QMessageBox()
+        self.pdf_reader_location = pdf_reader_location
         self.user_file = load_serialized_user(self.username)
         self.reputation = self.user_file.credits
         super(ApprovalReportedMainView, self).__init__()
@@ -1217,18 +1339,100 @@ class ApprovalReportedMainView(QtGui.QWidget):
     def build_ui(self):
         self.ui.setupUi(self)
 
-        self.ui.approve_push_button.clicked.connect(self.approve)
-        self.ui.delete_push_button.clicked.connect(self.delete)
-        self.ui.cancel_push_button.clicked.connect(self.cancel)
+        self.ui.verify_approval_push_button.clicked.connect(
+            lambda: self.verify_approval(self.ui.approvals_table_widget.selectedItems()))
+        self.ui.verify_reports_push_button.clicked.connect(
+            lambda: self.verify_report(self.ui.reports_table_widget.selectedItems()))
+        self.ui.cancel_push_button.clicked.connect(self.closeEvent)
 
-    def approve(self):
-        print "approve clicked"
+        self.ui.remove_book_push_button.clicked.connect(
+            lambda: self.remove_book_with_infraction(self.ui.reports_table_widget.selectedItems())
+        )
 
-    def delete(self):
-        print "delete clicked"
+        # Ban user connect
+        self.ui.blacklist_ru_push_button.clicked.connect(
+            lambda: self.blacklist_user(self.ui.reports_table_widget.selectedItems())
+        )
+        # Load books awaiting approval and reports
+        self.books_waiting()
+        self.reports_waiting()
 
-    def cancel(self):
-        print "cancel clicked"
-        self.main_view = MainWindowRegisteredView(self.model, self.username)
-        self.main_view.show()
+        self.ui.approve_push_button.clicked.connect(
+            lambda: self.approve(self.ui.approvals_table_widget.selectedItems())
+        )
+
+        # Load PDF reader location
+        if self.pdf_reader_location is not None:
+            self.ui.pdf_location_label.setText(self.pdf_reader_location)
+
+        self.ui.pdf_reader_push_button.clicked.connect(self.browse_pdf_reader)
+
+    def blacklist_user(self, row_items):
+        self.model.blacklist_book_uploader(row_items[0].text())
+        self.reports_message_box.setText('Uploader of PDF has been banned')
+        self.reports_message_box.exec_()
+
+    def browse_pdf_reader(self):
+        self.ui.pdf_location_label.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
+                                                                             'PDF Reader Formats (*.exe)'))
+
+    def verify_approval(self, row_items):
+        self.reader_process = QtCore.QProcess(self)
+        pdf = os.path.join('database', 'blobs', 'ebooks', row_items[0].text() + '.pdf')
+        self.reader_process.start(self.pdf_reader_location, [pdf])
+
+    def approve(self, row_items):
+        if self.ui.credit_amount_spin_box.value() < int(row_items[2].text()):
+            self.model.add_user_credits(self.username, self.ui.credit_amount_spin_box.value())
+            book = load_serialized_ebook(row_items[0].text())
+            book.approved = True
+            book.award_amount = self.ui.credit_amount_spin_box.value()
+            update_serialized_ebook(book)
+            self.main_window.reload_user_info()
+        else:
+            # Remove ebook from approval list
+            self.model.remove_ebook(row_items[0].text())
+        self.books_waiting()
+
+    def verify_report(self, row_items):
+        self.reports_message_box.setText(self.model.report_info(
+            row_items[0].text() + '-' + row_items[3].text().replace(':', '-')).description)
+        self.reports_message_box.exec_()
+
+    def remove_book_with_infraction(self, row_items):
+        self.model.remove_ebook_with_infraction(row_items[0].text(),
+                                                row_items[1].text(),
+                                                row_items[3].text())
+        self.reports_waiting()
+        self.main_window.load_ebooks()
+        self.main_window.reload_user_info()
+
+    def books_waiting(self):
+        self.ui.approvals_table_widget.setRowCount(0)
+        for row, result_book in enumerate(self.model.not_approved_ebooks()):
+            self.ui.approvals_table_widget.insertRow(row)
+            self.ui.approvals_table_widget.setItem(row, 0,
+                                                   QtGui.QTableWidgetItem(result_book.isbn))
+            self.ui.approvals_table_widget.setItem(row, 1,
+                                                   QtGui.QTableWidgetItem(result_book.uploader.username))
+            self.ui.approvals_table_widget.setItem(row, 2,
+                                                   QtGui.QTableWidgetItem(str(result_book.price)))
+
+    def reports_waiting(self):
+        self.ui.reports_table_widget.setRowCount(0)
+        for row, report in enumerate(self.model.reports_list()):
+            self.ui.reports_table_widget.insertRow(row)
+            self.ui.reports_table_widget.setItem(row, 0,
+                                                 QtGui.QTableWidgetItem(report.isbn))
+            self.ui.reports_table_widget.setItem(row, 1,
+                                                 QtGui.QTableWidgetItem(report.reason))
+            self.ui.reports_table_widget.setItem(row, 2,
+                                                 QtGui.QTableWidgetItem(str(report.reporter.username)))
+            self.ui.reports_table_widget.setItem(row, 3,
+                                                 QtGui.QTableWidgetItem(
+                                                     str(report.time_stamp)))
+
+    def closeEvent(self, *args, **kwargs):
+        self.main_window.show()
         self.hide()
+        super(ApprovalReportedMainView, self).closeEvent()

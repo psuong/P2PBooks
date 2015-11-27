@@ -21,5 +21,6 @@ for i in range(4):
                         password="pw",
                         email=EMAIL_LIST[i],
                         dob=DOB_LIST[i],
+                        group_policy='SU',
                         ), USER_LIST[i])
 

@@ -33,35 +33,24 @@ for user in os.listdir(USER_DIR_PATH):
     if user.endswith('.pickle'):
         user_list.append(load_serialized_user(user[:-7]))
 
-# for pdf in os.listdir(PDF_DIR_PATH):
-#     if count == len(GENRE_LIST):
-#         break
-#
-#     if pdf.endswith('.pdf'):
-#         serialize_ebook(EBook(title=(pdf[:-4]),
-#                               author="Author#" + str(count),
-#                               genre=GENRE_LIST[count],
-#                               price=price,
-#                               uploader=user_list[user_count],
-#                               summary=lorem,
-#                               cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
-#                               isbn=str(init_ISBN),
-#                               book_text=convert_pdf_to_txt(PDF_DIR_PATH+os.sep+pdf),
-#                               rating=random.randrange(0, 11)),
-#                         str(init_ISBN),
-#                         os.path.join(PDF_DIR_PATH, pdf))
-#         user_count += 1
-#         if user_count == len(user_list):
-#             user_count = 0
-#         init_ISBN += 1
-#         count += 1
-#         price += 10
-
 for pdf in os.listdir(PDF_DIR_PATH):
     if count == len(GENRE_LIST):
         break
 
     if pdf.endswith('.pdf'):
+        serialize_ebook(EBook(title=(pdf[:-4]),
+                              author="Author#" + str(count),
+                              genre=GENRE_LIST[count],
+                              price=price,
+                              uploader=user_list[user_count],
+                              summary=lorem,
+                              cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
+                              isbn=str(init_ISBN),
+                              approved=True,
+                              reward_amount=10,
+                              book_text=convert_pdf_to_txt(PDF_DIR_PATH+"\\"+pdf)),
+                        str(init_ISBN),
+                        os.path.join(PDF_DIR_PATH, pdf))
         e_book = EBook(title=(pdf[:-4]),
                        author="Author#" + str(count),
                        genre=GENRE_LIST[count],

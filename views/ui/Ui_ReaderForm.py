@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer\Ui_ReaderForm.ui'
+# Form implementation generated from reading ui file 'designer/Ui_ReaderForm.ui'
 #
-# Created: Sun Nov 22 23:52:32 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.2
+# Created: Thu Nov 26 21:04:26 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -49,9 +49,6 @@ class Ui_Form(object):
         self.browse_pdf_reader_push_button = QtGui.QPushButton(Form)
         self.browse_pdf_reader_push_button.setObjectName("browse_pdf_reader_push_button")
         self.gridLayout.addWidget(self.browse_pdf_reader_push_button, 6, 3, 1, 1)
-        self.share_push_button = QtGui.QPushButton(Form)
-        self.share_push_button.setObjectName("share_push_button")
-        self.gridLayout.addWidget(self.share_push_button, 2, 3, 1, 1)
         self.time_remaining_label = QtGui.QLabel(Form)
         self.time_remaining_label.setText("")
         self.time_remaining_label.setObjectName("time_remaining_label")
@@ -66,6 +63,12 @@ class Ui_Form(object):
         self.checkout_at_label.setText("")
         self.checkout_at_label.setObjectName("checkout_at_label")
         self.gridLayout.addWidget(self.checkout_at_label, 5, 1, 1, 2)
+        self.review_rate_push_button = QtGui.QPushButton(Form)
+        self.review_rate_push_button.setObjectName("review_rate_push_button")
+        self.gridLayout.addWidget(self.review_rate_push_button, 2, 3, 1, 1)
+        self.share_push_button = QtGui.QPushButton(Form)
+        self.share_push_button.setObjectName("share_push_button")
+        self.gridLayout.addWidget(self.share_push_button, 0, 3, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -79,7 +82,8 @@ class Ui_Form(object):
         self.label_4.setText(QtGui.QApplication.translate("Form", "Time remaining", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("Form", "PDF Reader", None, QtGui.QApplication.UnicodeUTF8))
         self.browse_pdf_reader_push_button.setText(QtGui.QApplication.translate("Form", "Browse", None, QtGui.QApplication.UnicodeUTF8))
-        self.share_push_button.setText(QtGui.QApplication.translate("Form", "Share", None, QtGui.QApplication.UnicodeUTF8))
         self.read_pause_push_button.setText(QtGui.QApplication.translate("Form", "Read/Pause", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("Form", "Checked out", None, QtGui.QApplication.UnicodeUTF8))
+        self.review_rate_push_button.setText(QtGui.QApplication.translate("Form", "Review/Rate", None, QtGui.QApplication.UnicodeUTF8))
+        self.share_push_button.setText(QtGui.QApplication.translate("Form", "Share", None, QtGui.QApplication.UnicodeUTF8))
 
