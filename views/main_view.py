@@ -896,8 +896,6 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.saved_table_widget.setRowCount(0)
         similar_books = get_top_related_books(self.user_instance)
 
-        print similar_books
-
         row = 0
         for book in similar_books:
             self.ui.saved_table_widget.insertRow(row)

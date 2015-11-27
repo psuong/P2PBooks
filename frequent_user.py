@@ -23,15 +23,14 @@ def create_user():
             dob='1/1/1990')
 
     populate_rented_books(user)
-    print type(user)
     return user
 
-#print get_top_related_books(create_user())
 
-print create_user().rented_books
+user = create_user()
 
-print get_top_related_books(create_user())
+for book in get_top_related_books(user):
+    print book.title + " :" + book.genre
 
-serialize_user(create_user(), create_user().username)
+serialize_user(user, user.username)
 
-
+# print "Len of similar books: " + str(len(get_top_related_books(create_user())))
