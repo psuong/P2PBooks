@@ -100,14 +100,13 @@ def get_top_related_books(user_instance):
     :return: list
     """
     if not bool(user_instance.rented_books):
-        print True
         return get_most_read_books()
     else:
         random_book_genre = get_genre_frequency(user_instance)
         similar_books = []
         for book in get_ebook_pickles():
             if book.genre == random_book_genre[random.randrange(0, len(random_book_genre))]:
-                print "Genre: " + str(random_book_genre[random.randrange(0, len(random_book_genre))])
+                # print "Genre: " + str(random_book_genre[random.randrange(0, len(random_book_genre))])
                 similar_books.append(book)
             # similar_books.append(book)
         return similar_books
