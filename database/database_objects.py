@@ -159,6 +159,9 @@ class EBook(object):
         self.total_seconds = 0.0
         self.count_seconds = 0
 
+        self.last_time_read = datetime.now()
+
+
     @property
     def __unicode__(self):
         return self.isbn
@@ -178,6 +181,9 @@ class EBook(object):
 
     def reset_count_seconds(self):
         self.count_seconds = 0
+
+    def update_last_time_read(self):
+        self.last_time_read = datetime.now()
 
 
 class PurchasedEBook(object):

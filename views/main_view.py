@@ -289,6 +289,7 @@ class ReaderFormView(QtGui.QWidget):
             self.timer.stop()
             self.book_purchase_info.paused_time = datetime.datetime.now()
             self.book_instance.add_seconds(self.count_seconds)
+            self.book_instance.update_last_time_read()
             self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
             self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
 
