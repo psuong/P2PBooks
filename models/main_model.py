@@ -1,7 +1,8 @@
 import os
 import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
-    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles
+    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles, \
+    REPORTS_DIR_PATH, delete_ebook_from_users
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -192,11 +193,15 @@ def remove_ebook(isbn):
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
 
 
-def remove_ebook_with_infraction(isbn, infraction_reason):
+def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     book = load_serialized_ebook(isbn)
     user = load_serialized_user(book.uploader.username)
     user.credits -= book.reward_amount
     user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
     serialize_user(user, user.username)
+    delete_ebook_from_users(isbn)
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
+    if timestamp is not None:
+        report = isbn + '-' + timestamp.replace(':', '-')
+        os.remove(os.path.join(REPORTS_DIR_PATH, report + '.pickle'))

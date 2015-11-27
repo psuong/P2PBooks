@@ -1227,7 +1227,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
     def remove_book_with_infraction(self, row_items):
         self.model.remove_ebook_with_infraction(row_items[0].text(),
-                                                row_items[1].text())
+                                                row_items[1].text(),
+                                                row_items[3].text())
+        self.reports_waiting()
+        self.main_window.load_ebooks()
 
     def books_waiting(self):
         self.ui.approvals_table_widget.setRowCount(0)

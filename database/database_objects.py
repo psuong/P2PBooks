@@ -42,6 +42,18 @@ def load_serialized_ebook(save_file_name):
         return None
 
 
+def delete_ebook_from_users(isbn):
+    try:
+        for pickle in os.listdir(ACCOUNT_DIR_PATH):
+            if pickle.endswith('.pickle'):
+                user = load_serialized_user(pickle[:-7])
+                if user.rented_books(isbn, None) is not None:
+                    del user.rented_books[isbn]
+                serialize_user(user, user.username)
+    except IOError:
+        return None
+
+
 # Save and load reports
 def serialize_report(db_object, save_file_name):
     with open(os.path.join(REPORTS_DIR_PATH, save_file_name + '.pickle'), 'wb') as out:
