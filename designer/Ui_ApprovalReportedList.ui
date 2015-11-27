@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>759</width>
+    <width>744</width>
     <height>429</height>
    </rect>
   </property>
@@ -15,28 +15,19 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0" colspan="2">
-    <widget class="QTableWidget" name="approve_table_widget">
+    <widget class="QTableWidget" name="approvals_table_widget">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <column>
-      <property name="text">
-       <string>Title</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Author</string>
-      </property>
-     </column>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
      <column>
       <property name="text">
        <string>ISBN</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Cost</string>
       </property>
      </column>
      <column>
@@ -44,23 +35,24 @@
        <string>Uploader</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Asking Reward</string>
+      </property>
+     </column>
     </widget>
    </item>
    <item row="1" column="2" colspan="2">
-    <widget class="QTableWidget" name="delete_table_widget">
+    <widget class="QTableWidget" name="reports_table_widget">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <column>
-      <property name="text">
-       <string>Title</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Author</string>
-      </property>
-     </column>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
      <column>
       <property name="text">
        <string>ISBN</string>
@@ -68,22 +60,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Cost</string>
+       <string>Report Reason</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>New Column</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Rating</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string># of Reports</string>
+       <string>Reporter</string>
       </property>
      </column>
     </widget>
@@ -115,16 +97,16 @@
     </spacer>
    </item>
    <item row="3" column="3">
-    <widget class="QPushButton" name="delete_push_button">
+    <widget class="QPushButton" name="verify_reports_push_button">
      <property name="text">
-      <string>Delete</string>
+      <string>Verify</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QPushButton" name="approve_push_button">
+    <widget class="QPushButton" name="verify_approval_push_button">
      <property name="text">
-      <string>Approve</string>
+      <string>Verify</string>
      </property>
     </widget>
    </item>
@@ -151,7 +133,7 @@
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Approval List</string>
+      <string>Awaiting Approval</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -161,7 +143,7 @@
    <item row="0" column="2" colspan="2">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Reported List</string>
+      <string>Reports</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

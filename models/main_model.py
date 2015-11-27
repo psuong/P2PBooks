@@ -155,3 +155,16 @@ def search(query):
                 if book.title == title[0]:
                     found_book_instance.append(book)
         return found_book_instance
+
+
+def not_approved_ebooks():
+    book_list = get_ebook_pickles()
+    not_approved_book_list = []
+    for book in book_list:
+        if not book.approved:
+            not_approved_book_list.append(book)
+    return not_approved_book_list
+
+
+def reports_list():
+    pass

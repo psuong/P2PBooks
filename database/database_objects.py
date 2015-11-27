@@ -56,6 +56,14 @@ def load_serialized_report(save_file_name):
         return None
 
 
+def get_report_pickles():
+    reports_list = []
+    for pickle in os.listdir(REPORTS_DIR_PATH):
+        if pickle.endswith('.pickle'):
+            reports_list.append(load_serialized_report(pickle[:-7]))
+    return reports_list
+
+
 def get_ebook_pickles():
     ebooks_list = []
     for pickle in os.listdir(EBOOKS_DIR_PATH):
@@ -102,7 +110,8 @@ class User(object):
 
 
 class EBook(object):
-    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0):
+    def __init__(self, title, author, genre, isbn, price, summary, uploader, cover_img, book_text, rating=0,
+                 approved=False):
         """
         Class definition for a EBook object
         :param title: str
@@ -132,6 +141,7 @@ class EBook(object):
         self.reports = []
         self.rating = rating
         self.history = []
+        self.approved = approved
 
     @property
     def __unicode__(self):

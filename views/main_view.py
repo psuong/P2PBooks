@@ -1136,7 +1136,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.read_library_push_button.hide()
 
     def admin(self):
-        self.admin_view = ApprovalReportedMainView(self.model, self.username)
+        self.admin_view = ApprovalReportedMainView(self.model, self.username, self)
         self.admin_view.show()
         self.hide()
 
@@ -1147,9 +1147,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
 
 class ApprovalReportedMainView(QtGui.QWidget):
-    def __init__(self, model, username):
+    def __init__(self, model, username, main_window):
         self.model = model
         self.username = username
+        self.main_window = main_window
         self.user_file = load_serialized_user(self.username)
         self.reputation = self.user_file.credits
         super(ApprovalReportedMainView, self).__init__()
@@ -1160,18 +1161,31 @@ class ApprovalReportedMainView(QtGui.QWidget):
     def build_ui(self):
         self.ui.setupUi(self)
 
-        self.ui.approve_push_button.clicked.connect(self.approve)
-        self.ui.delete_push_button.clicked.connect(self.delete)
-        self.ui.cancel_push_button.clicked.connect(self.cancel)
+        self.ui.verify_approval_push_button.clicked.connect(
+            lambda: self.verify_approval(self.ui.approvals_table_widget.selectedItems()))
+        self.ui.verify_reports_push_button.clicked.connect(
+            lambda: self.verify_report(self.ui.reports_table_widget.selectedItems()))
+        self.ui.cancel_push_button.clicked.connect(self.closeEvent)
 
-    def approve(self):
+        # Load books awaiting approval and reports
+        self.books_waiting()
+
+    def verify_approval(self, row_items):
         print "approve clicked"
 
-    def delete(self):
+    def verify_report(self, row_items):
         print "delete clicked"
 
-    def cancel(self):
-        print "cancel clicked"
-        self.main_view = MainWindowRegisteredView(self.model, self.username)
-        self.main_view.show()
-        self.hide()
+    def books_waiting(self):
+        for row, result_book in enumerate(self.model.not_approved_ebooks()):
+            self.ui.approvals_table_widget.insertRow(row)
+            self.ui.approvals_table_widget.setItem(row, 0,
+                                                   QtGui.QTableWidgetItem(result_book.isbn))
+            self.ui.approvals_table_widget.setItem(row, 1,
+                                                   QtGui.QTableWidgetItem(result_book.uploader.username))
+            self.ui.approvals_table_widget.setItem(row, 2,
+                                                   QtGui.QTableWidgetItem(str(result_book.price)))
+
+    def closeEvent(self, *args, **kwargs):
+        self.main_window.show()
+        super(ApprovalReportedMainView, self).closeEvent()
