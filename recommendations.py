@@ -80,11 +80,20 @@ def get_genre_frequency(user_instance):
         "Sports": 0
     }
 
+    genre_list = []
+
     rented_books = user_instance.rented_books
     for key, value in rented_books.iteritems():
         genre_frequency_dict[value.genre] += 1
 
-    return genre_frequency_dict
+    frequency = 0
+    for key, value in genre_frequency_dict.iteritems():
+        if value >= frequency:
+            genre_list.append(key)
+            frequency = value
+            # print "Occurences: " + str(value)
+    return genre_list
+
 
 def get_top_related_books(user_instance):
     """
@@ -95,5 +104,4 @@ def get_top_related_books(user_instance):
     if not bool(user_instance.rented_books):
         return get_most_read_books()
     else:
-        rented_books_dict = user_instance.rented_books
-        return
+        return get_genre_frequency(user_instance)
