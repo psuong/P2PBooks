@@ -155,3 +155,13 @@ def search(query):
                 if book.title == title[0]:
                     found_book_instance.append(book)
         return found_book_instance
+
+
+def check_infractions(user_instance):
+    """
+    Checks if the # of infractions is greater >= 2
+    :param user_instance: User
+    :return:
+    """
+    if len(user_instance.infractions) >= 2:
+        user_instance.is_blacklisted = True
