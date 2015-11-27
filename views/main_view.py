@@ -1114,6 +1114,23 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
                                                 QtGui.QTableWidgetItem(str(book.rating)))
             row += 1
 
+        row = 0
+        for book in book_dict['TOP']:
+            self.ui.top_table_widget.insertRow(row)
+            self.ui.top_table_widget.setItem(row, 0,
+                                             QtGui.QTableWidgetItem(book.title))
+            self.ui.top_table_widget.setItem(row, 1,
+                                             QtGui.QTableWidgetItem(book.author))
+            self.ui.top_table_widget.setItem(row, 2,
+                                             QtGui.QTableWidgetItem(book.isbn))
+            self.ui.top_table_widget.setItem(row, 3,
+                                             QtGui.QTableWidgetItem(str(book.price)))
+            self.ui.top_table_widget.setItem(row, 4,
+                                             QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.top_table_widget.setItem(row, 5,
+                                             QtGui.QTableWidgetItem(str(book.rating)))
+            row += 1
+
     def search(self):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()
