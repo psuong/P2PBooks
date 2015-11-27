@@ -862,6 +862,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         row = 0
         rented_books_instances = []
         if len(self.user_instance.rented_books) > 0:
+            self.user_instance = load_serialized_user(self.user_instance.username)
             for book_isbn_key in self.user_instance.rented_books.keys():
                 rented_books_instances.append(load_serialized_ebook(book_isbn_key))
 
@@ -1231,6 +1232,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
                                                 row_items[3].text())
         self.reports_waiting()
         self.main_window.load_ebooks()
+        self.main_window.reload_user_info()
 
     def books_waiting(self):
         self.ui.approvals_table_widget.setRowCount(0)

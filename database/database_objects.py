@@ -47,7 +47,7 @@ def delete_ebook_from_users(isbn):
         for pickle in os.listdir(ACCOUNT_DIR_PATH):
             if pickle.endswith('.pickle'):
                 user = load_serialized_user(pickle[:-7])
-                if user.rented_books(isbn, None) is not None:
+                if user.rented_books.get(isbn, None) is not None:
                     del user.rented_books[isbn]
                 serialize_user(user, user.username)
     except IOError:
