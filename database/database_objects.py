@@ -202,6 +202,7 @@ class PurchasedEBook(object):
     def reset_count_seconds(self):
         self.count_seconds = 0
 
+
 class Report(object):
     def __init__(self, reporter, reason, description):
         """

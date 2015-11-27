@@ -143,9 +143,8 @@ def submit_review_rate_form(book_instance, reviewer, rating, review):
     book_instance.add_review(load_serialized_review(review_name))
 
     book_instance.rating = (book_instance.rating*book_instance.count_seconds
-                            + load_serialized_user(reviewer).rented_books[book_instance.isbn].count_seconds*rating)/\
+                            + load_serialized_user(reviewer).rented_books[book_instance.isbn].total_seconds*rating)/\
                            book_instance.total_seconds
-    print book_instance.rating
     book_instance.count_seconds = book_instance.total_seconds
 
     update_serialized_ebook(book_instance)
