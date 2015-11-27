@@ -751,6 +751,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.username = username
         self.user_instance = load_serialized_user(self.username)
         self.admin_view = None
+        self.infraction_message_box = None
         self.upload_view = UploadFormView(self.model, username, self)
         self.reader_view = None
         super(MainWindowRegisteredView, self).__init__()
@@ -787,6 +788,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         # Load the user/ebook info
         self.reload_user_info()
         self.load_ebooks()
+
+        self.ui.action_infractions.triggered.connnect(self.trigger_infraction_message_box)
 
         # Connect checkout buttons
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
@@ -831,6 +834,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         # Search checkout
         self.ui.search_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.search_table_widget.selectedItems()))
+
+    def trigger_infraction_message_box(self):
+        self.infraction_message_box = QtGui.QMessageBox(self)
+        self.infraction_message_box.setText(len(self.user_instance.infractions.values()))
 
     def reload_user_info(self):
         self.user_instance = load_serialized_user(self.username)
@@ -1172,8 +1179,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.ui.cancel_push_button.clicked.connect(self.closeEvent)
 
         self.ui.remove_book_push_button.clicked.connect(
-            lambda: self.remove_book(self.ui.reports_table_widget.selectedItems())
+            lambda: self.remove_book_with_infraction(self.ui.reports_table_widget.selectedItems())
         )
+
+        # Ban user connect
 
         # Load books awaiting approval and reports
         self.books_waiting()
@@ -1216,10 +1225,9 @@ class ApprovalReportedMainView(QtGui.QWidget):
             row_items[0].text() + '-' + row_items[3].text().replace(':', '-')).description)
         self.reports_message_box.exec_()
 
-    def remove_book(self, row_items):
+    def remove_book_with_infraction(self, row_items):
         self.model.remove_ebook_with_infraction(row_items[0].text(),
                                                 row_items[1].text())
-
 
     def books_waiting(self):
         self.ui.approvals_table_widget.setRowCount(0)

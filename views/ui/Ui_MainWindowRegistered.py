@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowRegistered.ui'
 #
-# Created: Thu Nov 26 21:08:17 2015
+# Created: Fri Nov 27 00:19:07 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -540,6 +540,9 @@ class Ui_MainWindow(object):
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.action_infractions = QtGui.QAction(MainWindow)
+        self.action_infractions.setObjectName("action_infractions")
+        self.menuAbout.addAction(self.action_infractions)
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -691,5 +694,6 @@ class Ui_MainWindow(object):
         self.search_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Cost", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuAbout.setTitle(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuAbout.setTitle(QtGui.QApplication.translate("MainWindow", "Account", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_infractions.setText(QtGui.QApplication.translate("MainWindow", "Infractions", None, QtGui.QApplication.UnicodeUTF8))
 
