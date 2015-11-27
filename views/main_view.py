@@ -711,6 +711,7 @@ class MainWindowVisitorView(QtGui.QMainWindow):
             self.ui.close_push_button.show()
             self.ui.search_table_widget.setRowCount(0)
             for row, result_book in enumerate(self.model.search(self.ui.search_line_edit.text())):
+                self.ui.search_table_widget.insertRow(row)
                 self.ui.search_table_widget.setItem(row, 0,
                                                     QtGui.QTableWidgetItem(result_book.title))
                 self.ui.search_table_widget.setItem(row, 1,
@@ -763,6 +764,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.close_push_button.hide()
         self.ui.library_table_widget.hide()
         self.ui.read_library_push_button.hide()
+        self.ui.search_checkout_push_button.hide()
 
         self.ui.go_push_button.clicked.connect(self.search)
         self.ui.close_push_button.clicked.connect(self.close_search)
@@ -821,6 +823,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
         self.ui.sports_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.sports_table_widget.selectedItems()))
+
+        # Search checkout
+        self.ui.search_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
+            self.ui.search_table_widget.selectedItems()))
 
     def reload_user_info(self):
         self.user_instance = load_serialized_user(self.username)
@@ -1091,8 +1097,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()
             self.ui.close_push_button.show()
+            self.ui.search_checkout_push_button.show()
             self.ui.search_table_widget.setRowCount(0)
             for row, result_book in enumerate(self.model.search(self.ui.search_line_edit.text())):
+                self.ui.search_table_widget.insertRow(row)
                 self.ui.search_table_widget.setItem(row, 0,
                                                     QtGui.QTableWidgetItem(result_book.title))
                 self.ui.search_table_widget.setItem(row, 1,
@@ -1109,6 +1117,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
     def close_search(self):
         self.ui.search_table_widget.hide()
         self.ui.close_push_button.hide()
+        self.ui.search_checkout_push_button.hide()
 
     def upload(self):
         self.hide()
