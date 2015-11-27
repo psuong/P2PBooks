@@ -150,11 +150,12 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
 
 
 class ReportDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance, reporter, reason=""):
+    def __init__(self, model, book_instance, reporter, report_push_button, reason=""):
         self.model = model
         super(ReportDialogView, self).__init__()
         self.ui = Ui_ReportDialog.Ui_Dialog()
         self.reporter = reporter
+        self.report_push_button = report_push_button
         self.book_instance = book_instance
         self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter)
         self.build_ui(reason)
@@ -189,6 +190,7 @@ class ReportDialogView(QtGui.QDialog):
             else:
                 # Send the selection and description
                 submit_report_form(self.reporter, report_selection, report_description, self.book_instance)
+                self.report_push_button.setDisabled(True)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -244,8 +246,7 @@ class ReaderFormView(QtGui.QWidget):
         self.book_instance = load_serialized_ebook(book_isbn)
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
-        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance)
-        self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance)
+
         self.timer = QtCore.QTimer(self)
         self.paused = True
         self.pdf_reader_location = None
@@ -253,6 +254,9 @@ class ReaderFormView(QtGui.QWidget):
         self.build_ui()
 
         self.count_seconds = 0
+        self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
+        self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
+
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -379,14 +383,14 @@ class ReaderFormView(QtGui.QWidget):
 
 
 class ReviewRateDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance, reviewer):
+    def __init__(self, model, book_instance, reviewer, review_rate_push_button):
         self.model = model
         super(ReviewRateDialogView, self).__init__()
         self.ui = Ui_ReviewRateDialog.Ui_Dialog()
 
         self.book_instance = book_instance
         self.reviewer = reviewer
-
+        self.review_rate_push_button = review_rate_push_button
         self.build_ui()
 
     def build_ui(self):
@@ -420,7 +424,7 @@ class ReviewRateDialogView(QtGui.QDialog):
                                     float(self.ui.rating_combo_box.currentText()),
                                     review_text)
 
-
+            self.review_rate_push_button.setDisabled(True)
             self.hide()
 
 
