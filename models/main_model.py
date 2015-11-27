@@ -10,6 +10,7 @@ from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
 from fuzzywuzzy import process
+from recommendations import get_top_rated_books
 
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
@@ -73,6 +74,7 @@ def login_user(username, password):
 
 def catalogue_loader():
     book_dict = {
+        "TOP": [],
         "Kids": [],
         "Adventure": [],
         "Education": [],
@@ -89,6 +91,9 @@ def catalogue_loader():
     for book in get_ebook_pickles():
         if book.approved:
             book_dict[book.genre].append(book)
+
+    for book in get_top_rated_books():
+        book_dict["TOP"].append(book)
 
     return book_dict
 

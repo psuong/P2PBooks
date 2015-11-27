@@ -157,7 +157,7 @@ class User(object):
         self.reported_books = []  # Make sure to store EBooks objects
         self.reviewed_books = []  # Make sure to store EBooks objects
         self.infractions = {}
-        self.currently_reading = (None, 0)
+        self.currently_reading = None  # Stores an EBook obj
         self.default_pdf_reader = None
         self.is_blacklisted = False
 

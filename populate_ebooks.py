@@ -1,4 +1,5 @@
 import os
+import random
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
 from models.main_model import convert_pdf_to_txt
 
@@ -50,9 +51,21 @@ for pdf in os.listdir(PDF_DIR_PATH):
                               book_text=convert_pdf_to_txt(PDF_DIR_PATH+"\\"+pdf)),
                         str(init_ISBN),
                         os.path.join(PDF_DIR_PATH, pdf))
+        e_book = EBook(title=(pdf[:-4]),
+                       author="Author#" + str(count),
+                       genre=GENRE_LIST[count],
+                       price=price,
+                       uploader=user_list[user_count],
+                       summary=lorem,
+                       cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
+                       isbn=str(init_ISBN),
+                       book_text=convert_pdf_to_txt(PDF_DIR_PATH + os.sep + pdf),
+                       rating=random.randrange(0, 11))
+        e_book.buy_count = random.randrange(0, 30)
+        serialize_ebook(e_book, str(init_ISBN), os.path.join(PDF_DIR_PATH, pdf))
         user_count += 1
         if user_count == len(user_list):
             user_count = 0
         init_ISBN += 1
-        count += 1        
+        count += 1
         price += 10
