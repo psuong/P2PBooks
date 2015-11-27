@@ -181,3 +181,8 @@ def remove_user_credits(username, credit):
     user = load_serialized_user(username)
     user.credits -= credit
     serialize_user(user, username)
+
+
+def remove_ebook(isbn):
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
+    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))

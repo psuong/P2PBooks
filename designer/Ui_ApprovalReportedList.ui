@@ -176,6 +176,16 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="credit_amount_spin_box">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>9999999</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

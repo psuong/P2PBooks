@@ -1194,9 +1194,15 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.reader_process.start(self.pdf_reader_location, [pdf])
 
     def approve(self, row_items):
-        book = load_serialized_ebook(row_items[0].text())
-        book.approved = True
-        update_serialized_ebook(book)
+        if self.ui.credit_amount_spin_box.value() < int(row_items[2].text()):
+            self.model.add_user_credits(self.username, self.ui.credit_amount_spin_box.value())
+            book = load_serialized_ebook(row_items[0].text())
+            book.approved = True
+            update_serialized_ebook(book)
+            self.main_window.reload_user_info()
+        else:
+            # Remove ebook from approval list
+            self.model.remove_ebook(row_items[0].text())
         self.books_waiting()
 
     def verify_report(self, row_items):

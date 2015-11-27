@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ApprovalReportedList.ui'
 #
-# Created: Thu Nov 26 22:24:40 2015
+# Created: Thu Nov 26 22:44:32 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -78,6 +78,11 @@ class Ui_Form(object):
         self.pdf_location_label.setText("")
         self.pdf_location_label.setObjectName("pdf_location_label")
         self.gridLayout.addWidget(self.pdf_location_label, 5, 2, 1, 3)
+        self.credit_amount_spin_box = QtGui.QSpinBox(Form)
+        self.credit_amount_spin_box.setMinimum(1)
+        self.credit_amount_spin_box.setMaximum(9999999)
+        self.credit_amount_spin_box.setObjectName("credit_amount_spin_box")
+        self.gridLayout.addWidget(self.credit_amount_spin_box, 2, 1, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
