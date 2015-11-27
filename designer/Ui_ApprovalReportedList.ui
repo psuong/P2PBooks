@@ -194,9 +194,9 @@
     </widget>
    </item>
    <item row="3" column="5">
-    <widget class="QPushButton" name="ban_ru_push_button">
+    <widget class="QPushButton" name="blacklist_ru_push_button">
      <property name="text">
-      <string>Ban RU</string>
+      <string>Blacklist RU</string>
      </property>
     </widget>
    </item>

@@ -215,3 +215,10 @@ def check_infractions(user_instance):
     """
     if len(user_instance.infractions) >= 2:
         user_instance.is_blacklisted = True
+
+
+def blacklist_book_uploader(isbn):
+    book = load_serialized_ebook(isbn)
+    user = load_serialized_user(book.uploader.username)
+    user.is_blacklisted = True
+    serialize_user(user, user.username)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ApprovalReportedList.ui'
 #
-# Created: Thu Nov 26 23:33:53 2015
+# Created: Fri Nov 27 17:10:22 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -86,9 +86,9 @@ class Ui_Form(object):
         self.pdf_reader_push_button = QtGui.QPushButton(Form)
         self.pdf_reader_push_button.setObjectName("pdf_reader_push_button")
         self.gridLayout.addWidget(self.pdf_reader_push_button, 5, 1, 1, 1)
-        self.ban_ru_push_button = QtGui.QPushButton(Form)
-        self.ban_ru_push_button.setObjectName("ban_ru_push_button")
-        self.gridLayout.addWidget(self.ban_ru_push_button, 3, 5, 1, 1)
+        self.blacklist_ru_push_button = QtGui.QPushButton(Form)
+        self.blacklist_ru_push_button.setObjectName("blacklist_ru_push_button")
+        self.gridLayout.addWidget(self.blacklist_ru_push_button, 3, 5, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -110,5 +110,5 @@ class Ui_Form(object):
         self.label.setText(QtGui.QApplication.translate("Form", "Awaiting Approval", None, QtGui.QApplication.UnicodeUTF8))
         self.approve_push_button.setText(QtGui.QApplication.translate("Form", "Approve", None, QtGui.QApplication.UnicodeUTF8))
         self.pdf_reader_push_button.setText(QtGui.QApplication.translate("Form", "PDF Reader", None, QtGui.QApplication.UnicodeUTF8))
-        self.ban_ru_push_button.setText(QtGui.QApplication.translate("Form", "Ban RU", None, QtGui.QApplication.UnicodeUTF8))
+        self.blacklist_ru_push_button.setText(QtGui.QApplication.translate("Form", "Blacklist RU", None, QtGui.QApplication.UnicodeUTF8))
 
