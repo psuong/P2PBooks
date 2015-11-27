@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_LoginForm.ui'
+# Form implementation generated from reading ui file 'designer\Ui_LoginForm.ui'
 #
-# Created: Sat Nov 21 13:48:10 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
+# Created: Fri Nov 27 18:44:18 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,28 +12,27 @@ from PySide import QtCore, QtGui
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(377, 168)
-        self.formLayout = QtGui.QFormLayout(Form)
-        self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
-        self.formLayout.setObjectName("formLayout")
+        Form.resize(377, 140)
+        self.gridLayout = QtGui.QGridLayout(Form)
+        self.gridLayout.setObjectName("gridLayout")
         self.user_name_label = QtGui.QLabel(Form)
         self.user_name_label.setObjectName("user_name_label")
-        self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.user_name_label)
+        self.gridLayout.addWidget(self.user_name_label, 0, 0, 1, 1)
         self.username_line_edit = QtGui.QLineEdit(Form)
         self.username_line_edit.setObjectName("username_line_edit")
-        self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.username_line_edit)
+        self.gridLayout.addWidget(self.username_line_edit, 0, 1, 1, 1)
         self.password_label = QtGui.QLabel(Form)
         self.password_label.setObjectName("password_label")
-        self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.password_label)
+        self.gridLayout.addWidget(self.password_label, 1, 0, 1, 1)
         self.password_line_edit = QtGui.QLineEdit(Form)
         self.password_line_edit.setObjectName("password_line_edit")
-        self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.password_line_edit)
+        self.gridLayout.addWidget(self.password_line_edit, 1, 1, 1, 1)
         self.login_push_button = QtGui.QPushButton(Form)
         self.login_push_button.setObjectName("login_push_button")
-        self.formLayout.setWidget(4, QtGui.QFormLayout.SpanningRole, self.login_push_button)
+        self.gridLayout.addWidget(self.login_push_button, 2, 0, 1, 2)
         self.sign_up_push_button = QtGui.QPushButton(Form)
         self.sign_up_push_button.setObjectName("sign_up_push_button")
-        self.formLayout.setWidget(5, QtGui.QFormLayout.SpanningRole, self.sign_up_push_button)
+        self.gridLayout.addWidget(self.sign_up_push_button, 3, 0, 1, 2)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
