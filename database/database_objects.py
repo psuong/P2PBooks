@@ -81,7 +81,19 @@ def get_ebook_pickles():
     ebooks_list = []
     for pickle in os.listdir(EBOOKS_DIR_PATH):
         if pickle.endswith('.pickle'):
-            ebooks_list.append(load_serialized_ebook(pickle[:-7]))  # -7 to truncate file ending
+            book_instance = load_serialized_ebook(pickle[:-7])
+            elapsed_time = datetime.now() - book_instance.last_time_read
+
+            if divmod(elapsed_time.total_seconds(), 60) <= (10.0, 0):
+                # If elapsed_time is less than 10 minutes
+                ebooks_list.append(book_instance)  # -7 to truncate file ending
+            else:
+                # If elapsed_time is more than 10 minutes, delete it and subtract 5 points from the uploader
+                book_instance.uploader.credits -= 5
+                update_serialized_user(book_instance.uploader)
+                os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
+                os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
+
     return ebooks_list
 
 

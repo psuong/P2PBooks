@@ -399,8 +399,6 @@ class ReviewRateDialogView(QtGui.QDialog):
             self.hide()
 
 
-
-
 class LoginFormView(QtGui.QWidget):
     def __init__(self, model):
         self.model = model
