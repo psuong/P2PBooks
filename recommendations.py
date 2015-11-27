@@ -1,7 +1,7 @@
 from database.database_objects import load_serialized_ebook, get_ebook_pickles, EBOOKS_DIR_PATH
 
 
-def insertion_sort(pickle_list):
+def sort_top_rated(pickle_list):
     """
     Sorts a list of EBook objects from greatest value to smallest
     :param pickle_list: list
@@ -20,13 +20,21 @@ def insertion_sort(pickle_list):
     return pickle_list
 
 
+def get_most_read_books():
+    """
+    Checks the buy count field in EBook and gets the most bought books
+    :return:
+    """
+    pass
+
+
 def get_top_rated_books():
     """
     Returns the top 5 rated books
     :return: list
     """
     pickle_files = get_ebook_pickles()
-    top_books = insertion_sort(pickle_files)
+    top_books = sort_top_rated(pickle_files)
     return top_books[0:5]
 
 
@@ -36,4 +44,5 @@ def get_top_related_books(user_instance):
     :param user_instance: User
     :return: list
     """
+    #if not bool(user_instance.rented_books):
     pass
