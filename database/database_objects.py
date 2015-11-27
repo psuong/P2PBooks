@@ -113,6 +113,7 @@ class User(object):
         self.infractions = {}
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
+        self.is_blacklisted = False
 
     @property
     def __unicode__(self):
@@ -121,6 +122,10 @@ class User(object):
     def upload(self, ebook, username):
         self.uploaded_books.append(ebook)
         ebook.uploader = username
+
+    def blacklist_user(self):
+        if len(self.infractions) >= 2:
+            self.is_blacklisted = True
 
 
 class EBook(object):

@@ -361,9 +361,13 @@ class LoginFormView(QtGui.QWidget):
         else:
             # Check if the fields match a username and password is in the database
             if self.model.login_user(username, password) is not None:
-                self.main_window = MainWindowRegisteredView(self.model, username)
-                self.main_window.show()
-                self.hide()
+                if load_serialized_user(username).is_blacklisted:
+                    QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+                                                                     " infractions!");
+                else:
+                    self.main_window = MainWindowRegisteredView(self.model, username)
+                    self.main_window.show()
+                    self.hide()
             else:
                 # Nothing was return; error
                 QtGui.QMessageBox.about(self, "Error", "No username/password found.")
@@ -407,7 +411,10 @@ class RegisterFormView(QtGui.QWidget):
             self.hide()
 
         else:
-            if load_serialized_user(username) is not None and password == confirm_password:
+            if load_serialized_user(username).is_blacklisted:
+                QtGui.QMessageBox.about(self, "Banned Account!", "This user cannot register as this instance has been"
+                                                                 " banned.")
+            elif load_serialized_user(username) is not None and password == confirm_password and not load_serialized_user(username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
