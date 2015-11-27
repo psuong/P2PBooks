@@ -1,7 +1,8 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
-from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form
+from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
+    report_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
     update_serialized_ebook, update_serialized_user
 import os
@@ -170,7 +171,7 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 # Send the selection and description
-                submit_report_form(self.reporter.username, report_selection, report_description, self.book_instance)
+                submit_report_form(self.reporter, report_selection, report_description, self.book_instance)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -322,12 +323,18 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def report(self):
         # Trigger the report widget
-        self.report_dialog.show()
+        if not report_exists(self.user_instance, self.book_instance):
+            self.report_dialog.show()
+        else:
+            QtGui.QMessageBox.about(self, "Error", "You have already reported this book once!")
 
     @QtCore.Slot()
     def review_rate(self):
         # Trigger the report widget
-        self.review_rate_dialog.show()
+        if not review_exists(self.user_instance, self.book_instance):
+            self.review_rate_dialog.show()
+        else:
+            QtGui.QMessageBox.about(self, "Error", "You have already reviewed/rated this book once!")
 
     @QtCore.Slot()
     def browse_reader_location(self):
@@ -375,9 +382,6 @@ class ReviewRateDialogView(QtGui.QDialog):
             # Display an error message to tell the user to write a description
             QtGui.QMessageBox.about(self, "Error", "You have not yet written anything in the review")
         else:
-            # self.book_instance.add_seconds(self.count_seconds)
-            # update_serialized_ebook(self.book_instance)
-
             if self.book_instance.total_seconds == 0.0 or \
                             self.reviewer.rented_books[self.book_instance.isbn].total_seconds == 0:
                 # Display an error message to tell the user to read the book first! (Calculate rating when division
@@ -386,9 +390,11 @@ class ReviewRateDialogView(QtGui.QDialog):
                                                        'Come back to review once you\'ve read for at least a second')
                 return
 
-            submit_review_rate_form(self.book_instance, self.reviewer.username,
+            submit_review_rate_form(self.book_instance, self.reviewer,
                                     float(self.ui.rating_combo_box.currentText()),
                                     review_text)
+
+
             self.hide()
 
 

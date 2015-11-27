@@ -2,7 +2,7 @@ import os
 import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, \
-    update_serialized_ebook, Review, serialize_review, load_serialized_review
+    update_serialized_ebook, Review, serialize_review, load_serialized_review, update_serialized_user
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -111,7 +111,7 @@ def convert_pdf_to_txt(path):
     caching = True
     pagenos=set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=2, password=password,caching=caching, check_extractable=True):
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=1, password=password,caching=caching, check_extractable=True):
         interpreter.process_page(page)
 
     text = retstr.getvalue()
@@ -124,11 +124,14 @@ def convert_pdf_to_txt(path):
 
 def submit_report_form(reporter, reason, description, book_instance):
     report_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
-    serialize_report(Report(reporter=reporter,
+    serialize_report(Report(reporter=reporter.username,
                             reason=reason,
                             description=description
                             ), report_name)
     add_report_to_book(book_instance, report_name)
+
+    reporter.reported_books.append(book_instance)
+    update_serialized_user(reporter)
 
 
 def add_report_to_book(book_instance, report_name):
@@ -136,15 +139,32 @@ def add_report_to_book(book_instance, report_name):
     serialize_ebook(book_instance, book_instance.isbn, os.path.join(EBOOKS_DIR_PATH, book_instance.isbn + ".pickle"))
 
 
+def report_exists(reporter, book_instance):
+    for book in reporter.reported_books:
+        if book == book_instance:
+            return True
+
+    return False
+
 def submit_review_rate_form(book_instance, reviewer, rating, review):
     review_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
-    serialize_review(Review(reviewer=reviewer,
+    serialize_review(Review(reviewer=reviewer.username,
                             review=review), review_name)
     book_instance.add_review(load_serialized_review(review_name))
+    reviewer.reviewed_books.append(book_instance)
+    update_serialized_user(reviewer)
 
     book_instance.rating = (book_instance.rating*book_instance.count_seconds
-                            + load_serialized_user(reviewer).rented_books[book_instance.isbn].total_seconds*rating)/\
+                            + reviewer.rented_books[book_instance.isbn].total_seconds*rating)/\
                            book_instance.total_seconds
     book_instance.count_seconds = book_instance.total_seconds
 
     update_serialized_ebook(book_instance)
+
+
+def review_exists(reviewer, book_instance):
+    for book in reviewer.reviewed_books:
+        if book == book_instance:
+            return True
+
+    return False
