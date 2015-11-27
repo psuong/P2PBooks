@@ -288,7 +288,7 @@ class ReaderFormView(QtGui.QWidget):
             self.timer.stop()
             self.book_purchase_info.paused_time = datetime.datetime.now()
             self.book_instance.add_seconds(self.count_seconds)
-            self.book_instance.count_seconds = self.count_seconds
+            self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
             self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
 
             update_serialized_user(self.user_instance)
@@ -338,7 +338,7 @@ class ReaderFormView(QtGui.QWidget):
             self.pdf_reader_location = pdf_reader[0]
 
     def closeEvent(self, *args, **kwargs):
-        self.book_instance.reset_count_seconds()
+        self.user_instance.rented_books[self.book_instance.isbn].reset_count_seconds()
         self.user_instance.default_pdf_reader = self.pdf_reader_location
         serialize_user(self.user_instance, self.user_instance.username)
         self.main_window.show()
