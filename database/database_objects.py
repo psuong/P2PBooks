@@ -6,6 +6,7 @@ import shutil
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
 REPORTS_DIR_PATH = os.path.join('database', 'blobs', 'reports')
+REVIEWS_DIR_PATH = os.path.join('database', 'blobs', 'reviews')
 
 
 # Save and load users
@@ -56,6 +57,20 @@ def load_serialized_report(save_file_name):
         return None
 
 
+# Save and load reviews
+def serialize_review(db_object, save_file_name):
+    with open(os.path.join(REVIEWS_DIR_PATH, save_file_name + '.pickle'), 'wb') as out:
+        cPickle.dump(db_object, out)
+
+
+def load_serialized_review(save_file_name):
+    try:
+        with open(os.path.join(REVIEWS_DIR_PATH, save_file_name + '.pickle'), 'rb') as input_file:
+            return cPickle.load(input_file)
+    except IOError:
+        return None
+
+
 def get_ebook_pickles():
     ebooks_list = []
     for pickle in os.listdir(EBOOKS_DIR_PATH):
@@ -92,6 +107,8 @@ class User(object):
         self.currently_reading = (None, 0)
         self.default_pdf_reader = None
 
+        self.rented_seconds = {} # book_instance key; seconds value
+
     @property
     def __unicode__(self):
         return self.username
@@ -99,6 +116,10 @@ class User(object):
     def upload(self, ebook, username):
         self.uploaded_books.append(ebook)
         ebook.uploader = username
+
+    def add_seconds(self, rented_book, seconds):
+        self.rented_seconds[rented_book] += seconds
+
 
 
 class EBook(object):
@@ -129,10 +150,11 @@ class EBook(object):
 
         self.approved = False
         self.reports = []
+        self.reviews = []
         self.rating = rating
         self.history = []
 
-        self.total_seconds = 0
+        self.total_seconds = 0.0
 
     @property
     def __unicode__(self):
@@ -144,6 +166,9 @@ class EBook(object):
         :return:
         """
         self.reports.append(report)
+
+    def add_review(self, review):
+        self.reviews.append(review)
 
     def add_seconds(self, seconds):
         self.total_seconds += seconds
@@ -181,3 +206,15 @@ class Report(object):
     @property
     def __unicode__(self):
         return self.reason + " report sent by " + self.reporter.__unicode__ + " was created at " + str(self.time_stamp)
+
+
+class Review(object):
+    def __init__(self, reviewer, review):
+        """
+        Class definition for a Report object
+        :param reviewer: str
+        :param review: str
+        """
+        self.time_stamp = datetime.now()
+        self.reviewer = load_serialized_user(reviewer)
+        self.review = review

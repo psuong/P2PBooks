@@ -1,7 +1,8 @@
 import os
 import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
-    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report
+    load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, \
+    update_serialized_ebook, Review, serialize_review, load_serialized_review
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -136,4 +137,11 @@ def add_report_to_book(book_instance, report_name):
 
 
 def submit_review_rate_form(book_instance, reviewer, rating, review):
-    pass
+    review_name = book_instance.isbn + "-" + str(datetime.datetime.now()).replace(":", "-")
+    serialize_review(Review(reviewer=reviewer,
+                            review=review), review_name)
+    book_instance.add_review(load_serialized_review(review_name))
+
+    # TODO: Define reviewer individual seconds for each book
+    book_instance.rating = (book_instance.rating +  reviewer.seconds_for_this_book*rating)/book_instance.total_seconds
+    update_serialized_ebook(book_instance)
