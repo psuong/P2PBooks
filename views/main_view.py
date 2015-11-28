@@ -1,6 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog,\
+    Ui_ShareBookDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
     report_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
@@ -148,7 +149,8 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
             self.hide()
         else:
             print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
-            QtGui.QMessageBox.about(self, "Insufficent funds", "You don't have enough credits for that much time!")
+            QtGui.QMessageBox.about(self, "Insufficient funds", "You don't have enough credits for that much time!")
+
 
 class ReportDialogView(QtGui.QDialog):
     def __init__(self, model, book_instance, reporter, report_push_button, reason=""):
@@ -257,8 +259,7 @@ class ReaderFormView(QtGui.QWidget):
         self.count_seconds = 0
         self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
-        self.share_widget =
-
+        self.share_dialog = ShareBookDialogView(self.model, self.user_instance.username, self.book_instance.isbn)
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -350,8 +351,7 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
-        self.hide()
-        self.
+        self.share_dialog.show()
         pass
 
     @QtCore.Slot()
@@ -1440,3 +1440,58 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.main_window.show()
         self.hide()
         super(ApprovalReportedMainView, self).closeEvent()
+
+
+class ShareBookDialogView(QtGui.QDialog):
+    def __init__(self, model, owner, isbn):
+        self.model = model
+        self.owner = owner
+        self.isbn = isbn
+        super(ShareBookDialogView, self).__init__()
+        self.ui = Ui_ShareBookDialog.Ui_Dialog()
+        self.owner_instance = load_serialized_user(self.owner)
+        self.user_instance = None
+        self.book_instance = load_serialized_ebook(self.isbn)
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+
+        self.ui.user_line_edit.setPlaceholderText("User")
+
+    def accept(self, *args, **kwargs):
+        # Press OK
+        username = self.ui.user_line_edit.text()
+        self.user_instance = load_serialized_user(username)
+
+        # Checks if username is an empty string
+        if username == '':
+            QtGui.QMessageBox.about(self, "Error", "Invalid username.")
+        # else:
+        #     if self.model.login_user(username, 'pw') is not None:
+        #         if self.user_instance.is_blacklisted:
+        #             QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+        #                                     " infractions!")
+        #
+        #         else:
+        print self.user_instance.rented_books.keys
+        e_book_shared = PurchasedEBook(self.user_instance.username,
+                                       self.isbn,
+                                       datetime.datetime.now(),
+                                       20,
+                                       datetime.datetime.now(),
+                                       self.book_instance.total_seconds)
+        if len(self.user_instance.rented_books) > 0:
+            print len(self.user_instance.rented_books) + " books"
+            occurrences = 0
+            for book_isbn_key in self.user_instance.rented_books.keys():
+                if self.book_instance == book_isbn_key:
+                    QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
+                    occurrences += 1
+            if occurrences == 0:
+                self.user_instance.rented_books[self.isbn] = self.owner_instance.rented_books[self.isbn]
+        else:
+            print "0 books"
+            self.user_instance.rented_books[self.isbn] = self.owner_instance.rented_books[self.isbn]
+        update_serialized_user(self.user_instance)
+        self.hide()
