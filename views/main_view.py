@@ -257,6 +257,7 @@ class ReaderFormView(QtGui.QWidget):
         self.count_seconds = 0
         self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
+        self.share_widget =
 
 
     def build_ui(self):
@@ -349,6 +350,8 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
+        self.hide()
+        self.
         pass
 
     @QtCore.Slot()
