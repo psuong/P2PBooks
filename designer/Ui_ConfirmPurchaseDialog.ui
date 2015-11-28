@@ -6,21 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>562</height>
+    <width>293</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Confirm Purchase</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="1">
-    <widget class="QSpinBox" name="length_spin_box">
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="maximum">
-      <number>200</number>
+   <item row="3" column="1">
+    <widget class="QLabel" name="total_seconds_label">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -31,6 +28,23 @@
      </property>
     </widget>
    </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Cost (per min)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QSpinBox" name="length_spin_box">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>200</number>
+     </property>
+    </widget>
+   </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
@@ -38,10 +52,24 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label">
+   <item row="9" column="0" colspan="2">
+    <widget class="QTextBrowser" name="review_text_browser">
+     <property name="documentTitle">
+      <string>Review</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="num_of_purchases_label">
      <property name="text">
-      <string>Cost (per min)</string>
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Total seconds</string>
      </property>
     </widget>
    </item>
@@ -55,19 +83,13 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QWebView" name="cover_img_web_view">
-     <property name="url">
-      <url>
-       <string>about:blank</string>
-      </url>
-     </property>
-    </widget>
+   <item row="1" column="0" colspan="2">
+    <widget class="QTextBrowser" name="summary_text_browser"/>
    </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="num_of_purchases_label">
+   <item row="10" column="1">
+    <widget class="QPushButton" name="next_review_push_button">
      <property name="text">
-      <string/>
+      <string>Next review</string>
      </property>
     </widget>
    </item>
@@ -78,20 +100,19 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QTextBrowser" name="summary_text_browser"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Total seconds</string>
+   <item row="0" column="0" colspan="2">
+    <widget class="QWebView" name="cover_img_web_view">
+     <property name="url">
+      <url>
+       <string>about:blank</string>
+      </url>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="total_seconds_label">
+   <item row="8" column="0">
+    <widget class="QLabel" name="review_label">
      <property name="text">
-      <string/>
+      <string>Review</string>
      </property>
     </widget>
    </item>

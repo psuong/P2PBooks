@@ -4,6 +4,7 @@ from database.database_objects import serialize_user, User, load_serialized_user
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles, \
     REPORTS_DIR_PATH, delete_ebook_from_users, update_serialized_ebook, Review, serialize_review, \
     load_serialized_review, update_serialized_user
+from database.database_objects import reviews_list
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -249,8 +250,8 @@ def submit_review_rate_form(book_instance, reviewer, rating, review):
     reviewer.reviewed_books.append(book_instance)
     update_serialized_user(reviewer)
 
-    book_instance.rating = (book_instance.rating * book_instance.count_seconds
-                            + reviewer.rented_books[book_instance.isbn].total_seconds * rating) / \
+    book_instance.rating = (book_instance.rating * book_instance.count_seconds +
+                            reviewer.rented_books[book_instance.isbn].total_seconds * rating) / \
                            book_instance.total_seconds
     book_instance.count_seconds = book_instance.total_seconds
 
@@ -261,5 +262,9 @@ def review_exists(reviewer, book_instance):
     for book in reviewer.reviewed_books:
         if book == book_instance:
             return True
-
     return False
+
+
+def get_reviews_queue(isbn):
+    reviews = reviews_list(isbn)
+    return reviews if len(reviews) > 0 else None

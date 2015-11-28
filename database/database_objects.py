@@ -129,6 +129,14 @@ def get_ebook_pickles():
     return ebooks_list
 
 
+def reviews_list(isbn):
+    reviews = []
+    for review in os.listdir(REVIEWS_DIR_PATH):
+        if review.endswith('pickle') and review[:10] == isbn:
+            reviews.append(load_serialized_review(review[:-7]))
+    return reviews
+
+
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
 

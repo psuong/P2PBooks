@@ -98,6 +98,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.cover_img = cover_img
         self.summary = summary
         self.isbn = isbn
+        self.queue_counter = 0
         super(ConfirmedPurchaseDialogView, self).__init__()
         self.ui = Ui_ConfirmPurchaseDialog.Ui_Dialog()
         self.build_ui()
@@ -107,6 +108,21 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ebook_in_transaction = load_serialized_ebook(self.isbn)
         self.ui.num_of_purchases_label.setText(str(self.ebook_in_transaction.buy_count))
         self.ui.total_seconds_label.setText(str(self.ebook_in_transaction.total_seconds))
+
+        # Set up reviews queue
+        reviews_list = self.model.get_reviews_queue(self.isbn)
+        if reviews_list is not None:
+            self.ui.review_text_browser.setText(reviews_list[self.queue_counter].review)
+            if len(reviews_list) > 1:
+                self.ui.next_review_push_button.clicked.connect(
+                    lambda: self.next_review(reviews_list)
+                )
+            else:
+                self.ui.next_review_push_button.hide()
+        else:
+            self.ui.review_text_browser.hide()
+            self.ui.next_review_push_button.hide()
+            self.ui.review_label.hide()
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -138,7 +154,8 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
                                                 self.isbn,
                                                 datetime.datetime.now(),
                                                 self.ui.length_spin_box.value(),
-                                                datetime.datetime.now())
+                                                datetime.datetime.now(),
+                                                0)
 
                 self.user_instance.rented_books[self.isbn] = ebook_purchase
 
@@ -149,6 +166,13 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         else:
             print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
             QtGui.QMessageBox.about(self, "Insufficent funds", "You don't have enough credits for that much time!")
+
+    def next_review(self, review_list):
+        self.queue_counter += 1
+        if self.queue_counter >= len(review_list):
+            self.queue_counter = 0
+        self.ui.review_text_browser.setText(review_list[self.queue_counter].review)
+
 
 class ReportDialogView(QtGui.QDialog):
     def __init__(self, model, book_instance, reporter, report_push_button, reason=""):
@@ -257,7 +281,6 @@ class ReaderFormView(QtGui.QWidget):
         self.count_seconds = 0
         self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
-
 
     def build_ui(self):
         self.ui.setupUi(self)
