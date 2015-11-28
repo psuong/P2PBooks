@@ -129,6 +129,15 @@ def get_ebook_pickles():
     return ebooks_list
 
 
+# Checks if user exists
+def user_exists(username):
+    for pickle in os.listdir(ACCOUNT_DIR_PATH):
+        if pickle.endswith(".pickle"):
+            if pickle == username + ".pickle":
+                return True
+    return False
+
+
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
 

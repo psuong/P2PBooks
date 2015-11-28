@@ -5,7 +5,7 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
     report_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
-    update_serialized_ebook, update_serialized_user
+    update_serialized_ebook, update_serialized_user, user_exists
 from recommendations import get_top_related_books
 import os
 import datetime
@@ -1465,46 +1465,45 @@ class ShareBookDialogView(QtGui.QDialog):
         username = self.ui.user_line_edit.text()
         self.user_instance = load_serialized_user(username)
 
-        # Checks if username is an empty string
-        if username == '':
-            QtGui.QMessageBox.about(self, "Error", "Invalid username.")
-        # else:
-        #     if self.model.login_user(username, 'pw') is not None:
-        #         if self.user_instance.is_blacklisted:
-        #             QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
-        #                                     " infractions!")
-        #
-        #         else:
-        time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
-        # print self.owner_instance.rented_books[self.isbn].length_on_rent
-        cost_for_user = self.book_instance.price * time_left
-        # print cost_for_user
-        if cost_for_user > self.user_instance.credits:
-            QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username + " does not have enough credits.")
+        # Checks if username is valid
+        print user_exists(username)
+        if not user_exists(username):
+            QtGui.QMessageBox.about(self, "Error", "Invalid User")
         else:
-            self.owner_instance.credits += cost_for_user
-            self.user_instance.credits -= cost_for_user
-            self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
-            e_book_shared = PurchasedEBook(self.user_instance.username,
-                                           self.isbn,
-                                           datetime.datetime.now(),
-                                           time_left,
-                                           datetime.datetime.now(),
-                                           time_left)
-            if len(self.user_instance.rented_books) == 0:
-                print "0 books"
-                self.user_instance.rented_books[self.isbn] = e_book_shared
+            if self.user_instance.is_blacklisted:
+                 QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+                                         " infractions!")
             else:
-                # print str(len(self.user_instance.rented_books)) + " books"
-                occurrences = False
-                for book_isbn_key in self.user_instance.rented_books.keys():
-                    if self.book_instance.isbn == book_isbn_key:
-                        QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
-                        occurrences = True
-                        break
-                if not occurrences:
-                    self.user_instance.rented_books[self.isbn] = e_book_shared
-        update_serialized_user(self.user_instance)
-        update_serialized_user(self.owner_instance)
+                time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
+                # print self.owner_instance.rented_books[self.isbn].length_on_rent
+                cost_for_user = self.book_instance.price * time_left
+                # print cost_for_user
+                if cost_for_user > self.user_instance.credits:
+                    QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username + " does not have enough credits.")
+                else:
+                    self.owner_instance.credits += cost_for_user
+                    self.user_instance.credits -= cost_for_user
+                    self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
+                    e_book_shared = PurchasedEBook(self.user_instance.username,
+                                                   self.isbn,
+                                                   datetime.datetime.now(),
+                                                   time_left,
+                                                   datetime.datetime.now(),
+                                                   time_left)
+                    if len(self.user_instance.rented_books) == 0:
+                        print "0 books"
+                        self.user_instance.rented_books[self.isbn] = e_book_shared
+                    else:
+                        # print str(len(self.user_instance.rented_books)) + " books"
+                        occurrences = False
+                        for book_isbn_key in self.user_instance.rented_books.keys():
+                            if self.book_instance.isbn == book_isbn_key:
+                                QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
+                                occurrences = True
+                                break
+                        if not occurrences:
+                            self.user_instance.rented_books[self.isbn] = e_book_shared
+            update_serialized_user(self.user_instance)
+            update_serialized_user(self.owner_instance)
         self.main_window.reload_user_info()
         self.hide()
