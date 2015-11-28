@@ -259,7 +259,7 @@ class ReaderFormView(QtGui.QWidget):
         self.count_seconds = 0
         self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
-        self.share_dialog = ShareBookDialogView(self.model, self.user_instance.username, self.book_instance.isbn)
+        self.share_dialog = ShareBookDialogView(self.model, self.main_window, self.user_instance.username, self.book_instance.isbn)
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -1443,7 +1443,7 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
 
 class ShareBookDialogView(QtGui.QDialog):
-    def __init__(self, model, owner, isbn):
+    def __init__(self, model, main_window, owner, isbn):
         self.model = model
         self.owner = owner
         self.isbn = isbn
@@ -1452,6 +1452,7 @@ class ShareBookDialogView(QtGui.QDialog):
         self.owner_instance = load_serialized_user(self.owner)
         self.user_instance = None
         self.book_instance = load_serialized_ebook(self.isbn)
+        self.main_window = main_window
         self.build_ui()
 
     def build_ui(self):
@@ -1474,24 +1475,36 @@ class ShareBookDialogView(QtGui.QDialog):
         #                                     " infractions!")
         #
         #         else:
-        print self.user_instance.rented_books.keys
-        e_book_shared = PurchasedEBook(self.user_instance.username,
-                                       self.isbn,
-                                       datetime.datetime.now(),
-                                       20,
-                                       datetime.datetime.now(),
-                                       self.book_instance.total_seconds)
-        if len(self.user_instance.rented_books) > 0:
-            print len(self.user_instance.rented_books) + " books"
-            occurrences = 0
-            for book_isbn_key in self.user_instance.rented_books.keys():
-                if self.book_instance == book_isbn_key:
-                    QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
-                    occurrences += 1
-            if occurrences == 0:
-                self.user_instance.rented_books[self.isbn] = self.owner_instance.rented_books[self.isbn]
+        time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
+        # print self.owner_instance.rented_books[self.isbn].length_on_rent
+        cost_for_user = self.book_instance.price * time_left
+        # print cost_for_user
+        if cost_for_user > self.user_instance.credits:
+            QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username + " does not have enough credits.")
         else:
-            print "0 books"
-            self.user_instance.rented_books[self.isbn] = self.owner_instance.rented_books[self.isbn]
+            self.owner_instance.credits += cost_for_user
+            self.user_instance.credits -= cost_for_user
+            self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
+            e_book_shared = PurchasedEBook(self.user_instance.username,
+                                           self.isbn,
+                                           datetime.datetime.now(),
+                                           time_left,
+                                           datetime.datetime.now(),
+                                           time_left)
+            if len(self.user_instance.rented_books) == 0:
+                print "0 books"
+                self.user_instance.rented_books[self.isbn] = e_book_shared
+            else:
+                # print str(len(self.user_instance.rented_books)) + " books"
+                occurrences = False
+                for book_isbn_key in self.user_instance.rented_books.keys():
+                    if self.book_instance.isbn == book_isbn_key:
+                        QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
+                        occurrences = True
+                        break
+                if not occurrences:
+                    self.user_instance.rented_books[self.isbn] = e_book_shared
         update_serialized_user(self.user_instance)
+        update_serialized_user(self.owner_instance)
+        self.main_window.reload_user_info()
         self.hide()
