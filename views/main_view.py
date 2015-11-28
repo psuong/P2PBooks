@@ -112,7 +112,9 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         # Set up reviews queue
         reviews_list = self.model.get_reviews_queue(self.isbn)
         if reviews_list is not None:
-            self.ui.review_text_browser.setText(reviews_list[self.queue_counter].review)
+            self.ui.review_text_browser.setText(
+                reviews_list[self.queue_counter].review + '\nPosted by ' +
+                reviews_list[self.queue_counter].reviewer.username)
             if len(reviews_list) > 1:
                 self.ui.next_review_push_button.clicked.connect(
                     lambda: self.next_review(reviews_list)
@@ -167,11 +169,14 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
             print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
             QtGui.QMessageBox.about(self, "Insufficent funds", "You don't have enough credits for that much time!")
 
-    def next_review(self, review_list):
+    def next_review(self, reviews_list):
         self.queue_counter += 1
-        if self.queue_counter >= len(review_list):
+        if self.queue_counter >= len(reviews_list):
             self.queue_counter = 0
-        self.ui.review_text_browser.setText(review_list[self.queue_counter].review)
+        self.ui.review_text_browser.setText(
+                reviews_list[self.queue_counter].review + '\nPosted by ' +
+                reviews_list[self.queue_counter].reviewer.username
+        )
 
 
 class ReportDialogView(QtGui.QDialog):
