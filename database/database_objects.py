@@ -126,7 +126,6 @@ def get_ebook_pickles():
                 update_serialized_user(book_instance.uploader)
                 os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
                 os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
-
     return ebooks_list
 
 

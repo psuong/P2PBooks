@@ -106,6 +106,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.user_instance = load_serialized_user(self.username)
         self.ebook_in_transaction = load_serialized_ebook(self.isbn)
         self.ui.num_of_purchases_label.setText(str(self.ebook_in_transaction.buy_count))
+        self.ui.total_seconds_label.setText(str(self.ebook_in_transaction.total_seconds))
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -147,8 +148,7 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
             self.hide()
         else:
             print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
-            print str(self.user_instance.credits) + ' < ' + self.ebook_in_transaction.price
-
+            QtGui.QMessageBox.about(self, "Insufficent funds", "You don't have enough credits for that much time!")
 
 class ReportDialogView(QtGui.QDialog):
     def __init__(self, model, book_instance, reporter, report_push_button, reason=""):
@@ -614,6 +614,7 @@ class MainWindowVisitorView(QtGui.QMainWindow):
 
     def load_ebooks(self):
         book_dict = self.model.catalogue_loader()
+
         row = 0
         for book in book_dict['Adventure']:
             self.ui.adventure_table_widget.insertRow(row)
