@@ -268,6 +268,6 @@ def review_exists(reviewer, book_instance):
 # Checks if user exists
 def user_exists(username):
     for pickle in os.listdir(ACCOUNT_DIR_PATH):
-        if pickle == username.lower() + ".pickle":
+        if pickle.lower() == username.lower() + ".pickle":
             return True
     return False
