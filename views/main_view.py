@@ -3,9 +3,9 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog,\
     Ui_ShareBookDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
-    report_exists
+    report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
-    update_serialized_ebook, update_serialized_user, user_exists
+    update_serialized_ebook, update_serialized_user
 from recommendations import get_top_related_books
 import os
 import datetime
@@ -1465,19 +1465,20 @@ class ShareBookDialogView(QtGui.QDialog):
         self.user_instance = load_serialized_user(username)
 
         # Checks if username is valid
-        if not user_exists(username):
+        if not self.model.user_exists(username):
             QtGui.QMessageBox.about(self, "Error", "Invalid User")
         else:
             # Checks if user is blacklisted
             if self.user_instance.is_blacklisted:
-                 QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
-                                         " infractions!")
+                QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+                                        " infractions!")
             else:
                 time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
                 cost_for_user = self.book_instance.price * time_left
                 # Checks if the User has enough credits to receive the book
                 if cost_for_user > self.user_instance.credits:
-                    QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username + " does not have enough credits.")
+                    QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username +
+                                            " does not have enough credits.")
                 else:
                     self.owner_instance.credits += cost_for_user
                     self.user_instance.credits -= cost_for_user

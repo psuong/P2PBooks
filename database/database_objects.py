@@ -128,16 +128,6 @@ def get_ebook_pickles():
                 os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
     return ebooks_list
 
-
-# Checks if user exists
-def user_exists(username):
-    for pickle in os.listdir(ACCOUNT_DIR_PATH):
-        if pickle.endswith(".pickle"):
-            if pickle == username.lower() + ".pickle":
-                return True
-    return False
-
-
 # Fill in dictionary, [Key=Genre; Value = Wrapper_Obj]
 # Might have to move into a different file
 
