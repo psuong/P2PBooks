@@ -351,7 +351,10 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
-        self.share_dialog.show()
+        if self.user_instance.rented_books[self.book_instance.isbn].length_on_rent <= 1:
+            QtGui.QMessageBox.about(self, "Error", "You do not have enough time left to share this book.")
+        else:
+            self.share_dialog.show()
         pass
 
     @QtCore.Slot()
