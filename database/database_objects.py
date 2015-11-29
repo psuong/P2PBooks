@@ -133,7 +133,7 @@ def get_ebook_pickles():
 def user_exists(username):
     for pickle in os.listdir(ACCOUNT_DIR_PATH):
         if pickle.endswith(".pickle"):
-            if pickle == username + ".pickle":
+            if pickle == username.lower() + ".pickle":
                 return True
     return False
 

@@ -1457,7 +1457,6 @@ class ShareBookDialogView(QtGui.QDialog):
 
     def build_ui(self):
         self.ui.setupUi(self)
-
         self.ui.user_line_edit.setPlaceholderText("User")
 
     def accept(self, *args, **kwargs):
@@ -1466,18 +1465,17 @@ class ShareBookDialogView(QtGui.QDialog):
         self.user_instance = load_serialized_user(username)
 
         # Checks if username is valid
-        print user_exists(username)
         if not user_exists(username):
             QtGui.QMessageBox.about(self, "Error", "Invalid User")
         else:
+            # Checks if user is blacklisted
             if self.user_instance.is_blacklisted:
                  QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
                                          " infractions!")
             else:
                 time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
-                # print self.owner_instance.rented_books[self.isbn].length_on_rent
                 cost_for_user = self.book_instance.price * time_left
-                # print cost_for_user
+                # Checks if the User has enough credits to receive the book
                 if cost_for_user > self.user_instance.credits:
                     QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username + " does not have enough credits.")
                 else:
@@ -1490,20 +1488,20 @@ class ShareBookDialogView(QtGui.QDialog):
                                                    time_left,
                                                    datetime.datetime.now(),
                                                    time_left)
+                    # Checks if User has rented books, if not, checks if they own the book being shared
                     if len(self.user_instance.rented_books) == 0:
-                        print "0 books"
                         self.user_instance.rented_books[self.isbn] = e_book_shared
                     else:
-                        # print str(len(self.user_instance.rented_books)) + " books"
                         occurrences = False
                         for book_isbn_key in self.user_instance.rented_books.keys():
                             if self.book_instance.isbn == book_isbn_key:
-                                QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " + self.user_instance.username)
+                                QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " +
+                                                        self.user_instance.username)
                                 occurrences = True
                                 break
                         if not occurrences:
                             self.user_instance.rented_books[self.isbn] = e_book_shared
             update_serialized_user(self.user_instance)
             update_serialized_user(self.owner_instance)
-        self.main_window.reload_user_info()
+            self.main_window.reload_user_info()
         self.hide()
