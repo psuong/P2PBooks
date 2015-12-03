@@ -1579,14 +1579,20 @@ class ShareRequestFormView(QtGui.QWidget):
         # Checks if the User has enough credits to receive the book
         if total_cost > self.user_instance.credits:
             QtGui.QMessageBox.about(self, "Error", "You do not have enough credits.")
-        # decrement credits from user and increment credits to the person sharing
         else:
+            # decrement credits from user and increment credits to the person sharing
             self.user_instance.credits -= total_cost
             self.owner_instance.credits += total_cost
-            # add book to rented book list
-            self.user_instance.rented_books[self.book.isbn] = self.requested_book
-            # remove book from requested book list
-            self.requested_book = None
+            # Checks if owner has enough time left
+            if self.requested_book.length_on_rent > self.owner_instance.rented_books[self.book.isbn].length_on_rent:
+                QtGui.QMessageBox.about(self, "Error", "User: " + self.owner_instance.username +
+                                        " does not have enough time")
+                self.requested_book = None
+            else:
+                # add book to rented book list
+                self.user_instance.rented_books[self.book.isbn] = self.requested_book
+                # remove book from requested book list
+                self.requested_book = None
 
     def decline(self, row_items):
         # remove book from requested book list
