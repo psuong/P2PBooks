@@ -163,6 +163,7 @@ class User(object):
         self.rented_books = {}  # Make sure to store EBooks objects
         self.reported_books = []  # Make sure to store EBooks objects
         self.reviewed_books = []  # Make sure to store EBooks objects
+        self.requested_books = []  # Make sure to store EBooks objects
         self.infractions = {}
         self.currently_reading = None  # Stores an EBook obj
         self.default_pdf_reader = None

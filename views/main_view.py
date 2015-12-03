@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog,\
-    Ui_ShareBookDialog
+    Ui_ShareBookDialog, Ui_ShareRequestWidget
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
     report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
@@ -915,6 +915,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.infraction_message_box = None
         self.upload_view = UploadFormView(self.model, username, self)
         self.reader_view = None
+        self.request_view = None
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.build_ui()
@@ -938,6 +939,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.upload_push_button.clicked.connect(self.upload)
         self.ui.library_push_button.clicked.connect(self.library)
         self.ui.admin_push_button.clicked.connect(self.admin)
+        self.ui.check_share_request_push_button.clicked.connect(self.share_request)
 
         self.ui.read_library_push_button.clicked.connect(lambda: self.read_book(
             self.ui.library_table_widget.selectedItems()[2].text()
@@ -1354,6 +1356,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.reader_view.show()
         self.hide()
 
+    def share_request(self):
+        self.request_view = ShareRequestFormView(self.model, self, self.user_instance)
+        self.request_view.show()
+
 
 class ApprovalReportedMainView(QtGui.QWidget):
     def __init__(self, model, username, main_window, pdf_reader_location):
@@ -1496,7 +1502,7 @@ class ShareBookDialogView(QtGui.QDialog):
         self.user_instance = load_serialized_user(username)
 
         # Checks if username is valid
-        if not self.model.user_exists(username):
+        if not user_exists(username):
             QtGui.QMessageBox.about(self, "Error", "Invalid User")
         else:
             # Checks if user is blacklisted
@@ -1505,35 +1511,93 @@ class ShareBookDialogView(QtGui.QDialog):
                                         " infractions!")
             else:
                 time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
-                cost_for_user = self.book_instance.price * time_left
-                # Checks if the User has enough credits to receive the book
-                if cost_for_user > self.user_instance.credits:
-                    QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username +
-                                            " does not have enough credits.")
-                else:
-                    self.owner_instance.credits += cost_for_user
-                    self.user_instance.credits -= cost_for_user
-                    self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
-                    e_book_shared = PurchasedEBook(self.user_instance.username,
-                                                   self.isbn,
-                                                   datetime.datetime.now(),
-                                                   time_left,
-                                                   datetime.datetime.now(),
-                                                   time_left)
-                    # Checks if User has rented books, if not, checks if they own the book being shared
-                    if len(self.user_instance.rented_books) == 0:
-                        self.user_instance.rented_books[self.isbn] = e_book_shared
-                    else:
-                        occurrences = False
-                        for book_isbn_key in self.user_instance.rented_books.keys():
-                            if self.book_instance.isbn == book_isbn_key:
-                                QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " +
-                                                        self.user_instance.username)
-                                occurrences = True
-                                break
-                        if not occurrences:
-                            self.user_instance.rented_books[self.isbn] = e_book_shared
+                # cost_for_user = self.book_instance.price * time_left
+                e_book_shared = PurchasedEBook(self.user_instance.username,
+                                               self.isbn,
+                                               datetime.datetime.now(),
+                                               time_left,
+                                               datetime.datetime.now(),
+                                               time_left)
+                self.user_instance.requested_books[self.isbn] = e_book_shared
+
+                # # Checks if the User has enough credits to receive the book
+                # if cost_for_user > self.user_instance.credits:
+                #     QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username +
+                #                             " does not have enough credits.")
+                # else:
+                #     self.owner_instance.credits += cost_for_user
+                #     self.user_instance.credits -= cost_for_user
+                #     self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
+                #     e_book_shared = PurchasedEBook(self.user_instance.username,
+                #                                    self.isbn,
+                #                                    datetime.datetime.now(),
+                #                                    time_left,
+                #                                    datetime.datetime.now(),
+                #                                    time_left)
+                #     # Checks if User has rented books, if not, checks if they own the book being shared
+                #     if len(self.user_instance.rented_books) == 0:
+                #         self.user_instance.rented_books[self.isbn] = e_book_shared
+                #     else:
+                #         occurrences = False
+                #         for book_isbn_key in self.user_instance.rented_books.keys():
+                #             if self.book_instance.isbn == book_isbn_key:
+                #                 QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " +
+                #                                         self.user_instance.username)
+                #                 occurrences = True
+                #                 break
+                #         if not occurrences:
+                #             self.user_instance.rented_books[self.isbn] = e_book_shared
             update_serialized_user(self.user_instance)
             update_serialized_user(self.owner_instance)
             self.main_window.reload_user_info()
         self.hide()
+
+
+class ShareRequestFormView(QtGui.QWidget):
+    def __init__(self, model, main_window, user_instance):
+        self.model = model
+        self.main_window = main_window
+        self.user_instance = user_instance
+        super(ShareRequestFormView, self).__init__()
+        self.ui = Ui_ShareRequestWidget.Ui_Form
+        self.load_requested_books()
+        self.requested_book_instances = self.user_instance.requested_books
+
+        self.ui.accept_push_button.clicked.connect(self.accept)
+        self.ui.decline_push_button.clicked.connect(self.decline)
+
+    def accept(self):
+        pass
+
+    def decline(self):
+        pass
+
+    def load_requested_books(self):
+        self.ui.share_request_table_widget.setRowCount(0)
+        row = 0
+        requested_books_instances = []
+        if len(self.user_instance.requested_books) > 0:
+            self.user_instance = load_serialized_user(self.user_instance.username)
+            for book_isbn_key in self.user_instance.requested_books.keys():
+                requested_books_instances.append(load_serialized_ebook(book_isbn_key))
+
+        for book in requested_books_instances:
+            total_cost = book.price * book.length_on_rent // 60
+            self.ui.share_request_table_widget.insertRow(row)
+            self.ui.share_request_table_widget.setItem(row, 0,
+                                                       QtGui.QTableWidgetItem(book.title))
+            self.ui.share_request_table_widget.setItem(row, 1,
+                                                       QtGui.QTableWidgetItem(book.author))
+            self.ui.share_request_table_widget.setItem(row, 2,
+                                                       QtGui.QTableWidgetItem(book.isbn))
+            self.ui.share_request_table_widget.setItem(row, 3,
+                                                       QtGui.QTableWidgetItem(str(book.price)))
+            self.ui.share_request_table_widget.setItem(row, 4,
+                                                       QtGui.QTableWidgetItem(book.uploader.username))
+            self.ui.share_request_table_widget.setItem(row, 5,
+                                                       QtGui.QTableWidgetItem(str(book.rating)))
+            self.ui.share_request_table_widget.setItem(row, 6,
+                                                       QtGui.QTableWidgetItem(str(book.length_on_rent)))
+            self.ui.share_request_table_widget.setItem(row, 7,
+                                                       QtGui.QTableWidgetItem(str(total_cost)))
+            row += 1

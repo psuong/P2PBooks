@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ShareRequestWidget.ui'
 #
-# Created: Thu Dec 03 15:57:18 2015
+# Created: Thu Dec 03 16:19:21 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,9 +18,9 @@ class Ui_Form(object):
         self.accept_push_button = QtGui.QPushButton(Form)
         self.accept_push_button.setObjectName("accept_push_button")
         self.gridLayout.addWidget(self.accept_push_button, 2, 1, 1, 1)
-        self.decline_push_cutton = QtGui.QPushButton(Form)
-        self.decline_push_cutton.setObjectName("decline_push_cutton")
-        self.gridLayout.addWidget(self.decline_push_cutton, 2, 2, 1, 1)
+        self.decline_push_button = QtGui.QPushButton(Form)
+        self.decline_push_button.setObjectName("decline_push_button")
+        self.gridLayout.addWidget(self.decline_push_button, 2, 2, 1, 1)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
         self.share_request_table_widget = QtGui.QTableWidget(Form)
@@ -51,7 +51,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "P2PBooks", None, QtGui.QApplication.UnicodeUTF8))
         self.accept_push_button.setText(QtGui.QApplication.translate("Form", "Accept", None, QtGui.QApplication.UnicodeUTF8))
-        self.decline_push_cutton.setText(QtGui.QApplication.translate("Form", "Decline", None, QtGui.QApplication.UnicodeUTF8))
+        self.decline_push_button.setText(QtGui.QApplication.translate("Form", "Decline", None, QtGui.QApplication.UnicodeUTF8))
         self.share_request_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("Form", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.share_request_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("Form", "Author", None, QtGui.QApplication.UnicodeUTF8))
         self.share_request_table_widget.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("Form", "ISBN", None, QtGui.QApplication.UnicodeUTF8))
