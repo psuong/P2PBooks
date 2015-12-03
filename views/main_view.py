@@ -1518,6 +1518,7 @@ class ShareBookDialogView(QtGui.QDialog):
                                                time_left,
                                                datetime.datetime.now(),
                                                time_left)
+                e_book_shared.sharer = self.owner
                 self.user_instance.requested_books[self.isbn] = e_book_shared
 
                 # # Checks if the User has enough credits to receive the book
@@ -1558,18 +1559,37 @@ class ShareRequestFormView(QtGui.QWidget):
         self.model = model
         self.main_window = main_window
         self.user_instance = user_instance
+        self.owner_instance = load_serialized_user(self.requested_book.sharer)
+        self.book = None
+        self.requested_book = None
         super(ShareRequestFormView, self).__init__()
         self.ui = Ui_ShareRequestWidget.Ui_Form
         self.load_requested_books()
-        self.requested_book_instances = self.user_instance.requested_books
 
+        self.ui.share_request_table_widget.clicked.connect(lambda: self.accept(
+            self.ui.share_request_table_widget.selectedItems()))
         self.ui.accept_push_button.clicked.connect(self.accept)
         self.ui.decline_push_button.clicked.connect(self.decline)
 
-    def accept(self):
-        pass
+    def accept(self, row_items):
+        self.book = self.model.get_book_instance(row_items[2].text())
+        self.requested_book = self.user_instance.requested_books[self.book.isbn]
+        # check if user has enough credits
+        total_cost = self.requested_book.price * self.requested_book.length_on_rent // 60
+        # Checks if the User has enough credits to receive the book
+        if total_cost > self.user_instance.credits:
+            QtGui.QMessageBox.about(self, "Error", "You do not have enough credits.")
+        # decrement credits from user and increment credits to the person sharing
+        else:
+            self.user_instance.credits -= total_cost
+            self.owner_instance.credits += total_cost
+            # add book to rented book list
+            self.user_instance.rented_books[self.book.isbn] = self.requested_book
+            # remove book from requested book list
+            self.requested_book = None
 
     def decline(self):
+        # remove book from requested book list
         pass
 
     def load_requested_books(self):
@@ -1600,4 +1620,6 @@ class ShareRequestFormView(QtGui.QWidget):
                                                        QtGui.QTableWidgetItem(str(book.length_on_rent)))
             self.ui.share_request_table_widget.setItem(row, 7,
                                                        QtGui.QTableWidgetItem(str(total_cost)))
+            self.ui.share_request_table_widget.setItem(row, 8,
+                                                       QtGui.QTableWidgetItem(book.sharer))
             row += 1

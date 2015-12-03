@@ -217,6 +217,7 @@ class EBook(object):
         self.count_seconds = 0
 
         self.last_time_read = datetime.now()
+        self.sharer = None
 
     @property
     def __unicode__(self):

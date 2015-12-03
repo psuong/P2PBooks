@@ -83,6 +83,11 @@
        <string>Total Cost</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Sharer</string>
+      </property>
+     </column>
     </widget>
    </item>
   </layout>
