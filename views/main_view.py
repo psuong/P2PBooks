@@ -1,8 +1,9 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
-    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog
+    Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog,\
+    Ui_ShareBookDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists,\
-    report_exists
+    report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
     update_serialized_ebook, update_serialized_user
 from recommendations import get_top_related_books
@@ -167,7 +168,8 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
             self.hide()
         else:
             print 'NOT ENOUGH CREDITS TO PURCHASE ' + self.ebook_in_transaction.title
-            QtGui.QMessageBox.about(self, "Insufficent funds", "You don't have enough credits for that much time!")
+            QtGui.QMessageBox.about(self, "Insufficient funds", "You don't have enough credits for that much time!")
+
 
     def next_review(self, reviews_list):
         self.queue_counter += 1
@@ -286,6 +288,7 @@ class ReaderFormView(QtGui.QWidget):
         self.count_seconds = 0
         self.review_rate_dialog = ReviewRateDialogView(self.model, self.book_instance, self.user_instance, self.ui.review_rate_push_button)
         self.report_dialog = ReportDialogView(self.model, self.book_instance, self.user_instance, self.ui.report_push_button)
+        self.share_dialog = ShareBookDialogView(self.model, self.main_window, self.user_instance.username, self.book_instance.isbn)
 
     def build_ui(self):
         self.ui.setupUi(self)
@@ -377,7 +380,10 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
-        pass
+        if self.user_instance.rented_books[self.book_instance.isbn].length_on_rent <= 1:
+            QtGui.QMessageBox.about(self, "Error", "You do not have enough time left to share this book.")
+        else:
+            self.share_dialog.show()
 
     @QtCore.Slot()
     def report(self):
@@ -1465,3 +1471,69 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.main_window.show()
         self.hide()
         super(ApprovalReportedMainView, self).closeEvent()
+
+
+class ShareBookDialogView(QtGui.QDialog):
+    def __init__(self, model, main_window, owner, isbn):
+        self.model = model
+        self.owner = owner
+        self.isbn = isbn
+        super(ShareBookDialogView, self).__init__()
+        self.ui = Ui_ShareBookDialog.Ui_Dialog()
+        self.owner_instance = load_serialized_user(self.owner)
+        self.user_instance = None
+        self.book_instance = load_serialized_ebook(self.isbn)
+        self.main_window = main_window
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+        self.ui.user_line_edit.setPlaceholderText("User")
+
+    def accept(self, *args, **kwargs):
+        # Press OK
+        username = self.ui.user_line_edit.text()
+        self.user_instance = load_serialized_user(username)
+
+        # Checks if username is valid
+        if not self.model.user_exists(username):
+            QtGui.QMessageBox.about(self, "Error", "Invalid User")
+        else:
+            # Checks if user is blacklisted
+            if self.user_instance.is_blacklisted:
+                QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
+                                        " infractions!")
+            else:
+                time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
+                cost_for_user = self.book_instance.price * time_left
+                # Checks if the User has enough credits to receive the book
+                if cost_for_user > self.user_instance.credits:
+                    QtGui.QMessageBox.about(self, "Error", "User: " + self.user_instance.username +
+                                            " does not have enough credits.")
+                else:
+                    self.owner_instance.credits += cost_for_user
+                    self.user_instance.credits -= cost_for_user
+                    self.owner_instance.rented_books[self.isbn].length_on_rent -= time_left
+                    e_book_shared = PurchasedEBook(self.user_instance.username,
+                                                   self.isbn,
+                                                   datetime.datetime.now(),
+                                                   time_left,
+                                                   datetime.datetime.now(),
+                                                   time_left)
+                    # Checks if User has rented books, if not, checks if they own the book being shared
+                    if len(self.user_instance.rented_books) == 0:
+                        self.user_instance.rented_books[self.isbn] = e_book_shared
+                    else:
+                        occurrences = False
+                        for book_isbn_key in self.user_instance.rented_books.keys():
+                            if self.book_instance.isbn == book_isbn_key:
+                                QtGui.QMessageBox.about(self, "Error", "Book already owned by User: " +
+                                                        self.user_instance.username)
+                                occurrences = True
+                                break
+                        if not occurrences:
+                            self.user_instance.rented_books[self.isbn] = e_book_shared
+            update_serialized_user(self.user_instance)
+            update_serialized_user(self.owner_instance)
+            self.main_window.reload_user_info()
+        self.hide()

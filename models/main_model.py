@@ -268,3 +268,11 @@ def review_exists(reviewer, book_instance):
 def get_reviews_queue(isbn):
     reviews = reviews_list(isbn)
     return reviews if len(reviews) > 0 else None
+
+
+# Checks if user exists
+def user_exists(username):
+    for pickle in os.listdir(ACCOUNT_DIR_PATH):
+        if pickle.lower() == username.lower() + ".pickle":
+            return True
+    return False
