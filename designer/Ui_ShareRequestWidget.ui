@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>529</width>
+    <height>294</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>P2PBooks</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="1">
+    <widget class="QPushButton" name="accept_push_button">
+     <property name="text">
+      <string>Accept</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="decline_push_cutton">
+     <property name="text">
+      <string>Decline</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <widget class="QTableWidget" name="share_request_table_widget">
+     <column>
+      <property name="text">
+       <string>Title</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Author</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>ISBN</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Cost</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Uploader</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Rating</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Time Requested</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Total Cost</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
