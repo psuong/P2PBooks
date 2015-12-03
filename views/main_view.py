@@ -1568,8 +1568,8 @@ class ShareRequestFormView(QtGui.QWidget):
 
         self.ui.share_request_table_widget.clicked.connect(lambda: self.accept(
             self.ui.share_request_table_widget.selectedItems()))
-        self.ui.accept_push_button.clicked.connect(self.accept)
-        self.ui.decline_push_button.clicked.connect(self.decline)
+        self.ui.share_request_table_widget.clicked.connect(lambda: self.decline(
+            self.ui.share_request_table_widget.selectedItems()))
 
     def accept(self, row_items):
         self.book = self.model.get_book_instance(row_items[2].text())
@@ -1588,9 +1588,10 @@ class ShareRequestFormView(QtGui.QWidget):
             # remove book from requested book list
             self.requested_book = None
 
-    def decline(self):
+    def decline(self, row_items):
         # remove book from requested book list
-        pass
+        self.requested_book = self.user_instance.requested_books[self.model.get_book_instance(row_items[2].text()).isbn]
+        self.requested_book = None
 
     def load_requested_books(self):
         self.ui.share_request_table_widget.setRowCount(0)
