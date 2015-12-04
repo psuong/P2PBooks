@@ -219,6 +219,14 @@ class ReportDialogView(QtGui.QDialog):
                 # Display an error message to tell the user to write a description
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
+                if self.book_instance.total_seconds == 0.0 or \
+                            self.reporter.rented_books[self.book_instance.isbn].total_seconds == 0:
+                    # Display an error message to tell the user to read the book first! (Calculate rating when division
+                    # by 0 is undefined!)
+                    QtGui.QMessageBox.about(self, "Error", 'You have not even read the book yet! '
+                                                           'Come back to report once you\'ve read for at least a second')
+                    return
+
                 # Send the selection and description
                 submit_report_form(self.reporter, report_selection, report_description, self.book_instance)
                 self.report_push_button.setDisabled(True)
