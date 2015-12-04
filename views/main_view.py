@@ -188,7 +188,7 @@ class ReportDialogView(QtGui.QDialog):
         self.reporter = reporter
         self.report_push_button = report_push_button
         self.book_instance = book_instance
-        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter)
+        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter, self.report_push_button)
         self.build_ui(reason)
 
     def build_ui(self, reason):
@@ -202,7 +202,6 @@ class ReportDialogView(QtGui.QDialog):
                                            "None of the above (Specify below)",
                                            ])
 
-        print "reason: " + reason
         if reason != "":
             self.ui.report_text_edit.setText(reason)
             self.ui.report_combo_box.setCurrentIndex(1)
@@ -236,11 +235,12 @@ class ReportDialogView(QtGui.QDialog):
 
 
 class BadWordsDialogView(QtGui.QDialog):
-    def __init__(self, model, book_instance, reporter):
+    def __init__(self, model, book_instance, reporter, report_push_button):
         self.model = model
         self.book_instance = book_instance
         super(BadWordsDialogView, self).__init__()
         self.reporter = reporter
+        self.report_push_button = report_push_button
         self.ui = Ui_BadWordsDialog.Ui_Dialog()
         self.build_ui()
 
@@ -266,7 +266,7 @@ class BadWordsDialogView(QtGui.QDialog):
 
             self.hide()
 
-            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, reason)
+            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, self.report_push_button, reason)
             self.report_dialog.show()
 
 
