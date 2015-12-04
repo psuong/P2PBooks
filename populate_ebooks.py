@@ -49,7 +49,7 @@ for pdf in os.listdir(PDF_DIR_PATH):
                        approved=True,
                        reward_amount=10,
                        book_text=convert_pdf_to_txt(PDF_DIR_PATH + os.sep + pdf),
-                       rating=random.randrange(0, 11))
+                       rating=0)
         e_book.buy_count = random.randrange(0, 30)
         serialize_ebook(e_book, str(init_ISBN), os.path.join(PDF_DIR_PATH, pdf))
         user_count += 1

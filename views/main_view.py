@@ -202,6 +202,7 @@ class ReportDialogView(QtGui.QDialog):
                                            "None of the above (Specify below)",
                                            ])
 
+        print "reason: " + reason
         if reason != "":
             self.ui.report_text_edit.setText(reason)
             self.ui.report_combo_box.setCurrentIndex(1)
@@ -264,8 +265,6 @@ class BadWordsDialogView(QtGui.QDialog):
                     reason += word + ": Not Found \n"
 
             self.hide()
-
-            print reason
 
             self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, reason)
             self.report_dialog.show()
