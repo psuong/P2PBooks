@@ -104,8 +104,8 @@ def get_ebook_pickles():
         if pickle.endswith('.pickle'):
             book_instance = load_serialized_ebook(pickle[:-7])
             elapsed_time = datetime.now() - book_instance.last_time_read
-
-            if divmod(elapsed_time.total_seconds(), 60) <= (10.0, 0):
+            # TODO: DEMO DAY - CHANGE 40 to 10
+            if divmod(elapsed_time.total_seconds(), 60) <= (40.0, 0):
                 # If elapsed_time is less than 10 minutes
 
                 if len(book_instance.reports) >= 3:

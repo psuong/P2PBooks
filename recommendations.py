@@ -46,7 +46,11 @@ def get_top_rated_books():
     :return: list
     """
     pickle_files = get_ebook_pickles()
-    top_books = sort_top_rated(pickle_files)
+    approved_books = []
+    for book in pickle_files:
+        if book.approved:
+            approved_books.append(book)
+    top_books = sort_top_rated(approved_books)
     return top_books[0:5]
 
 
