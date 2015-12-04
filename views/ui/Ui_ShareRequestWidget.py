@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_ShareRequestWidget.ui'
 #
-# Created: Thu Dec 03 16:59:18 2015
+# Created: Thu Dec 03 19:07:46 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,6 +24,9 @@ class Ui_Form(object):
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
         self.share_request_table_widget = QtGui.QTableWidget(Form)
+        self.share_request_table_widget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.share_request_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.share_request_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.share_request_table_widget.setObjectName("share_request_table_widget")
         self.share_request_table_widget.setColumnCount(9)
         self.share_request_table_widget.setRowCount(0)

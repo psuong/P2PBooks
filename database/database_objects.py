@@ -163,7 +163,7 @@ class User(object):
         self.rented_books = {}  # Make sure to store EBooks objects
         self.reported_books = []  # Make sure to store EBooks objects
         self.reviewed_books = []  # Make sure to store EBooks objects
-        self.requested_books = []  # Make sure to store EBooks objects
+        self.requested_books = {}  # Make sure to store EBooks objects
         self.infractions = {}
         self.currently_reading = None  # Stores an EBook obj
         self.default_pdf_reader = None
@@ -217,7 +217,6 @@ class EBook(object):
         self.count_seconds = 0
 
         self.last_time_read = datetime.now()
-        self.sharer = None
 
     @property
     def __unicode__(self):
@@ -262,6 +261,7 @@ class PurchasedEBook(object):
         self.total_time_bought = total_time_bought
         self.total_seconds = 0.0
         self.count_seconds = 0
+        self.sharer = None
 
     def add_seconds(self, seconds):
         self.total_seconds += seconds
