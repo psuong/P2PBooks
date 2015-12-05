@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog, \
-    Ui_ShareBookDialog, Ui_ShareRequestWidget
+    Ui_ShareBookDialog, Ui_ShareRequestWidget, Ui_PriceChangeConfirmationDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists, \
     report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
@@ -969,6 +969,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
         # Load the user/ebook info
         self.reload_user_info()
+        self.check_second_pass()
         self.load_ebooks()
         self.load_recommended_books()
 
@@ -1024,12 +1025,14 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
     def reload_user_info(self):
         self.user_instance = load_serialized_user(self.username)
+        self.ui.username_label.setText('Hello, ' + self.username)
+        self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
+        self.load_library_books()
+
+    def check_second_pass(self):
         if len(self.user_instance.second_pass.values()) > 0:
-            print self.user_instance.second_pass
-        else:
-            self.ui.username_label.setText('Hello, ' + self.username)
-            self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
-            self.load_library_books()
+            for k, v in self.user_instance.second_pass.items():
+                PriceChangeConfirmationView(self.model, self, k, v, self.username).exec_()
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
@@ -1676,3 +1679,30 @@ class ShareRequestFormView(QtGui.QWidget):
             self.ui.share_request_table_widget.setItem(row, 8,
                                                        QtGui.QTableWidgetItem(purchased_ebook.sharer))
             row += 1
+
+
+class PriceChangeConfirmationView(QtGui.QDialog):
+    def __init__(self, model, main_window, isbn, price_tuple, username):
+        self.model = model
+        self.asking_price = price_tuple[0]
+        self.su_price = price_tuple[1]
+        self.isbn = isbn
+        super(PriceChangeConfirmationView, self).__init__()
+        self.ui = Ui_PriceChangeConfirmationDialog.Ui_Dialog()
+        self.username = username
+        self.main_window = main_window
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+        self.ui.asking_price_label.setText(str(self.asking_price))
+        self.ui.su_price_label.setText(str(self.su_price))
+        self.ui.book_label.setText(self.isbn)
+
+    def accept(self, *args, **kwargs):
+        self.model.approve_book(self.isbn, self.username)
+        super(PriceChangeConfirmationView, self).accept(*args, **kwargs)
+
+    def reject(self, *args, **kwargs):
+        self.model.remove_ebook(self.isbn)
+        super(PriceChangeConfirmationView, self).reject(*args, **kwargs)

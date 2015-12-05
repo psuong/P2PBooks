@@ -292,3 +292,16 @@ def apply_second_pass_attribute(username, isbn, original_price, su_price):
     user.second_pass[isbn] = (original_price,
                               su_price,)
     serialize_user(user, username)
+
+
+def approve_book(isbn, username):
+    """
+    Approve a book and reward points
+    :param isbn: str
+    :param username: str
+    :return:
+    """
+    book = load_serialized_ebook(isbn)
+    book.approved = True
+    add_user_credits(username, book.award_amount)
+    update_serialized_ebook(book)
