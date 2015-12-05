@@ -553,7 +553,7 @@ class RegisterFormView(QtGui.QWidget):
                                                                  " banned.")
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
-                    username).is_blacklisted:
+                username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
@@ -1437,9 +1437,8 @@ class ApprovalReportedMainView(QtGui.QWidget):
             # Set notifier to see if uploader will accept the reduced reward
             # Second pass contains a tuple which has the values of the original requested amount
             # and the value that the SU is offering.
-            book.second_pass = (int(row_items[2].text()),
-                                self.ui.credit_amount_spin_box.value())
-            update_serialized_ebook(book)
+            self.model.apply_second_pass_attribute(int(row_items[2].text()),
+                                                   self.ui.credit_amount_spin_box.value())
 
         self.main_window.reload_user_info()
         self.main_window.load_ebooks()

@@ -276,3 +276,17 @@ def user_exists(username):
         if pickle.lower() == username.lower() + ".pickle":
             return True
     return False
+
+
+def apply_second_pass_attribute(username, original_price, su_price):
+    """
+    Sets the second pass attribute which triggers dialogs to confirm if the uploader
+    wants to accept the lower price
+    :param username: str
+    :param original_price: int
+    :param su_price: int
+    :return:
+    """
+    user = load_serialized_user(username)
+    user.second_pass = (original_price, su_price)
+    serialize_user(user, username)
