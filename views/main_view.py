@@ -30,9 +30,6 @@ class UploadFormView(QtGui.QWidget):
 
     def build_ui(self):
         self.ui.setupUi(self)
-        # Disable text edit and also put a temporary message
-        # self.ui.preview_text_edit.setText('Please click upload to show preview.')
-        # self.ui.preview_text_edit.setDisabled(True)
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
@@ -1429,18 +1426,23 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.reader_process.start(self.pdf_reader_location, [pdf])
 
     def approve(self, row_items):
-        if self.ui.credit_amount_spin_box.value() < int(row_items[2].text()):
+        book = load_serialized_ebook(row_items[0].text())
+        if self.ui.credit_amount_spin_box.value() >= int(row_items[2].text()):
             self.model.add_user_credits(row_items[1].text(),
                                         self.ui.credit_amount_spin_box.value())
-            book = load_serialized_ebook(row_items[0].text())
             book.approved = True
             book.award_amount = self.ui.credit_amount_spin_box.value()
             update_serialized_ebook(book)
-            self.main_window.reload_user_info()
-            self.main_window.load_ebooks()
         else:
-            # Remove ebook from approval list
-            self.model.remove_ebook(row_items[0].text())
+            # Set notifier to see if uploader will accept the reduced reward
+            # Second pass contains a tuple which has the values of the original requested amount
+            # and the value that the SU is offering.
+            book.second_pass = (int(row_items[2].text()),
+                                self.ui.credit_amount_spin_box.value())
+            update_serialized_ebook(book)
+
+        self.main_window.reload_user_info()
+        self.main_window.load_ebooks()
         self.books_waiting()
 
     def verify_report(self, row_items):
