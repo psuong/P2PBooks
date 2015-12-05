@@ -935,6 +935,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.upload_view = UploadFormView(self.model, username, self)
         self.reader_view = None
         self.request_view = None
+        self.second_pass_pop = []
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.build_ui()
@@ -1033,6 +1034,11 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         if len(self.user_instance.second_pass.values()) > 0:
             for k, v in self.user_instance.second_pass.items():
                 PriceChangeConfirmationView(self.model, self, k, v, self.username).exec_()
+
+        if len(self.second_pass_pop) > 0:
+            for isbn in self.second_pass_pop:
+                del self.user_instance.second_pass[isbn]
+            update_serialized_user(self.user_instance)
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
@@ -1701,8 +1707,10 @@ class PriceChangeConfirmationView(QtGui.QDialog):
 
     def accept(self, *args, **kwargs):
         self.model.approve_book(self.isbn, self.username)
+        self.main_window.second_pass_pop.append(self.isbn)
         super(PriceChangeConfirmationView, self).accept(*args, **kwargs)
 
     def reject(self, *args, **kwargs):
         self.model.remove_ebook(self.isbn)
+        self.main_window.second_pass_pop.append(self.isbn)
         super(PriceChangeConfirmationView, self).reject(*args, **kwargs)
