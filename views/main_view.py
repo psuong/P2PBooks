@@ -1008,9 +1008,12 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
     def reload_user_info(self):
         self.user_instance = load_serialized_user(self.username)
-        self.ui.username_label.setText('Hello, ' + self.username)
-        self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
-        self.load_library_books()
+        if len(self.user_instance.second_pass.values()) > 0:
+            print self.user_instance.second_pass
+        else:
+            self.ui.username_label.setText('Hello, ' + self.username)
+            self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
+            self.load_library_books()
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
@@ -1431,14 +1434,16 @@ class ApprovalReportedMainView(QtGui.QWidget):
             self.model.add_user_credits(row_items[1].text(),
                                         self.ui.credit_amount_spin_box.value())
             book.approved = True
-            book.award_amount = self.ui.credit_amount_spin_box.value()
-            update_serialized_ebook(book)
         else:
             # Set notifier to see if uploader will accept the reduced reward
-            # Second pass contains a tuple which has the values of the original requested amount
-            # and the value that the SU is offering.
-            self.model.apply_second_pass_attribute(int(row_items[2].text()),
+            self.model.apply_second_pass_attribute(row_items[1].text(),
+                                                   row_items[0].text(),
+                                                   int(row_items[2].text()),
                                                    self.ui.credit_amount_spin_box.value())
+            book.second_pass = True
+
+        book.award_amount = self.ui.credit_amount_spin_box.value()
+        update_serialized_ebook(book)
 
         self.main_window.reload_user_info()
         self.main_window.load_ebooks()

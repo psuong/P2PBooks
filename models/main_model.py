@@ -173,7 +173,7 @@ def not_approved_ebooks():
     book_list = get_ebook_pickles()
     not_approved_book_list = []
     for book in book_list:
-        if not book.approved:
+        if not book.approved and not book.second_pass:
             not_approved_book_list.append(book)
     return not_approved_book_list
 
@@ -278,15 +278,17 @@ def user_exists(username):
     return False
 
 
-def apply_second_pass_attribute(username, original_price, su_price):
+def apply_second_pass_attribute(username, isbn, original_price, su_price):
     """
     Sets the second pass attribute which triggers dialogs to confirm if the uploader
     wants to accept the lower price
     :param username: str
+    :param isbn: str
     :param original_price: int
     :param su_price: int
     :return:
     """
     user = load_serialized_user(username)
-    user.second_pass = (original_price, su_price)
+    user.second_pass[isbn] = (original_price,
+                              su_price,)
     serialize_user(user, username)

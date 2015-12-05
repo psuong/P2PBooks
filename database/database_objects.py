@@ -168,6 +168,7 @@ class User(object):
         self.currently_reading = None  # Stores an EBook obj
         self.default_pdf_reader = None
         self.is_blacklisted = False
+        self.second_pass = {}
 
     @property
     def __unicode__(self):
@@ -217,6 +218,8 @@ class EBook(object):
         self.count_seconds = 0
 
         self.last_time_read = datetime.now()
+
+        self.second_pass = False
 
     @property
     def __unicode__(self):
