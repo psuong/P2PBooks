@@ -24,7 +24,7 @@
    <item row="3" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Asking price</string>
+      <string>Asking award</string>
      </property>
     </widget>
    </item>
@@ -38,7 +38,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>SU price</string>
+      <string>SU award</string>
      </property>
     </widget>
    </item>
