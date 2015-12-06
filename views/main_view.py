@@ -1,7 +1,7 @@
 from PySide import QtGui, QtCore
 from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_RegisterForm, Ui_MainWindowVisitor, \
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog, \
-    Ui_ShareBookDialog, Ui_ShareRequestWidget
+    Ui_ShareBookDialog, Ui_ShareRequestWidget, Ui_PriceChangeConfirmationDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists, \
     report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
@@ -30,9 +30,6 @@ class UploadFormView(QtGui.QWidget):
 
     def build_ui(self):
         self.ui.setupUi(self)
-        # Disable text edit and also put a temporary message
-        # self.ui.preview_text_edit.setText('Please click upload to show preview.')
-        # self.ui.preview_text_edit.setDisabled(True)
 
         # Connect buttons to functions
         self.ui.upload_push_button.clicked.connect(self.upload)
@@ -564,7 +561,7 @@ class RegisterFormView(QtGui.QWidget):
                                                                  " banned.")
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
-                    username).is_blacklisted:
+                username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
@@ -889,20 +886,36 @@ class MainWindowVisitorView(QtGui.QMainWindow):
             self.ui.search_table_widget.show()
             self.ui.close_push_button.show()
             self.ui.search_table_widget.setRowCount(0)
-            for row, result_book in enumerate(self.model.search(self.ui.search_line_edit.text())):
-                self.ui.search_table_widget.insertRow(row)
-                self.ui.search_table_widget.setItem(row, 0,
-                                                    QtGui.QTableWidgetItem(result_book.title))
-                self.ui.search_table_widget.setItem(row, 1,
-                                                    QtGui.QTableWidgetItem(result_book.author))
-                self.ui.search_table_widget.setItem(row, 2,
-                                                    QtGui.QTableWidgetItem(result_book.isbn))
-                self.ui.search_table_widget.setItem(row, 3,
-                                                    QtGui.QTableWidgetItem(str(result_book.price)))
-                self.ui.search_table_widget.setItem(row, 4,
-                                                    QtGui.QTableWidgetItem(result_book.uploader.username))
-                self.ui.search_table_widget.setItem(row, 5,
-                                                    QtGui.QTableWidgetItem(str(result_book.rating)))
+            results = self.model.search(self.ui.search_line_edit.text())
+            if isinstance(results, list):
+                for row, result_book in enumerate(results):
+                    self.ui.search_table_widget.insertRow(row)
+                    self.ui.search_table_widget.setItem(row, 0,
+                                                        QtGui.QTableWidgetItem(result_book.title))
+                    self.ui.search_table_widget.setItem(row, 1,
+                                                        QtGui.QTableWidgetItem(result_book.author))
+                    self.ui.search_table_widget.setItem(row, 2,
+                                                        QtGui.QTableWidgetItem(result_book.isbn))
+                    self.ui.search_table_widget.setItem(row, 3,
+                                                        QtGui.QTableWidgetItem(str(result_book.price)))
+                    self.ui.search_table_widget.setItem(row, 4,
+                                                        QtGui.QTableWidgetItem(result_book.uploader.username))
+                    self.ui.search_table_widget.setItem(row, 5,
+                                                        QtGui.QTableWidgetItem(str(result_book.rating)))
+            else:
+                self.ui.search_table_widget.insertRow(0)
+                self.ui.search_table_widget.setItem(0, 0,
+                                                    QtGui.QTableWidgetItem(results.title))
+                self.ui.search_table_widget.setItem(0, 1,
+                                                    QtGui.QTableWidgetItem(results.author))
+                self.ui.search_table_widget.setItem(0, 2,
+                                                    QtGui.QTableWidgetItem(results.isbn))
+                self.ui.search_table_widget.setItem(0, 3,
+                                                    QtGui.QTableWidgetItem(str(results.price)))
+                self.ui.search_table_widget.setItem(0, 4,
+                                                    QtGui.QTableWidgetItem(results.uploader.username))
+                self.ui.search_table_widget.setItem(0, 5,
+                                                    QtGui.QTableWidgetItem(str(results.rating)))
         else:
             QtGui.QMessageBox.about(self, "Error", "Empty search fields, please enter a genre, title, etc.")
 
@@ -930,6 +943,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.upload_view = UploadFormView(self.model, username, self)
         self.reader_view = None
         self.request_view = None
+        self.second_pass_pop = []
         super(MainWindowRegisteredView, self).__init__()
         self.ui = Ui_MainWindowRegistered.Ui_MainWindow()
         self.build_ui()
@@ -964,6 +978,7 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
         # Load the user/ebook info
         self.reload_user_info()
+        self.check_second_pass()
         self.load_ebooks()
         self.load_recommended_books()
 
@@ -1022,6 +1037,16 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.username_label.setText('Hello, ' + self.username)
         self.ui.reputation_label.setText('Credits: ' + str(self.user_instance.credits))
         self.load_library_books()
+
+    def check_second_pass(self):
+        if len(self.user_instance.second_pass.values()) > 0:
+            for k, v in self.user_instance.second_pass.items():
+                PriceChangeConfirmationView(self.model, self, k, v, self.username).exec_()
+
+        if len(self.second_pass_pop) > 0:
+            for isbn in self.second_pass_pop:
+                del self.user_instance.second_pass[isbn]
+            update_serialized_user(self.user_instance)
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
@@ -1327,20 +1352,36 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             self.ui.close_push_button.show()
             self.ui.search_checkout_push_button.show()
             self.ui.search_table_widget.setRowCount(0)
-            for row, result_book in enumerate(self.model.search(self.ui.search_line_edit.text())):
-                self.ui.search_table_widget.insertRow(row)
-                self.ui.search_table_widget.setItem(row, 0,
-                                                    QtGui.QTableWidgetItem(result_book.title))
-                self.ui.search_table_widget.setItem(row, 1,
-                                                    QtGui.QTableWidgetItem(result_book.author))
-                self.ui.search_table_widget.setItem(row, 2,
-                                                    QtGui.QTableWidgetItem(result_book.isbn))
-                self.ui.search_table_widget.setItem(row, 3,
-                                                    QtGui.QTableWidgetItem(str(result_book.price)))
-                self.ui.search_table_widget.setItem(row, 4,
-                                                    QtGui.QTableWidgetItem(result_book.uploader.username))
-                self.ui.search_table_widget.setItem(row, 5,
-                                                    QtGui.QTableWidgetItem(str(result_book.rating)))
+            results = self.model.search(self.ui.search_line_edit.text())
+            if isinstance(results, list):
+                for row, result_book in enumerate(results):
+                    self.ui.search_table_widget.insertRow(row)
+                    self.ui.search_table_widget.setItem(row, 0,
+                                                        QtGui.QTableWidgetItem(result_book.title))
+                    self.ui.search_table_widget.setItem(row, 1,
+                                                        QtGui.QTableWidgetItem(result_book.author))
+                    self.ui.search_table_widget.setItem(row, 2,
+                                                        QtGui.QTableWidgetItem(result_book.isbn))
+                    self.ui.search_table_widget.setItem(row, 3,
+                                                        QtGui.QTableWidgetItem(str(result_book.price)))
+                    self.ui.search_table_widget.setItem(row, 4,
+                                                        QtGui.QTableWidgetItem(result_book.uploader.username))
+                    self.ui.search_table_widget.setItem(row, 5,
+                                                        QtGui.QTableWidgetItem(str(result_book.rating)))
+            else:
+                self.ui.search_table_widget.insertRow(0)
+                self.ui.search_table_widget.setItem(0, 0,
+                                                    QtGui.QTableWidgetItem(results.title))
+                self.ui.search_table_widget.setItem(0, 1,
+                                                    QtGui.QTableWidgetItem(results.author))
+                self.ui.search_table_widget.setItem(0, 2,
+                                                    QtGui.QTableWidgetItem(results.isbn))
+                self.ui.search_table_widget.setItem(0, 3,
+                                                    QtGui.QTableWidgetItem(str(results.price)))
+                self.ui.search_table_widget.setItem(0, 4,
+                                                    QtGui.QTableWidgetItem(results.uploader.username))
+                self.ui.search_table_widget.setItem(0, 5,
+                                                    QtGui.QTableWidgetItem(str(results.rating)))
 
     def close_search(self):
         self.ui.search_table_widget.hide()
@@ -1437,18 +1478,24 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.reader_process.start(self.pdf_reader_location, [pdf])
 
     def approve(self, row_items):
-        if self.ui.credit_amount_spin_box.value() < int(row_items[2].text()):
+        book = load_serialized_ebook(row_items[0].text())
+        if self.ui.credit_amount_spin_box.value() >= int(row_items[2].text()):
             self.model.add_user_credits(row_items[1].text(),
                                         self.ui.credit_amount_spin_box.value())
-            book = load_serialized_ebook(row_items[0].text())
             book.approved = True
-            book.award_amount = self.ui.credit_amount_spin_box.value()
-            update_serialized_ebook(book)
-            self.main_window.reload_user_info()
-            self.main_window.load_ebooks()
         else:
-            # Remove ebook from approval list
-            self.model.remove_ebook(row_items[0].text())
+            # Set notifier to see if uploader will accept the reduced reward
+            self.model.apply_second_pass_attribute(row_items[1].text(),
+                                                   row_items[0].text(),
+                                                   int(row_items[2].text()),
+                                                   self.ui.credit_amount_spin_box.value())
+            book.second_pass = True
+
+        book.award_amount = self.ui.credit_amount_spin_box.value()
+        update_serialized_ebook(book)
+
+        self.main_window.reload_user_info()
+        self.main_window.load_ebooks()
         self.books_waiting()
 
     def verify_report(self, row_items):
@@ -1646,3 +1693,32 @@ class ShareRequestFormView(QtGui.QWidget):
             self.ui.share_request_table_widget.setItem(row, 8,
                                                        QtGui.QTableWidgetItem(purchased_ebook.sharer))
             row += 1
+
+
+class PriceChangeConfirmationView(QtGui.QDialog):
+    def __init__(self, model, main_window, isbn, price_tuple, username):
+        self.model = model
+        self.asking_price = price_tuple[0]
+        self.su_price = price_tuple[1]
+        self.isbn = isbn
+        super(PriceChangeConfirmationView, self).__init__()
+        self.ui = Ui_PriceChangeConfirmationDialog.Ui_Dialog()
+        self.username = username
+        self.main_window = main_window
+        self.build_ui()
+
+    def build_ui(self):
+        self.ui.setupUi(self)
+        self.ui.asking_price_label.setText(str(self.asking_price))
+        self.ui.su_price_label.setText(str(self.su_price))
+        self.ui.book_label.setText(self.isbn)
+
+    def accept(self, *args, **kwargs):
+        self.model.approve_book(self.isbn, self.username)
+        self.main_window.second_pass_pop.append(self.isbn)
+        super(PriceChangeConfirmationView, self).accept(*args, **kwargs)
+
+    def reject(self, *args, **kwargs):
+        self.model.remove_ebook(self.isbn)
+        self.main_window.second_pass_pop.append(self.isbn)
+        super(PriceChangeConfirmationView, self).reject(*args, **kwargs)
