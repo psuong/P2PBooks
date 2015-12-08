@@ -308,10 +308,11 @@ class ReaderFormView(QtGui.QWidget):
             self.ui.pdf_reader_path_label.setText(self.user_instance.default_pdf_reader)
 
         self.ui.checkout_at_label.setText(self.book_purchase_info.checked_out_time.strftime('%H:%M:%S %m/%d/%y'))
-        # Time remaining, lock read if 0
+        # Time remaining, lock read and share if 0
         self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
         if self.book_purchase_info.length_on_rent == 0:
             self.ui.read_pause_push_button.setDisabled(True)
+            self.ui.share_push_button.setDisabled(True)
 
         # Connect buttons
         self.ui.read_pause_push_button.clicked.connect(self.read_pause)
@@ -341,6 +342,9 @@ class ReaderFormView(QtGui.QWidget):
             self.reader_process.kill()
             self.timer.stop()
             self.ui.read_pause_push_button.setDisabled(True)
+            # set other user's time left on book to 0
+            self.other_user.rented_books[self.book_isbn].length_on_rent = 0
+            update_serialized_user(self.other_user)
 
     @QtCore.Slot()
     def read_pause(self):
@@ -376,7 +380,6 @@ class ReaderFormView(QtGui.QWidget):
             self.reader_process.finished.connect(self.finished)
             self.reader_process.start(self.pdf_reader_location, arguments)
             self.paused = False
-            self.ui.share_push_button.setEnabled(False)
 
     @QtCore.Slot()
     def started(self):
@@ -398,11 +401,6 @@ class ReaderFormView(QtGui.QWidget):
 
     @QtCore.Slot()
     def share(self):
-        # Trigger the share widget
-        # if self.user_instance.rented_books[self.book_isbn].length_on_rent == 0:
-        #         QtGui.QMessageBox.about(self, "Error", "This book cannot be shared because you do not have enough "
-        #                                                "time left")
-        # else:
         if self.book_purchase_info.sharer != '' or self.book_purchase_info.shared_with != '':
             QtGui.QMessageBox.about(self, "Error", "This book cannot be shared because it has already been shared")
         else:
