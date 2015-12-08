@@ -268,8 +268,10 @@ class ReaderFormView(QtGui.QWidget):
         self.model = model
         self.user_instance = user_instance
         self.main_window = main_window
-        self.book_purchase_info = user_instance.rented_books[book_isbn]
-        self.book_instance = load_serialized_ebook(book_isbn)
+        self.book_isbn = book_isbn
+        self.book_purchase_info = user_instance.rented_books[self.book_isbn]
+        self.book_instance = load_serialized_ebook(self.book_isbn)
+        self.other_user = None
         super(ReaderFormView, self).__init__()
         self.ui = Ui_ReaderForm.Ui_Form()
 
@@ -318,11 +320,21 @@ class ReaderFormView(QtGui.QWidget):
         self.ui.review_rate_push_button.clicked.connect(self.review_rate)
         self.ui.browse_pdf_reader_push_button.clicked.connect(self.browse_reader_location)
 
+        # Check if this book has been shared, and get other user
+        if self.book_purchase_info.sharer.lower() == self.user_instance.username.lower():
+            self.other_user = load_serialized_user(self.book_purchase_info.shared_with)
+        elif self.book_purchase_info.shared_with.lower() == self.user_instance.username.lower():
+            self.other_user = load_serialized_user(self.book_purchase_info.sharer)
+        else:
+            self.other_user = ''
         self.timer.timeout.connect(self.show_time)
 
     @QtCore.Slot()
     def show_time(self):
         self.count_seconds += 1
+        # Check if book has been shared, and decrement from other user's book
+        if self.book_purchase_info.sharer != '' or self.book_purchase_info.shared_with != '':
+            self.other_user.rented_books[self.book_isbn].length_on_rent -= 1
         self.book_purchase_info.length_on_rent -= 1
         self.ui.time_remaining_label.setText(str(self.book_purchase_info.length_on_rent) + ' seconds')
         if self.book_purchase_info.length_on_rent == 0:
@@ -337,12 +349,21 @@ class ReaderFormView(QtGui.QWidget):
             self.paused = True
             self.reader_process.kill()
             self.timer.stop()
+
+            # Current User update time
             self.book_purchase_info.paused_time = datetime.datetime.now()
             self.book_instance.add_seconds(self.count_seconds)
             self.book_instance.update_last_time_read()
             self.user_instance.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
             self.user_instance.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
 
+            # Other User update time if exists
+            if self.other_user != '':
+                self.other_user.rented_books[self.book_instance.isbn].count_seconds = self.count_seconds
+                self.other_user.rented_books[self.book_instance.isbn].add_seconds(self.count_seconds)
+                update_serialized_user(self.other_user)
+
+            # Update Book and User profiles
             update_serialized_user(self.user_instance)
             update_serialized_ebook(self.book_instance)
 
@@ -355,6 +376,7 @@ class ReaderFormView(QtGui.QWidget):
             self.reader_process.finished.connect(self.finished)
             self.reader_process.start(self.pdf_reader_location, arguments)
             self.paused = False
+            self.ui.share_push_button.setEnabled(False)
 
     @QtCore.Slot()
     def started(self):
@@ -377,8 +399,12 @@ class ReaderFormView(QtGui.QWidget):
     @QtCore.Slot()
     def share(self):
         # Trigger the share widget
-        if self.user_instance.rented_books[self.book_instance.isbn].length_on_rent <= 1:
-            QtGui.QMessageBox.about(self, "Error", "You do not have enough time left to share this book.")
+        # if self.user_instance.rented_books[self.book_isbn].length_on_rent == 0:
+        #         QtGui.QMessageBox.about(self, "Error", "This book cannot be shared because you do not have enough "
+        #                                                "time left")
+        # else:
+        if self.book_purchase_info.sharer != '' or self.book_purchase_info.shared_with != '':
+            QtGui.QMessageBox.about(self, "Error", "This book cannot be shared because it has already been shared")
         else:
             self.share_dialog.show()
 
@@ -1559,7 +1585,8 @@ class ShareBookDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
                                                                  " infractions!")
             else:
-                time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
+                # time_left = self.owner_instance.rented_books[self.isbn].length_on_rent // 2
+                time_left = self.owner_instance.rented_books[self.isbn].length_on_rent
                 e_book_shared = PurchasedEBook(self.user_instance.username,
                                                self.isbn,
                                                datetime.datetime.now(),
@@ -1611,26 +1638,28 @@ class ShareRequestFormView(QtGui.QWidget):
         self.requested_book = self.user_instance.requested_books[self.book.isbn]
         self.owner_instance = load_serialized_user(self.requested_book.sharer)
         # check if user has enough credits
-        total_cost = self.book.price * self.requested_book.length_on_rent
+        total_cost = self.book.price * self.requested_book.length_on_rent / 2
         # Checks if the User has enough credits to receive the book
         if total_cost > self.user_instance.credits:
             QtGui.QMessageBox.about(self, "Error", "You do not have enough credits. You need " + str(total_cost) +
                                     " credits")
         else:
             # Checks if owner has enough time left
-            if self.requested_book.length_on_rent > self.owner_instance.rented_books[self.book.isbn].length_on_rent:
+            if self.owner_instance.rented_books[self.book.isbn].length_on_rent == 0:
                 QtGui.QMessageBox.about(self, "Error", "User: " + self.owner_instance.username +
-                                        " does not have enough time to share this book anymore")
+                                        " does not have time left on this book")
                 del self.user_instance.requested_books[self.requested_book.isbn]
             else:
                 # decrement credits from user and increment credits to the person sharing
                 self.user_instance.credits -= total_cost
                 self.owner_instance.credits += total_cost
-                self.owner_instance.rented_books[self.book.isbn].length_on_rent -= self.requested_book.length_on_rent
                 # add book to rented book list
                 self.user_instance.rented_books[self.book.isbn] = self.requested_book
+                # add shared_with field to Original Owner
+                self.user_instance.rented_books[self.book.isbn].shared_with = self.user_instance.username
+                self.owner_instance.rented_books[self.book.isbn].sharer = self.owner_instance.username
+                self.owner_instance.rented_books[self.book.isbn].shared_with = self.user_instance.username
                 # remove book from requested book list
-                # self.requested_book = None
                 del self.user_instance.requested_books[self.requested_book.isbn]
             update_serialized_user(self.user_instance)
             update_serialized_user(self.owner_instance)
@@ -1658,7 +1687,7 @@ class ShareRequestFormView(QtGui.QWidget):
         for purchased_ebook in requested_books_instances:
             self.owner_instance = load_serialized_user(purchased_ebook.sharer)
             ebook = load_serialized_ebook(purchased_ebook.isbn)
-            total_cost = ebook.price * purchased_ebook.length_on_rent
+            total_cost = ebook.price * purchased_ebook.length_on_rent / 2
             self.ui.share_request_table_widget.insertRow(row)
             self.ui.share_request_table_widget.setItem(row, 0,
                                                        QtGui.QTableWidgetItem(ebook.title))

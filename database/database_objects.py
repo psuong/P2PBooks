@@ -264,7 +264,8 @@ class PurchasedEBook(object):
         self.total_time_bought = total_time_bought
         self.total_seconds = 0.0
         self.count_seconds = 0
-        self.sharer = None
+        self.sharer = ''
+        self.shared_with = ''
 
     def add_seconds(self, seconds):
         self.total_seconds += seconds
