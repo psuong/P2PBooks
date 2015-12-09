@@ -189,7 +189,7 @@ def report_info(isbn_datetime):
 def add_user_credits(username, credit):
     user = load_serialized_user(username)
     user.credits += credit
-    serialize_user(user, username)
+    update_serialized_user(user)
 
 
 def remove_user_credits(username, credit):
