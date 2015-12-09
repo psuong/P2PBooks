@@ -1030,10 +1030,10 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             for k, v in self.user_instance.second_pass.items():
                 self.pcv = PriceChangeConfirmationView(self.model, self, k, v, self.username).exec_()
         if len(self.second_pass_pop) > 0:
+            self.user_instance = load_serialized_user(self.user_instance.username)
             for isbn in self.second_pass_pop:
                 del self.user_instance.second_pass[isbn]
-            # updater second-pass to remove stale items
-            # update_serialized_user(self.user_instance)
+            update_serialized_user(self.user_instance)
 
     def checkout_ebook(self, row_items):
         book = self.model.get_book_instance(row_items[2].text())
