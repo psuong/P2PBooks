@@ -133,19 +133,6 @@ class ConfirmedPurchaseDialogView(QtGui.QDialog):
         self.ui.cost_label.setText(str(self.rate))
 
     def accept(self, *args, **kwargs):
-        transaction_price = self.ebook_in_transaction.price * self.ui.length_spin_box.value()
-        # if self.user_instance.credits >= transaction_price:
-        #     ebook_purchase = PurchasedEBook(self.username,
-        #                                     self.isbn,
-        #                                     datetime.datetime.now(),
-        #                                     self.ui.length_spin_box.value(),
-        #                                     datetime.datetime.now(),
-        #                                     transaction_price)
-        #     self.user_instance.credits -= transaction_price
-        #     self.user_instance.rented_books[self.isbn] = ebook_purchase
-        #     # Increment buy count in EBook
-        #     self.ebook_in_transaction.buy_count += 1
-        #     update_serialized_ebook(self.ebook_in_transaction)
         if self.user_instance.credits >= self.ebook_in_transaction.price * self.ui.length_spin_box.value():
             if self.isbn in self.user_instance.rented_books.keys():
                 self.user_instance.rented_books[self.isbn].length_on_rent += self.ui.length_spin_box.value()
@@ -271,7 +258,8 @@ class BadWordsDialogView(QtGui.QDialog):
 
             self.hide()
 
-            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter, self.report_push_button, reason)
+            self.report_dialog = ReportDialogView(self.model, self.book_instance, self.reporter,
+                                                  self.report_push_button, reason)
             self.report_dialog.show()
 
 
@@ -508,7 +496,7 @@ class LoginFormView(QtGui.QWidget):
             if self.model.login_user(username, password) is not None:
                 if load_serialized_user(username).is_blacklisted:
                     QtGui.QMessageBox.about(self, "Account Banned!", "This account has been banned due to multiple"
-                                                                     " infractions!");
+                                                                     " infractions!")
                 else:
                     self.main_window = MainWindowRegisteredView(self.model, username)
                     self.main_window.show()
@@ -982,8 +970,6 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.reload_user_info()
         self.load_ebooks()
         self.load_recommended_books()
-
-        # self.ui.action_infractions.triggered.connnect(self.trigger_infraction_message_box)
 
         # Connect checkout buttons
         self.ui.kids_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
