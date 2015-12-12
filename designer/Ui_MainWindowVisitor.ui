@@ -118,7 +118,7 @@
     <item row="11" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -290,6 +290,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -342,6 +347,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -401,6 +411,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -453,6 +468,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -509,6 +529,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -561,6 +586,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -617,6 +647,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -669,6 +704,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -725,6 +765,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -777,6 +822,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -834,6 +884,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>

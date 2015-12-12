@@ -13,4 +13,4 @@ def set_contents_to_table_widget(table_widget, book_list, main_window_inst):
         table_widget.setItem(row, 5, QtGui.QTableWidgetItem(str(book.rating)))
         table_widget.setCellWidget(row, 6, ImageWidget(book.cover_img, main_window_inst))
         table_widget.setRowHeight(row, 150)
-        table_widget.setColumnWidth(row, 250)
+        table_widget.setColumnWidth(row, 120)
