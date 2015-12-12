@@ -344,8 +344,9 @@ class ReaderFormView(QtGui.QWidget):
             self.timer.stop()
             self.ui.read_pause_push_button.setDisabled(True)
             # set other user's time left on book to 0
-            self.other_user.rented_books[self.book_isbn].length_on_rent = 0
-            update_serialized_user(self.other_user)
+            if self.other_user != '':
+                self.other_user.rented_books[self.book_isbn].length_on_rent = 0
+                update_serialized_user(self.other_user)
 
     @QtCore.Slot()
     def read_pause(self):
@@ -1253,6 +1254,9 @@ class ShareRequestFormView(QtGui.QWidget):
         self.book = self.model.get_book_instance(row_items[2].text())
         self.requested_book = self.user_instance.requested_books[self.book.isbn]
         self.owner_instance = load_serialized_user(self.requested_book.sharer)
+        # Make sure they both have the same time
+        self.user_instance.requested_books[self.book.isbn].length_on_rent = \
+            self.owner_instance.rented_books[self.book.isbn].length_on_rent
         # check if user has enough credits
         total_cost = self.book.price * self.requested_book.length_on_rent / 2
         # Checks if the User has enough credits to receive the book
