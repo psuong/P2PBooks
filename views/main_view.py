@@ -978,7 +978,6 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.close_push_button.clicked.connect(self.close_search)
         self.ui.search_line_edit.returnPressed.connect(self.search)
         self.ui.upload_push_button.clicked.connect(self.upload)
-        self.ui.library_push_button.clicked.connect(self.library)
         self.ui.admin_push_button.clicked.connect(self.admin)
         self.ui.check_share_request_push_button.clicked.connect(self.share_request)
 
@@ -1402,14 +1401,6 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
     def upload(self):
         self.hide()
         self.upload_view.show()
-
-    def library(self):
-        if self.ui.library_table_widget.isHidden():
-            self.ui.library_table_widget.show()
-            self.ui.read_library_push_button.show()
-        else:
-            self.ui.library_table_widget.hide()
-            self.ui.read_library_push_button.hide()
 
     def admin(self):
         self.admin_view = ApprovalReportedMainView(self.model, self.username, self,
