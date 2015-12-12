@@ -3,6 +3,7 @@ import random
 from database.database_objects import EBook, serialize_ebook, load_serialized_user
 from models.main_model import convert_pdf_to_txt
 
+COVER_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'cover images')
 PDF_DIR_PATH = os.path.join('database', 'blobs', 'ebooks', 'pdf')
 USER_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
@@ -44,7 +45,7 @@ for pdf in os.listdir(PDF_DIR_PATH):
                        price=price,
                        uploader=user_list[user_count],
                        summary=lorem,
-                       cover_img=os.path.abspath(os.path.join(EBOOKS_DIR_PATH, 'temp-cover.jpg')),
+                       cover_img=os.path.abspath(os.path.join(COVER_DIR_PATH, 'temp-cover' + str(count) + '.jpg')),
                        isbn=str(init_ISBN),
                        approved=True,
                        reward_amount=10,
