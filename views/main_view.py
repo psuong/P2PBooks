@@ -909,21 +909,9 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
             for book_isbn_key in self.user_instance.rented_books.keys():
                 rented_books_instances.append(load_serialized_ebook(book_isbn_key))
 
-        for book in rented_books_instances:
-            self.ui.library_table_widget.insertRow(row)
-            self.ui.library_table_widget.setItem(row, 0,
-                                                 QtGui.QTableWidgetItem(book.title))
-            self.ui.library_table_widget.setItem(row, 1,
-                                                 QtGui.QTableWidgetItem(book.author))
-            self.ui.library_table_widget.setItem(row, 2,
-                                                 QtGui.QTableWidgetItem(book.isbn))
-            self.ui.library_table_widget.setItem(row, 3,
-                                                 QtGui.QTableWidgetItem(str(book.price)))
-            self.ui.library_table_widget.setItem(row, 4,
-                                                 QtGui.QTableWidgetItem(book.uploader.username))
-            self.ui.library_table_widget.setItem(row, 5,
-                                                 QtGui.QTableWidgetItem(str(book.rating)))
-            row += 1
+        set_contents_to_table_widget(self.ui.library_table_widget,
+                                     rented_books_instances,
+                                     self)
 
     def load_recommended_books(self):
         self.ui.recommended_table_widget.setRowCount(0)
