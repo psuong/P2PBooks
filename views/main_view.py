@@ -1068,8 +1068,11 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
     def blacklist_user(self, row_items):
         self.model.blacklist_book_uploader(row_items[0].text())
+        self.model.add_user_credits(row_items[2].text(),
+                                    self.model.GOOD_REPORT_REWARD)
         self.reports_message_box.setText('Uploader of PDF has been banned')
         self.reports_message_box.exec_()
+        self.main_window.reload_user_info()
 
     def browse_pdf_reader(self):
         self.pdf_reader_location = QtGui.QFileDialog.getOpenFileName(self, 'Open PDF Reader', '',
@@ -1104,7 +1107,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
     def deny_upload(self, isbn):
         self.model.remove_ebook(isbn)
+        self.model.add_user_credits(self.ui.approvals_table_widget.selectedItems()[1].text(),
+                                    self.model.BAD_UPLOAD_PUNISHMENT)
         self.books_waiting()
+        self.main_window.reload_user_info()
 
     def verify_report(self, row_items):
         self.reports_message_box.setText(self.model.report_info(
@@ -1113,12 +1119,17 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
     def ignore_report(self, row_items):
         self.model.remove_report(row_items[0].text(), row_items[3].text())
+        self.model.add_user_credits(self.ui.reports_table_widget.selectedItems()[2].text(),
+                                    self.model.BAD_REPORT_PUNISHMENT)
         self.reports_waiting()
+        self.main_window.reload_user_info()
 
     def remove_book_with_infraction(self, row_items):
         self.model.remove_ebook_with_infraction(row_items[0].text(),
                                                 row_items[1].text(),
                                                 row_items[3].text())
+        self.model.add_user_credits(row_items[2].text(),
+                                    self.model.GOOD_REPORT_REWARD)
         self.reports_waiting()
         self.main_window.load_ebooks()
         self.main_window.reload_user_info()

@@ -16,6 +16,10 @@ from recommendations import get_top_rated_books
 ACCOUNT_DIR_PATH = os.path.join('database', 'blobs', 'accounts')
 EBOOKS_DIR_PATH = os.path.join('database', 'blobs', 'ebooks')
 
+GOOD_REPORT_REWARD = 50
+BAD_REPORT_PUNISHMENT = -20
+BAD_UPLOAD_PUNISHMENT = -30
+
 
 def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cover_img, file_location):
     """
