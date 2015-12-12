@@ -5,7 +5,7 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists, \
     report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
-    update_serialized_ebook, update_serialized_user
+    update_serialized_ebook, update_serialized_user,
 from views.set_table_widget_info import set_contents_to_table_widget
 from recommendations import get_top_related_books
 import os
@@ -577,6 +577,7 @@ class RegisterFormView(QtGui.QWidget):
             if load_serialized_user(username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Banned Account!", "This user cannot register as this instance has been"
                                                                  " banned.")
+            elif
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
                 username).is_blacklisted:

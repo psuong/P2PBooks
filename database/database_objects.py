@@ -28,6 +28,24 @@ def load_serialized_user(save_file_name):
         return None
 
 
+def get_user_by_email(user_email):
+    """
+    Return an instance of a user with a matching email address.
+    :param user_email: string
+    :return: User object
+    """
+    user_list = []
+    try:
+        for user_pickle in os.listdir(ACCOUNT_DIR_PATH):
+            if user_pickle.endswith('.pickle'):
+                user_list.append(load_serialized_user(user_pickle))
+        for user in user_list:
+            if user.email == user_email:
+                return user
+    except IOError:
+        return None
+
+
 # Save and load ebooks
 def serialize_ebook(db_object, save_file_name, file_location):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
