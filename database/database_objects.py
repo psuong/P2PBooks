@@ -98,6 +98,29 @@ def get_report_pickles():
     return reports_list
 
 
+def remove_book_on_reports(book_instance, pickle, ebooks_list):
+    """
+    Remove a book if it has at least 3 reports
+    :param book_instance: Ebook
+    :param pickle: filename
+    :param ebooks_list: list of Ebooks
+    :return:
+    """
+    if len(book_instance.reports) >= 3:
+        # If book has at least 3 reports
+
+        book_instance.uploader.credits -= (book_instance.reward_amount + 100)
+        update_serialized_user(book_instance.uploader)
+
+        delete_ebook_from_users(book_instance.isbn)
+
+        os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
+        os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
+
+    else:
+        ebooks_list.append(book_instance)  # -7 to truncate file ending
+
+
 def get_ebook_pickles():
     ebooks_list = []
     for pickle in os.listdir(EBOOKS_DIR_PATH):
@@ -107,19 +130,7 @@ def get_ebook_pickles():
             # TODO: DEMO DAY - CHANGE 40 to 10
             if divmod(elapsed_time.total_seconds(), 60) <= (40.0, 0):
                 # If elapsed_time is less than 10 minutes
-
-                if len(book_instance.reports) >= 3:
-                    # If book has at least 3 reports
-
-                    # TODO: Ensure B points is definitely the uploader's book price
-                    book_instance.uploader.credits -= (book_instance.reward_amount + 100)
-                    update_serialized_user(book_instance.uploader)
-
-                    os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
-                    os.remove(os.path.join(EBOOKS_DIR_PATH, pickle[:-7] + '.pdf'))
-
-                else:
-                    ebooks_list.append(book_instance)  # -7 to truncate file ending
+                remove_book_on_reports(book_instance, pickle, ebooks_list)
             else:
                 # If elapsed_time is more than 10 minutes, delete it and subtract 5 points from the uploader
                 book_instance.uploader.credits -= 5
