@@ -213,8 +213,12 @@ def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
     os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
     if timestamp is not None:
-        report = isbn + '-' + timestamp.replace(':', '-')
-        os.remove(os.path.join(REPORTS_DIR_PATH, report + '.pickle'))
+        remove_report(isbn, timestamp)
+
+
+def remove_report(isbn, timestamp):
+    report = isbn + '-' + timestamp.replace(':', '-')
+    os.remove(os.path.join(REPORTS_DIR_PATH, report + '.pickle'))
 
 
 def check_infractions(user_instance):

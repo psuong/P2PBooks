@@ -1042,6 +1042,9 @@ class ApprovalReportedMainView(QtGui.QWidget):
             lambda: self.remove_book_with_infraction(self.ui.reports_table_widget.selectedItems())
         )
 
+        self.ui.ignore_report_push_button.clicked.connect(
+            lambda: self.ignore_report(self.ui.reports_table_widget.selectedItems()))
+
         # Ban user connect
         self.ui.blacklist_ru_push_button.clicked.connect(
             lambda: self.blacklist_user(self.ui.reports_table_widget.selectedItems())
@@ -1100,6 +1103,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.reports_message_box.setText(self.model.report_info(
             row_items[0].text() + '-' + row_items[3].text().replace(':', '-')).description)
         self.reports_message_box.exec_()
+
+    def ignore_report(self, row_items):
+        self.model.remove_report(row_items[0].text(), row_items[3].text())
+        self.reports_waiting()
 
     def remove_book_with_infraction(self, row_items):
         self.model.remove_ebook_with_infraction(row_items[0].text(),
