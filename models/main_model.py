@@ -210,8 +210,9 @@ def remove_ebook(isbn):
 def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     book = load_serialized_ebook(isbn)
     user = load_serialized_user(book.uploader.username)
-    user.credits -= book.reward_amount
+    user.credits -= (book.reward_amount+100)
     user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
+    check_infractions(user)
     serialize_user(user, user.username)
     delete_ebook_from_users(isbn)
     remove_ebook(isbn)
