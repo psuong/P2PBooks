@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>822</width>
-    <height>613</height>
+    <width>906</width>
+    <height>669</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -118,7 +118,7 @@
     <item row="11" column="0" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>12</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="top_tab">
        <attribute name="title">
@@ -164,6 +164,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -221,6 +226,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -875,7 +885,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>822</width>
+     <width>906</width>
      <height>21</height>
     </rect>
    </property>

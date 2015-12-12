@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Thu Nov 26 21:09:01 2015
+# Created: Sat Dec 12 12:18:34 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(822, 613)
+        MainWindow.resize(906, 669)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtGui.QGridLayout(self.centralwidget)
@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
         self.top_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.top_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.top_table_widget.setObjectName("top_table_widget")
-        self.top_table_widget.setColumnCount(6)
+        self.top_table_widget.setColumnCount(7)
         self.top_table_widget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
         self.top_table_widget.setHorizontalHeaderItem(0, item)
@@ -81,6 +81,8 @@ class Ui_MainWindow(object):
         self.top_table_widget.setHorizontalHeaderItem(4, item)
         item = QtGui.QTableWidgetItem()
         self.top_table_widget.setHorizontalHeaderItem(5, item)
+        item = QtGui.QTableWidgetItem()
+        self.top_table_widget.setHorizontalHeaderItem(6, item)
         self.gridLayout_2.addWidget(self.top_table_widget, 0, 0, 1, 1)
         self.top_checkout_push_button = QtGui.QPushButton(self.top_tab)
         self.top_checkout_push_button.setObjectName("top_checkout_push_button")
@@ -95,7 +97,7 @@ class Ui_MainWindow(object):
         self.kids_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.kids_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.kids_table_widget.setObjectName("kids_table_widget")
-        self.kids_table_widget.setColumnCount(6)
+        self.kids_table_widget.setColumnCount(7)
         self.kids_table_widget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
         self.kids_table_widget.setHorizontalHeaderItem(0, item)
@@ -109,6 +111,8 @@ class Ui_MainWindow(object):
         self.kids_table_widget.setHorizontalHeaderItem(4, item)
         item = QtGui.QTableWidgetItem()
         self.kids_table_widget.setHorizontalHeaderItem(5, item)
+        item = QtGui.QTableWidgetItem()
+        self.kids_table_widget.setHorizontalHeaderItem(6, item)
         self.gridLayout_5.addWidget(self.kids_table_widget, 0, 0, 1, 1)
         self.kids_checkout_push_button = QtGui.QPushButton(self.kids_tab)
         self.kids_checkout_push_button.setObjectName("kids_checkout_push_button")
@@ -425,7 +429,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label, 7, 1, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 822, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 906, 21))
         self.menubar.setObjectName("menubar")
         self.menuAbout = QtGui.QMenu(self.menubar)
         self.menuAbout.setObjectName("menuAbout")
@@ -436,7 +440,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(12)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -457,6 +461,7 @@ class Ui_MainWindow(object):
         self.top_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Cost", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
+        self.top_table_widget.horizontalHeaderItem(6).setText(QtGui.QApplication.translate("MainWindow", "Cover Image", None, QtGui.QApplication.UnicodeUTF8))
         self.top_checkout_push_button.setText(QtGui.QApplication.translate("MainWindow", "Checkout", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.top_tab), QtGui.QApplication.translate("MainWindow", "TOP", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
@@ -465,6 +470,7 @@ class Ui_MainWindow(object):
         self.kids_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Cost", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
+        self.kids_table_widget.horizontalHeaderItem(6).setText(QtGui.QApplication.translate("MainWindow", "Cover Image", None, QtGui.QApplication.UnicodeUTF8))
         self.kids_checkout_push_button.setText(QtGui.QApplication.translate("MainWindow", "Checkout", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.kids_tab), QtGui.QApplication.translate("MainWindow", "Kids", None, QtGui.QApplication.UnicodeUTF8))
         self.adventure_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
