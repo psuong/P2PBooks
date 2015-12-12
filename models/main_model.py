@@ -210,8 +210,7 @@ def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
     serialize_user(user, user.username)
     delete_ebook_from_users(isbn)
-    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pdf'))
-    os.remove(os.path.join(EBOOKS_DIR_PATH, isbn + '.pickle'))
+    remove_ebook(isbn)
     if timestamp is not None:
         remove_report(isbn, timestamp)
 

@@ -1056,6 +1056,9 @@ class ApprovalReportedMainView(QtGui.QWidget):
         self.ui.approve_push_button.clicked.connect(
             lambda: self.approve(self.ui.approvals_table_widget.selectedItems())
         )
+        self.ui.deny_approval_push_button.clicked.connect(
+            lambda: self.deny_upload(self.ui.approvals_table_widget.selectedItems()[0].text())
+        )
 
         # Load PDF reader location
         if self.pdf_reader_location is not None:
@@ -1097,6 +1100,10 @@ class ApprovalReportedMainView(QtGui.QWidget):
 
         self.main_window.reload_user_info()
         self.main_window.load_ebooks()
+        self.books_waiting()
+
+    def deny_upload(self, isbn):
+        self.model.remove_ebook(isbn)
         self.books_waiting()
 
     def verify_report(self, row_items):
