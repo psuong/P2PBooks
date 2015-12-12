@@ -49,14 +49,6 @@ def submit_upload_form(title, author, genre, isbn, price, uploader, summary, cov
                           ), isbn, file_location)
 
 
-def read_book():
-    return True
-
-
-def pause_book():
-    return True
-
-
 def register_user(username, password, email, dob):
     # TODO: Check if username or email already exists
     serialize_user(User(username=username,
@@ -105,10 +97,6 @@ def catalogue_loader():
 
 def get_book_instance(isbn):
     return load_serialized_ebook(isbn)
-
-
-def checkout_ebook(user_object, isbn):
-    pass
 
 
 def convert_pdf_to_txt(path):
