@@ -15,17 +15,17 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="10">
-     <widget class="QPushButton" name="admin_push_button">
-      <property name="text">
-       <string>Check Approval/Reported List</string>
-      </property>
-     </widget>
-    </item>
     <item row="11" column="13">
      <widget class="QPushButton" name="search_checkout_push_button">
       <property name="text">
        <string>Checkout</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="10">
+     <widget class="QPushButton" name="admin_push_button">
+      <property name="text">
+       <string>Check Approval/Reported List</string>
       </property>
      </widget>
     </item>
@@ -78,6 +78,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -137,6 +142,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -192,6 +202,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -251,6 +266,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -306,6 +326,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -365,6 +390,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -422,6 +452,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -474,6 +509,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -533,6 +573,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -588,6 +633,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -647,6 +697,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -699,6 +754,11 @@
           <column>
            <property name="text">
             <string>Rating</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
            </property>
           </column>
          </widget>
@@ -758,6 +818,11 @@
             <string>Rating</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Cover Image</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -812,6 +877,11 @@
         <string>Rating</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>Cover Image</string>
+       </property>
+      </column>
      </widget>
     </item>
     <item row="9" column="13">
@@ -823,6 +893,59 @@
     </item>
     <item row="9" column="0" colspan="13">
      <widget class="QLineEdit" name="search_line_edit"/>
+    </item>
+    <item row="13" column="0" colspan="14">
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="0" colspan="14">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="username_label">
+      <property name="text">
+       <string>Username</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="14">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="10" column="13">
+     <widget class="QPushButton" name="close_push_button">
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
     </item>
     <item row="4" column="0" colspan="14">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -855,111 +978,12 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0" colspan="14">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="username_label">
-      <property name="text">
-       <string>Username</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="13">
-     <widget class="QPushButton" name="close_push_button">
-      <property name="text">
-       <string>Close</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="14">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="13" column="0" colspan="14">
-     <spacer name="horizontalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="5" column="0" colspan="14">
      <layout class="QGridLayout" name="gridLayout_15">
-      <item row="0" column="2">
-       <widget class="QTableWidget" name="saved_table_widget">
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
-        </property>
-        <property name="columnCount">
-         <number>6</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Author</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>ISBN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Cost</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Uploader</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Rating</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="checkout_recommended_push_button">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="read_library_push_button">
         <property name="text">
-         <string>Checkout</string>
+         <string>Read</string>
         </property>
        </widget>
       </item>
@@ -1004,13 +1028,75 @@
           <string>Rating</string>
          </property>
         </column>
+        <column>
+         <property name="text">
+          <string>Cover Image</string>
+         </property>
+        </column>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="read_library_push_button">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="checkout_recommended_push_button">
         <property name="text">
-         <string>Read</string>
+         <string>Checkout</string>
         </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QTableWidget" name="recommended_table_widget">
+        <property name="minimumSize">
+         <size>
+          <width>535</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="columnCount">
+         <number>7</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Author</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>ISBN</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cost</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Uploader</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Rating</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Cover Image</string>
+         </property>
+        </column>
        </widget>
       </item>
      </layout>
@@ -1031,6 +1117,20 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="12" colspan="2">
+     <widget class="QPushButton" name="upload_push_button">
+      <property name="text">
+       <string>Upload</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="11">
+     <widget class="QPushButton" name="check_share_request_push_button">
+      <property name="text">
+       <string>Check Share Requests</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="2" colspan="8">
      <spacer name="horizontalSpacer_4">
       <property name="orientation">
@@ -1043,20 +1143,6 @@
        </size>
       </property>
      </spacer>
-    </item>
-    <item row="0" column="11">
-     <widget class="QPushButton" name="check_share_request_push_button">
-      <property name="text">
-       <string>Check Share Requests</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="12" colspan="2">
-     <widget class="QPushButton" name="upload_push_button">
-      <property name="text">
-       <string>Upload</string>
-      </property>
-     </widget>
     </item>
    </layout>
    <zorder>tabWidget</zorder>
