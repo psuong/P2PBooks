@@ -732,34 +732,13 @@ class MainWindowVisitorView(QtGui.QMainWindow):
             self.ui.search_table_widget.setRowCount(0)
             results = self.model.search(self.ui.search_line_edit.text())
             if isinstance(results, list):
-                for row, result_book in enumerate(results):
-                    self.ui.search_table_widget.insertRow(row)
-                    self.ui.search_table_widget.setItem(row, 0,
-                                                        QtGui.QTableWidgetItem(result_book.title))
-                    self.ui.search_table_widget.setItem(row, 1,
-                                                        QtGui.QTableWidgetItem(result_book.author))
-                    self.ui.search_table_widget.setItem(row, 2,
-                                                        QtGui.QTableWidgetItem(result_book.isbn))
-                    self.ui.search_table_widget.setItem(row, 3,
-                                                        QtGui.QTableWidgetItem(str(result_book.price)))
-                    self.ui.search_table_widget.setItem(row, 4,
-                                                        QtGui.QTableWidgetItem(result_book.uploader.username))
-                    self.ui.search_table_widget.setItem(row, 5,
-                                                        QtGui.QTableWidgetItem(str(result_book.rating)))
+                set_contents_to_table_widget(self.ui.search_table_widget,
+                                             results,
+                                             self)
             else:
-                self.ui.search_table_widget.insertRow(0)
-                self.ui.search_table_widget.setItem(0, 0,
-                                                    QtGui.QTableWidgetItem(results.title))
-                self.ui.search_table_widget.setItem(0, 1,
-                                                    QtGui.QTableWidgetItem(results.author))
-                self.ui.search_table_widget.setItem(0, 2,
-                                                    QtGui.QTableWidgetItem(results.isbn))
-                self.ui.search_table_widget.setItem(0, 3,
-                                                    QtGui.QTableWidgetItem(str(results.price)))
-                self.ui.search_table_widget.setItem(0, 4,
-                                                    QtGui.QTableWidgetItem(results.uploader.username))
-                self.ui.search_table_widget.setItem(0, 5,
-                                                    QtGui.QTableWidgetItem(str(results.rating)))
+                set_contents_to_table_widget(self.ui.search_table_widget,
+                                             [results],
+                                             self)
         else:
             QtGui.QMessageBox.about(self, "Error", "Empty search fields, please enter a genre, title, etc.")
 
@@ -864,6 +843,9 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         self.ui.sports_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.sports_table_widget.selectedItems()))
 
+        self.ui.checkout_recommended_push_button.clicked.connect(lambda: self.checkout_ebook(
+            self.ui.recommended_table_widget.selectedItems()))
+
         # Search checkout
         self.ui.search_checkout_push_button.clicked.connect(lambda: self.checkout_ebook(
             self.ui.search_table_widget.selectedItems()))
@@ -915,10 +897,8 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
 
     def load_recommended_books(self):
         self.ui.recommended_table_widget.setRowCount(0)
-        similar_books = get_top_related_books(self.user_instance)
-
         set_contents_to_table_widget(self.ui.recommended_table_widget,
-                                     similar_books,
+                                     get_top_related_books(self.user_instance),
                                      self)
 
     def load_ebooks(self):
@@ -996,38 +976,18 @@ class MainWindowRegisteredView(QtGui.QMainWindow):
         if self.ui.search_line_edit.text():
             self.ui.search_table_widget.show()
             self.ui.close_push_button.show()
-            self.ui.search_checkout_push_button.show()
             self.ui.search_table_widget.setRowCount(0)
             results = self.model.search(self.ui.search_line_edit.text())
             if isinstance(results, list):
-                for row, result_book in enumerate(results):
-                    self.ui.search_table_widget.insertRow(row)
-                    self.ui.search_table_widget.setItem(row, 0,
-                                                        QtGui.QTableWidgetItem(result_book.title))
-                    self.ui.search_table_widget.setItem(row, 1,
-                                                        QtGui.QTableWidgetItem(result_book.author))
-                    self.ui.search_table_widget.setItem(row, 2,
-                                                        QtGui.QTableWidgetItem(result_book.isbn))
-                    self.ui.search_table_widget.setItem(row, 3,
-                                                        QtGui.QTableWidgetItem(str(result_book.price)))
-                    self.ui.search_table_widget.setItem(row, 4,
-                                                        QtGui.QTableWidgetItem(result_book.uploader.username))
-                    self.ui.search_table_widget.setItem(row, 5,
-                                                        QtGui.QTableWidgetItem(str(result_book.rating)))
+                set_contents_to_table_widget(self.ui.search_table_widget,
+                                             results,
+                                             self)
             else:
-                self.ui.search_table_widget.insertRow(0)
-                self.ui.search_table_widget.setItem(0, 0,
-                                                    QtGui.QTableWidgetItem(results.title))
-                self.ui.search_table_widget.setItem(0, 1,
-                                                    QtGui.QTableWidgetItem(results.author))
-                self.ui.search_table_widget.setItem(0, 2,
-                                                    QtGui.QTableWidgetItem(results.isbn))
-                self.ui.search_table_widget.setItem(0, 3,
-                                                    QtGui.QTableWidgetItem(str(results.price)))
-                self.ui.search_table_widget.setItem(0, 4,
-                                                    QtGui.QTableWidgetItem(results.uploader.username))
-                self.ui.search_table_widget.setItem(0, 5,
-                                                    QtGui.QTableWidgetItem(str(results.rating)))
+                set_contents_to_table_widget(self.ui.search_table_widget,
+                                             [results],
+                                             self)
+        else:
+            QtGui.QMessageBox.about(self, "Error", "Empty search fields, please enter a genre, title, etc.")
 
     def close_search(self):
         self.ui.search_table_widget.hide()

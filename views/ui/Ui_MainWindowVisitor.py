@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer\Ui_MainWindowVisitor.ui'
 #
-# Created: Sat Dec 12 12:43:45 2015
+# Created: Sat Dec 12 13:03:58 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.search_table_widget.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
         self.search_table_widget.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.search_table_widget.setObjectName("search_table_widget")
-        self.search_table_widget.setColumnCount(6)
+        self.search_table_widget.setColumnCount(7)
         self.search_table_widget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
         self.search_table_widget.setHorizontalHeaderItem(0, item)
@@ -52,6 +52,8 @@ class Ui_MainWindow(object):
         self.search_table_widget.setHorizontalHeaderItem(4, item)
         item = QtGui.QTableWidgetItem()
         self.search_table_widget.setHorizontalHeaderItem(5, item)
+        item = QtGui.QTableWidgetItem()
+        self.search_table_widget.setHorizontalHeaderItem(6, item)
         self.gridLayout.addWidget(self.search_table_widget, 5, 1, 1, 2)
         self.close_push_button = QtGui.QPushButton(self.centralwidget)
         self.close_push_button.setObjectName("close_push_button")
@@ -476,6 +478,7 @@ class Ui_MainWindow(object):
         self.search_table_widget.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Cost", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(4).setText(QtGui.QApplication.translate("MainWindow", "Uploader", None, QtGui.QApplication.UnicodeUTF8))
         self.search_table_widget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("MainWindow", "Rating", None, QtGui.QApplication.UnicodeUTF8))
+        self.search_table_widget.horizontalHeaderItem(6).setText(QtGui.QApplication.translate("MainWindow", "Cover Image", None, QtGui.QApplication.UnicodeUTF8))
         self.close_push_button.setText(QtGui.QApplication.translate("MainWindow", "Close", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Title", None, QtGui.QApplication.UnicodeUTF8))
         self.top_table_widget.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Author", None, QtGui.QApplication.UnicodeUTF8))
