@@ -117,6 +117,6 @@ def get_top_related_books(user_instance):
                     similar_books.append(book)
         if len(similar_books) < 5:
             for book in get_ebook_pickles():
-                if book not in similar_books:
+                if book not in similar_books and not user_instance.rented_books.has_key(book.isbn):
                     similar_books.append(book)
         return similar_books[0:5]
