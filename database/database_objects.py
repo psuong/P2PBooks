@@ -38,7 +38,7 @@ def get_user_by_email(user_email):
     try:
         for user_pickle in os.listdir(ACCOUNT_DIR_PATH):
             if user_pickle.endswith('.pickle'):
-                user_list.append(load_serialized_user(user_pickle))
+                user_list.append(load_serialized_user(user_pickle.replace('.pickle', '')))
         for user in user_list:
             if user.email == user_email:
                 return user
