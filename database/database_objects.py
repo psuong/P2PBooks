@@ -106,7 +106,7 @@ def remove_book_on_reports(book_instance, pickle, ebooks_list):
     :param ebooks_list: list of Ebooks
     :return:
     """
-    if len(book_instance.reports) >= 1:
+    if len(book_instance.reports) >= 3:
         # If book has at least 3 reports
 
         book_instance.uploader.credits -= (book_instance.reward_amount + 100)

@@ -436,6 +436,8 @@ class ReaderFormView(QtGui.QWidget):
         self.user_instance.rented_books[self.book_instance.isbn].reset_count_seconds()
         self.user_instance.default_pdf_reader = self.pdf_reader_location
         serialize_user(self.user_instance, self.user_instance.username)
+        self.main_window.load_ebooks()
+        self.main_window.reload_user_info()
         self.main_window.show()
         self.hide()
 
