@@ -564,7 +564,7 @@ class RegisterFormView(QtGui.QWidget):
         confirm_password = self.ui.confirm_password_line_edit.text()
         email = self.ui.email_line_edit.text()
 
-        # Checks username and passwords
+        # Checks username and passwords and if the email has been associated with a banned account
         if password == confirm_password and load_serialized_user(username) is None and username and not \
                 get_user_by_email(email).is_blacklisted:
             self.model.register_user(username,
@@ -579,16 +579,20 @@ class RegisterFormView(QtGui.QWidget):
         else:
             if load_serialized_user(username) is not None:
                 if load_serialized_user(username).is_blacklisted:
-                    QtGui.QMessageBox.about(self, "Banned Account!", "This user cannot register as this instance has been"
-                                                                     " banned.")
+                    QtGui.QMessageBox.about(self, "Banned Account!",
+                                            "This user cannot register as this instance has been"
+                                            " banned.")
+
             elif get_user_by_email(self.ui.email_line_edit.text()).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Banned Account!",
                                         "This email is not valid because it is associated with a banned"
-                                        "account!")
+                                        " account!")
+
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
-                username).is_blacklisted:
+                    username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
+
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
                                                                            "are not the same!")

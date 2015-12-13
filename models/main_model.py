@@ -59,7 +59,6 @@ def pause_book():
 
 def register_user(username, password, email, dob):
     # TODO: Check if username or email already exists
-    
     serialize_user(User(username=username,
                         password=password,
                         email=email,
