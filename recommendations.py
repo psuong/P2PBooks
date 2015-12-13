@@ -66,7 +66,8 @@ def get_most_read_books():
 
 def get_genre_frequency(user_instance):
     """
-
+    Takes in an instance of a user object and checks to see
+    the frequency of a user's read/purchased history.
     :param user_instance: User Object
     :return: list of genre
     """
@@ -114,4 +115,8 @@ def get_top_related_books(user_instance):
             if book.genre == random_book_genre[random.randrange(0, len(random_book_genre))]:
                 if not user_instance.rented_books.has_key(book.isbn):
                     similar_books.append(book)
-        return similar_books
+        if len(similar_books) < 5:
+            for book in get_ebook_pickles():
+                if book not in similar_books:
+                    similar_books.append(book)
+        return similar_books[0:5]
