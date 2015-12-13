@@ -3,7 +3,7 @@ import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles, \
     REPORTS_DIR_PATH, delete_ebook_from_users, update_serialized_ebook, Review, serialize_review, \
-    load_serialized_review, update_serialized_user
+    load_serialized_review, update_serialized_user, get_user_by_email
 from database.database_objects import reviews_list
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter

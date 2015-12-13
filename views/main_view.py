@@ -5,7 +5,7 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists, \
     report_exists, user_exists
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
-    update_serialized_ebook, update_serialized_user
+    update_serialized_ebook, update_serialized_user, get_user_by_email
 from views.set_table_widget_info import set_contents_to_table_widget
 from recommendations import get_top_related_books
 import os
@@ -173,7 +173,8 @@ class ReportDialogView(QtGui.QDialog):
         self.reporter = reporter
         self.report_push_button = report_push_button
         self.book_instance = book_instance
-        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter, self.report_push_button)
+        self.bad_words_dialog = BadWordsDialogView(self.model, self.book_instance, self.reporter,
+                                                   self.report_push_button)
         self.build_ui(reason)
 
     def build_ui(self, reason):
@@ -205,7 +206,7 @@ class ReportDialogView(QtGui.QDialog):
                 QtGui.QMessageBox.about(self, "Error", "Please specify the reason in the description")
             else:
                 if self.book_instance.total_seconds == 0.0 or \
-                            self.reporter.rented_books[self.book_instance.isbn].total_seconds == 0:
+                                self.reporter.rented_books[self.book_instance.isbn].total_seconds == 0:
                     # Display an error message to tell the user to read the book first! (Calculate rating when division
                     # by 0 is undefined!)
                     QtGui.QMessageBox.about(self, "Error", 'You have not even read the book yet! '
@@ -562,9 +563,11 @@ class RegisterFormView(QtGui.QWidget):
         username = self.ui.username_line_edit.text()
         password = self.ui.password_line_edit.text()
         confirm_password = self.ui.confirm_password_line_edit.text()
+        email = self.ui.email_line_edit.text()
 
-        # Checks username and passwords
-        if password == confirm_password and load_serialized_user(username) is None and username:
+        # Checks username and passwords and if the email has been associated with a banned account
+        if password == confirm_password and load_serialized_user(username) is None and username and not \
+                get_user_by_email(email).is_blacklisted:
             self.model.register_user(username,
                                      password,
                                      self.ui.email_line_edit.text(),
@@ -575,13 +578,22 @@ class RegisterFormView(QtGui.QWidget):
             self.hide()
 
         else:
-            if load_serialized_user(username).is_blacklisted:
-                QtGui.QMessageBox.about(self, "Banned Account!", "This user cannot register as this instance has been"
-                                                                 " banned.")
+            if load_serialized_user(username) is not None:
+                if load_serialized_user(username).is_blacklisted:
+                    QtGui.QMessageBox.about(self, "Banned Account!",
+                                            "This user cannot register as this instance has been"
+                                            " banned.")
+
+            elif get_user_by_email(self.ui.email_line_edit.text()).is_blacklisted:
+                QtGui.QMessageBox.about(self, "Banned Account!",
+                                        "This email is not valid because it is associated with a banned"
+                                        " account!")
+
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
-                username).is_blacklisted:
+                    username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
+
             elif load_serialized_user(username) is None and password != confirm_password:
                 QtGui.QMessageBox.about(self, "Incorrect Password Fields", "Password and Confirm Password "
                                                                            "are not the same!")
