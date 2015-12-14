@@ -568,16 +568,26 @@ class RegisterFormView(QtGui.QWidget):
         email = self.ui.email_line_edit.text()
 
         # Checks username and passwords and if the email has been associated with a banned account
-        if password == confirm_password and load_serialized_user(username) is None and username and not \
-                get_user_by_email(email).is_blacklisted:
-            self.model.register_user(username,
-                                     password,
-                                     self.ui.email_line_edit.text(),
-                                     self.ui.dob_date_edit.date())
-            self.registered_main_window = MainWindowRegisteredView(self.model,
-                                                                   self.ui.username_line_edit.text())
-            self.registered_main_window.show()
-            self.hide()
+        if password == confirm_password and load_serialized_user(username) is None and username:
+            self.ui.submit_push_button.setDisabled(True)
+            user_instance = get_user_by_email(email)
+            if user_instance is None:
+                self.model.register_user(username,
+                                         password,
+                                         self.ui.email_line_edit.text(),
+                                         self.ui.dob_date_edit.date())
+                self.registered_main_window = MainWindowRegisteredView(self.model,
+                                                                       self.ui.username_line_edit.text())
+                self.registered_main_window.show()
+                self.hide()
+            else:
+                if user_instance.is_blacklisted:
+                    self.ui.submit_push_button.setEnabled(True)
+                    QtGui.QMessageBox.about(self, "Banned Account!",
+                                            "This email is not valid because it is associated with a banned"
+                                            " account!")
+
+
 
         else:
             if load_serialized_user(username) is not None:
@@ -586,14 +596,9 @@ class RegisterFormView(QtGui.QWidget):
                                             "This user cannot register as this instance has been"
                                             " banned.")
 
-            elif get_user_by_email(self.ui.email_line_edit.text()).is_blacklisted:
-                QtGui.QMessageBox.about(self, "Banned Account!",
-                                        "This email is not valid because it is associated with a banned"
-                                        " account!")
-
             elif load_serialized_user(
                     username) is not None and password == confirm_password and not load_serialized_user(
-                    username).is_blacklisted:
+                username).is_blacklisted:
                 QtGui.QMessageBox.about(self, "Invalid Username", "Username exists already")
 
             elif load_serialized_user(username) is None and password != confirm_password:
