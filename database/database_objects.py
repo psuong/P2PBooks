@@ -130,6 +130,11 @@ def remove_book_on_reports(book_instance, pickle, ebooks_list):
         book_instance.uploader.credits -= (book_instance.reward_amount + 100)
         update_serialized_user(book_instance.uploader)
 
+        # Remove all reports related to removed book
+        for report in os.listdir(REPORTS_DIR_PATH):
+            if book_instance.isbn in report:
+                os.remove(os.path.join(REPORTS_DIR_PATH, report))
+
         delete_ebook_from_users(book_instance.isbn)
 
         os.remove(os.path.join(EBOOKS_DIR_PATH, pickle))
