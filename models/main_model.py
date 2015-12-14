@@ -305,5 +305,4 @@ def approve_book(isbn, username):
 
 def copy_pdf(file_title, save_file_name):
     file_location = os.path.join(EBOOKS_DIR_PATH, 'pdf', file_title + '.pdf')
-    print file_location
     copy_over(file_location, save_file_name)
