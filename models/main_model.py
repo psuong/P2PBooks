@@ -3,7 +3,7 @@ import datetime
 from database.database_objects import serialize_user, User, load_serialized_user, serialize_ebook, EBook, \
     load_serialized_ebook, get_ebook_pickles, serialize_report, Report, load_serialized_report, get_report_pickles, \
     REPORTS_DIR_PATH, delete_ebook_from_users, update_serialized_ebook, Review, serialize_review, \
-    load_serialized_review, update_serialized_user, get_user_by_email
+    load_serialized_review, update_serialized_user, get_user_by_email, copy_over
 from database.database_objects import reviews_list
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
@@ -198,7 +198,7 @@ def remove_ebook(isbn):
 def remove_ebook_with_infraction(isbn, infraction_reason, timestamp=None):
     book = load_serialized_ebook(isbn)
     user = load_serialized_user(book.uploader.username)
-    user.credits -= (book.reward_amount+100)
+    user.credits -= (book.reward_amount + 100)
     user.infractions[isbn + str(datetime.datetime.now())] = infraction_reason
     check_infractions(user)
     serialize_user(user, user.username)
@@ -301,3 +301,9 @@ def approve_book(isbn, username):
     book.approved = True
     add_user_credits(username, book.award_amount)
     update_serialized_ebook(book)
+
+
+def copy_pdf(file_title, save_file_name):
+    file_location = os.path.join(EBOOKS_DIR_PATH, 'pdf', file_title + '.pdf')
+    print file_location
+    copy_over(file_location, save_file_name)

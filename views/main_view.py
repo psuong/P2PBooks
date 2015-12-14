@@ -3,7 +3,7 @@ from ui import Ui_UploadForm, Ui_ReaderForm, Ui_ReportDialog, Ui_LoginForm, Ui_R
     Ui_MainWindowRegistered, Ui_ConfirmPurchaseDialog, Ui_ApprovalReportedList, Ui_BadWordsDialog, Ui_ReviewRateDialog, \
     Ui_ShareBookDialog, Ui_ShareRequestWidget, Ui_PriceChangeConfirmationDialog
 from models.main_model import submit_upload_form, submit_report_form, submit_review_rate_form, review_exists, \
-    report_exists, user_exists
+    report_exists, user_exists, copy_pdf
 from database.database_objects import load_serialized_user, load_serialized_ebook, PurchasedEBook, serialize_user, \
     update_serialized_ebook, update_serialized_user, get_user_by_email
 from views.set_table_widget_info import set_contents_to_table_widget
@@ -216,6 +216,7 @@ class ReportDialogView(QtGui.QDialog):
                 # Send the selection and description
                 submit_report_form(self.reporter, report_selection, report_description, self.book_instance)
                 self.report_push_button.setDisabled(True)
+                copy_pdf(self.book_instance.title, self.book_instance.isbn)
                 self.close()
         else:
             # Display an error message to tell the user to select a selection from the combo box
@@ -440,6 +441,7 @@ class ReaderFormView(QtGui.QWidget):
         self.main_window.load_ebooks()
         self.main_window.reload_user_info()
         self.main_window.show()
+
         self.hide()
 
 

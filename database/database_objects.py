@@ -46,11 +46,15 @@ def get_user_by_email(user_email):
         return None
 
 
+def copy_over(file_location, save_file_name):
+    shutil.copy(file_location, os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pdf'))
+
+
 # Save and load ebooks
 def serialize_ebook(db_object, save_file_name, file_location):
     with open(os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pickle'), 'wb') as out:
         cPickle.dump(db_object, out)
-    shutil.copy(file_location, os.path.join('database', 'blobs', 'ebooks', save_file_name + '.pdf'))
+    copy_over(file_location, save_file_name)
 
 
 def update_serialized_ebook(book_instance):
