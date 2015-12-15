@@ -8,4 +8,4 @@ The full spec sheet is available under the [1.0.0 release](https://github.com/ps
 * [exp0nge](https://github.com/exp0nge) (MD Islam)
 * [fioger](https://github.com/fioger) (Fioger Shahollari)
 * [psuong](https://github.com/psuong) (Porrith Suong)
-* [cyang001](*https://github.com/cyang001) (Christopher Yang)
+* [cyang001](https://github.com/cyang001) (Christopher Yang)
